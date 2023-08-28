@@ -1,0 +1,102 @@
+---
+title: "Modelos de riesgo"
+subtitle: "Distribuciones sesgadas"
+author: Carlos Mario Castaño
+institute: UNAL - Departamento de estadística
+date: today
+date-format: "dddd, [the] D[<sup style='font-size:65%;font-style:italic;'>th</sup>] [of] MMMM, YYYY"
+embed-resources: false
+format: coeos-revealjs
+fig-responsive: true
+fig-height: 5
+fig-width: 5
+---
+
+```{r}
+#| include: false
+sysfonts::font_add_google("Alegreya Sans", "Alegreya Sans", regular.wt = 300)
+showtext::showtext_auto()
+# source("_extensions/mcanouil/coeos/setup-ggplot2-coeos.R")
+```
+
+## Las rentabilidades siguen una distribución normal?
+
+### Índice S&P 500
+
+Índice S&P 500 desde 1986 hasta 2018. Este índice se mide diariamente y representa los retornos diarios ponderados de las 500 empresas más importantes de Estados Unidos de Amética.
+
+```{r}
+#| echo: false
+library(lubridate)
+library(ggplot2)
+```
+
+```{r}
+#| echo: false
+#| fig-align: center
+#| fig-cap: Figura 1$:$ Distribución de los rendimientos estandarizados vs la distribución normal estándar.
+#| fig-height: 7
+#| fig-width: 8
+spx <- read.csv("spx.csv")
+spx$close <- round(spx$close,2)
+spx$date <- as.Date(spx$date, "%d-%b-%y")
+closes <- NULL
+for (i in 1:(length(spx$close)-1)){
+  closes[i] <-  log(spx$close[i+1]/spx$close[i])
+}
+
+
+
+closes <- (closes-mean(closes))/sd(closes)
+media <- mean(closes)
+varianza <- var(closes)
+medialog <- exp(media + varianza/2)
+varianzalog <- (exp(varianza)-1)*exp(2*media+varianza)
+
+closes <- as.data.frame(closes)
+
+ggplot(closes, aes(x = closes)) + 
+  geom_histogram(aes(y =..density..),
+                 breaks = seq(-3, 3, by = 0.5), 
+                 colour = "black", 
+                 fill = "#607D8B") +
+  stat_function(fun = dnorm, args = list(mean = media, sd = sqrt(varianza)), lwd=2) + 
+  theme_minimal(40) + xlab("Precio de cierre") + ylab("Densidad") +
+  stat_function(fun = dlnorm, args = list(meanlog = medialog , sdlog = sqrt(varianzalog)), 
+                colour = "#00B0FF", lwd = 2) +
+  xlim(c(-4,4))
+```
+
+## Histograma
+
+La s (en mayúscula S, nombre ese, plural eses) es la vigésima letra y la decimosexta consonante del alfabeto español, y la decimonovena letra del alfabeto latino básico.
+
+En español se le representa un sonido consonante obstruyente, fricativo, alveolar (en las zonas donde existe el fonema /θ/) o dental-alveolar (en
+
+-   spañol se le representa un sonido
+
+-   spañol se le representa un sonido
+
+-   spañol se le representa un sonido
+
+```{r}
+hist(rnorm(100))
+```
+
+## usando la librería `ggplot2`
+
+```{r}
+#| echo: true
+#| fig-align: center
+#| fig-cap: Figura 1$:$ Gráfico de dispersión de mpg vs wt
+library(ggplot2)
+ggplot(mtcars, aes(wt, mpg)) + geom_point(size = 2) + theme_minimal(35)
+```
+
+# PART 1 With `code` {.center .center-x}
+
+## New slide
+
+With only text
+
+<!-- {{< include _extensions/mcanouil/coeos/about.qmd >}} -->
