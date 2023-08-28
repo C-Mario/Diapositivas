@@ -1,5 +1,5 @@
 ---
-title: "Modelos de riesgo"
+title: "Modelos de riesgooooo2"
 subtitle: "Distribuciones sesgadas"
 author: Carlos Mario Castaño
 institute: UNAL - Departamento de estadística
