@@ -35,7 +35,7 @@ options(scipen = 12)
 load(file = "_environment.RData") 
 ```
 
-## Serie de tiempo: <br> Total de exportaciones de Colombia 2020-01 hasta 2023-06.
+## Serie de tiempo: <br> Total de exportaciones de Colombia 2000-01 hasta 2023-06.
 
 <br>
 
