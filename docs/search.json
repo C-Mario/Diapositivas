@@ -4,7 +4,35 @@
     "href": "index.html#serie-de-tiempo-total-de-exportaciones-de-colombia-2000-01-hasta-2023-06.",
     "title": "Análisis de series de tiempo: Análisis descriptivo y modelamiento",
     "section": "Serie de tiempo:  Total de exportaciones de Colombia 2000-01 hasta 2023-06.",
-    "text": "Serie de tiempo:  Total de exportaciones de Colombia 2000-01 hasta 2023-06.\n\nAnálisis descriptivo"
+    "text": "Serie de tiempo:  Total de exportaciones de Colombia 2000-01 hasta 2023-06.\nAnálisis descriptivo"
+  },
+  {
+    "objectID": "index.html#section",
+    "href": "index.html#section",
+    "title": "Análisis de series de tiempo: Análisis descriptivo y modelamiento",
+    "section": "",
+    "text": "Estabilización de la varianza\n\n(lambda &lt;- forecast::BoxCox.lambda(Exportaciones_ts, method =\"loglik\",\n                                   lower = -2, upper = 3))\n\n[1] 0.2"
+  },
+  {
+    "objectID": "index.html#section-1",
+    "href": "index.html#section-1",
+    "title": "Análisis de series de tiempo: Análisis descriptivo y modelamiento",
+    "section": "",
+    "text": "lambda_loglik &lt;- MASS::boxcox(lm(Exportaciones_ts ~ 1),\n                              seq(-2, 3, length = 100))\n\n\n\nmaximo &lt;- which.max(lambda_loglik$y)\n(lambda_loglik &lt;- lambda_loglik$x[maximo])\n\n[1] 0.6262626"
+  },
+  {
+    "objectID": "index.html#section-3",
+    "href": "index.html#section-3",
+    "title": "Análisis de series de tiempo: Análisis descriptivo y modelamiento",
+    "section": "",
+    "text": "lambda_loglik &lt;- MASS::boxcox(lm(serie_estabilizada062 ~ 1),\n                              seq(-2, 3, length = 100))  \n\n\n\nmaximo &lt;- which.max(lambda_loglik$y)\n(lambda_loglik &lt;- lambda_loglik$x[maximo])\n\n[1] 1.030303\n\n\n\nserie &lt;- serie_estabilizada062"
+  },
+  {
+    "objectID": "index.html#section-4",
+    "href": "index.html#section-4",
+    "title": "Análisis de series de tiempo: Análisis descriptivo y modelamiento",
+    "section": "",
+    "text": "Análisis de tendencia\nPrimera diferenciación de la serie"
   },
   {
     "objectID": "index.html#serie-de-tiempo-bitcoin",

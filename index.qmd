@@ -11,75 +11,175 @@ format: coeos-revealjs
 fig-responsive: true
 fig-height: 5
 fig-width: 5
+echo: false
+output: false
+warning: false
 ---
 
 ```{r}
 # librerias
 library(zoo)
-library(xts) # se requiere de zoo para xts
-library(TSstudio) # necesario pata ts_info
-library(lubridate) # trabajar con fechas
-library(tidyverse) #procesamiento de datos
-library(ggplot2) #graficos
+library(xts) 
+library(TSstudio) 
+library(lubridate) 
+library(tidyverse) 
+library(ggplot2) 
 library(readxl)
 library(forecast)
 library(MASS)
+library(timetk)
+library(feasts)
+library(fable)
+library(plotly)
 options(scipen = 12)
 ```
 
 ```{r}
-#| echo: false
-#| output: false
-
 # Cargando bases de datos: Exportaciones y bitcoin
 load(file = "_environment.RData") 
 ```
 
 ## Serie de tiempo: <br> Total de exportaciones de Colombia 2000-01 hasta 2023-06.
 
-<br>
-
 ### Análisis descriptivo
 
-<br>
 
 ```{r}
-#| echo: false
-#| output: false
-
 Exportaciones$Total <- round(Exportaciones$Total)
 Exportaciones$Mes <- as.yearmon(Exportaciones$Mes)
 ```
 
 ```{r}
-#| echo: false
-#| output: false
-
-# mirar formato de exportaciones
-str(Exportaciones)
-# cambiar la ventana de datos
 Exportaciones <- Exportaciones[97:378,]
-Exportaciones_xts <- xts(Exportaciones$Total, order.by = Exportaciones$Mes)
-
-head(Exportaciones_xts)
-ts_info(Exportaciones_xts)
-class(Exportaciones_xts)
-frequency(Exportaciones_xts)
-#
-periodicity(Exportaciones_xts)
-tclass(Exportaciones_xts)
+Exportaciones_ts <-  ts(Exportaciones[,'Total'], frequency = 12, start = c(2000,1), end = c(2023,6))
 ```
 
 ```{r}
 #| output: true
-#| fig-height: 3.5
-ts_plot(Exportaciones_xts,
-           title = "Total de exportaciones colombianas 2000 - 2023",
-           Ytitle = "Total de las importaciones (Millones de dólares)",
-           Xtitle = "Año",
-           Xgrid = TRUE,
-Ygrid = TRUE)
+#| fig-height: 4
+
+serie_plot <- ts_plot(Exportaciones_ts,
+        title = "Serie de tiempo del total de exportaciones 
+        desde enero del 2000 hasta junio de 2023",
+        Ytitle = "Total de exportaciones (Miles de dólares)",
+        Xtitle = "Año",
+        line.mode = "lines",
+        # slider = TRUE,
+        Xgrid = FALSE,
+        Ygrid = TRUE, 
+        color = "black") |> 
+  layout(
+    xaxis = list(tickfont = list(size = 18)), 
+    yaxis = list(titlefont = list(size = 18)))
+serie_plot
 ```
+
+## 
+#### Estabilización de la varianza
+
+```{r}
+#| echo: true
+#| output: true
+
+(lambda <- forecast::BoxCox.lambda(Exportaciones_ts, method ="loglik",
+                                   lower = -2, upper = 3))
+```
+
+```{r}
+#| output: true
+#| fig-align: center
+#| fig-width: 12
+#| fig-height: 8
+
+serie_estabilizada02 <- Exportaciones_ts |> BoxCox(lambda = 0.2)
+
+autoplot(serie_estabilizada02, lwd = 0.8) + xlab('Año') + theme_grey(24) + 
+ylab(expression(paste('Serie con tranformación Box-Cox ', lambda, '= 0.2')))
+```
+
+##
+```{r}
+#| echo: true
+#| output: true
+#| fig-align: center
+#| fig-height: 5
+#| fig-width: 8
+
+lambda_loglik <- MASS::boxcox(lm(Exportaciones_ts ~ 1),
+                              seq(-2, 3, length = 100))
+```
+
+```{r}
+#| echo: true
+#| output: true
+
+maximo <- which.max(lambda_loglik$y)
+(lambda_loglik <- lambda_loglik$x[maximo])
+```
+
+##
+
+```{r}
+#| output: true
+#| fig-align: center
+#| fig-width: 15
+#| fig-height: 10
+
+serie_estabilizada062 <- Exportaciones_ts |> BoxCox(lambda = 0.6262626)
+
+autoplot(serie_estabilizada062, lwd = 0.8) + xlab('Año') + theme_grey(24) +
+ylab(expression(paste('Serie con tranformación Box-Cox ', lambda, '= 0.6262626'))) 
+```
+
+##
+
+```{r}
+#| echo: true
+#| output: true
+#| fig-align: center
+#| fig-height: 5
+#| fig-width: 8
+
+lambda_loglik <- MASS::boxcox(lm(serie_estabilizada062 ~ 1),
+                              seq(-2, 3, length = 100))  
+```
+
+```{r}
+#| echo: true
+#| output: true
+
+maximo <- which.max(lambda_loglik$y)
+(lambda_loglik <- lambda_loglik$x[maximo])
+```
+
+```{r}
+#| echo: true
+
+serie <- serie_estabilizada062
+```
+
+##
+#### Análisis de tendencia
+##### Primera diferenciación de la serie
+<br>
+
+```{r}
+#| output: true
+#| fig-height: 4
+#| fig-weight: 10
+
+
+dserie <- diff(serie)
+sintendencia_diff <- ts_plot(dserie, title = "Serie diferenciada")
+sintendencia_diff
+```
+
+
+
+
+
+
+
 
 ## Serie de tiempo: <br> Bitcoin
 

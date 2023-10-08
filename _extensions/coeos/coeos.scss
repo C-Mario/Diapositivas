@@ -210,14 +210,24 @@ p.author::before, div.quarto-title-author::before {
     font-size: 1em;
     font-family: Songti SC;
     color: black;
-
 }
 
 .reveal h3 {
     font-size: 0.8em;
     font-family: Songti SC;
     color: black;
+}
 
+.reveal h4 {
+    font-size: 0.6em;
+    font-family: Songti SC;
+    color: black;
+}
+
+.reveal h5 {
+    font-size: 0.5em;
+    font-family: Songti SC;
+    color: black;
 }
 
 //texto de las diapositivas
