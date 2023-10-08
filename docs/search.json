@@ -1,30 +1,16 @@
 [
   {
-    "objectID": "index.html#las-rentabilidades-siguen-una-distribución-normal",
-    "href": "index.html#las-rentabilidades-siguen-una-distribución-normal",
-    "title": "Modelos de riesgo",
-    "section": "Las rentabilidades siguen una distribución normal?",
-    "text": "Las rentabilidades siguen una distribución normal?\nÍndice S&P 500\nÍndice S&P 500 desde 1986 hasta 2018. Este índice se mide diariamente y representa los retornos diarios ponderados de las 500 empresas más importantes de Estados Unidos de Amética.\n\nFigura 1\\(:\\) Distribución de los rendimientos estandarizados vs la distribución normal estándar."
+    "objectID": "index.html#serie-de-tiempo-total-de-exportaciones-de-colombia-2020-01-hasta-2023-06.",
+    "href": "index.html#serie-de-tiempo-total-de-exportaciones-de-colombia-2020-01-hasta-2023-06.",
+    "title": "Análisis de series de tiempo: Análisis descriptivo y modelamiento",
+    "section": "Serie de tiempo:  Total de exportaciones de Colombia 2020-01 hasta 2023-06.",
+    "text": "Serie de tiempo:  Total de exportaciones de Colombia 2020-01 hasta 2023-06.\n\nAnálisis descriptivo"
   },
   {
-    "objectID": "index.html#histograma",
-    "href": "index.html#histograma",
-    "title": "Modelos de riesgo",
-    "section": "Histograma",
-    "text": "Histograma\nLa s (en mayúscula S, nombre ese, plural eses) es la vigésima letra y la decimosexta consonante del alfabeto español, y la decimonovena letra del alfabeto latino básico.\nEn español se le representa un sonido consonante obstruyente, fricativo, alveolar (en las zonas donde existe el fonema /θ/) o dental-alveolar (en\n\nspañol se le representa un sonido\nspañol se le representa un sonido\nspañol se le representa un sonido"
-  },
-  {
-    "objectID": "index.html#usando-la-librería-ggplot2",
-    "href": "index.html#usando-la-librería-ggplot2",
-    "title": "Modelos de riesgo",
-    "section": "usando la librería ggplot2",
-    "text": "usando la librería ggplot2\n\nlibrary(ggplot2)\nggplot(mtcars, aes(wt, mpg)) + geom_point(size = 2) + theme_minimal(35)\n\n\nFigura 1\\(:\\) Gráfico de dispersión de mpg vs wt"
-  },
-  {
-    "objectID": "index.html#new-slide",
-    "href": "index.html#new-slide",
-    "title": "Modelos de riesgo",
-    "section": "New slide",
-    "text": "New slide\nWith only text\n\n\n\n\nUniversidad Nacional de Colombia"
+    "objectID": "index.html#serie-de-tiempo-bitcoin",
+    "href": "index.html#serie-de-tiempo-bitcoin",
+    "title": "Análisis de series de tiempo: Análisis descriptivo y modelamiento",
+    "section": "Serie de tiempo:  Bitcoin",
+    "text": "Serie de tiempo:  Bitcoin\n\n\n\nUniversidad Nacional de Colombia"
   }
 ]

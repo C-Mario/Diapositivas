@@ -102,7 +102,8 @@ code span.at {
   }
   .subtitle{color: $body-color;
     font-style: italic;
-    font-size: 150%
+    font-size: 150%;
+    font-family: Georgia;
   }
 
   .author, .quarto-title-author-name {
@@ -138,6 +139,13 @@ p.author::before, div.quarto-title-author::before {
 .footer {
   bottom: 10px !important;
   color: #7F7F7F !important;
+  font-family: Sans-Serif;
+}
+
+.reveal .footer > * {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 1em;
 }
 
 .slide-logo {
@@ -145,7 +153,7 @@ p.author::before, div.quarto-title-author::before {
   position: fixed !important;
   top: 0px !important;
   right: 10px !important;
-  max-height: 15% !important;
+  max-height: 10% !important;
   height: 100% !important;
   width: auto !important;
   color: $body-color !important;
@@ -191,15 +199,41 @@ p.author::before, div.quarto-title-author::before {
 .reveal .slide figure>figcaption, .reveal .slide img.stretch+p.caption, .reveal .slide img.r-stretch+p.caption {
     font-size: 0.5em;
 }
+
+// headers h1
+.reveal h1 {
+    font-size: 1.5em;
+}
+
 // headers h2
 .reveal h2 {
     font-size: 1em;
+    font-family: Songti SC;
+    color: black;
+
 }
 
 .reveal h3 {
     font-size: 0.8em;
+    font-family: Songti SC;
+    color: black;
+
 }
 
+//texto de las diapositivas
 .reveal p {
     font-size: 0.6em;
+}
+
+ul li { list-style-type: square;
+}
+
+::marker {
+    color: red;
+    unicode-bidi: isolate;
+    font-variant-numeric: tabular-nums;
+    text-transform: none;
+    text-indent: 0px !important;
+    text-align: start !important;
+    text-align-last: start !important;
 }

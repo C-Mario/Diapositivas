@@ -1,10 +1,11 @@
 ---
-title: "Modelos de riesgo"
-subtitle: "Distribuciones sesgadas"
-author: Carlos Mario Castaño
+title: "Análisis de series de tiempo: <br>Análisis descriptivo y modelamiento"
+subtitle: "Series de tiempo"
+author: Kevin - José - Mario
 institute: UNAL - Departamento de estadística
 date: today
-date-format: "dddd, [the] D[<sup style='font-size:65%;font-style:italic;'>th</sup>] [of] MMMM, YYYY"
+date-format: "dddd, D [de] MMMM, YYYY"
+lang: es
 embed-resources: false
 format: coeos-revealjs
 fig-responsive: true
@@ -13,90 +14,74 @@ fig-width: 5
 ---
 
 ```{r}
-#| include: false
-sysfonts::font_add_google("Alegreya Sans", "Alegreya Sans", regular.wt = 300)
-showtext::showtext_auto()
-# source("_extensions/mcanouil/coeos/setup-ggplot2-coeos.R")
-```
-
-## Las rentabilidades siguen una distribución normal?
-
-### Índice S&P 500
-
-Índice S&P 500 desde 1986 hasta 2018. Este índice se mide diariamente y representa los retornos diarios ponderados de las 500 empresas más importantes de Estados Unidos de Amética.
-
-```{r}
-#| echo: false
-library(lubridate)
-library(ggplot2)
+# librerias
+library(zoo)
+library(xts) # se requiere de zoo para xts
+library(TSstudio) # necesario pata ts_info
+library(lubridate) # trabajar con fechas
+library(tidyverse) #procesamiento de datos
+library(ggplot2) #graficos
+library(readxl)
+library(forecast)
+library(MASS)
+options(scipen = 12)
 ```
 
 ```{r}
 #| echo: false
-#| fig-align: center
-#| fig-cap: Figura 1$:$ Distribución de los rendimientos estandarizados vs la distribución normal estándar.
-#| fig-height: 7
-#| fig-width: 8
-spx <- read.csv("spx.csv")
-spx$close <- round(spx$close,2)
-spx$date <- as.Date(spx$date, "%d-%b-%y")
-closes <- NULL
-for (i in 1:(length(spx$close)-1)){
-  closes[i] <-  log(spx$close[i+1]/spx$close[i])
-}
+#| output: false
 
-
-
-closes <- (closes-mean(closes))/sd(closes)
-media <- mean(closes)
-varianza <- var(closes)
-medialog <- exp(media + varianza/2)
-varianzalog <- (exp(varianza)-1)*exp(2*media+varianza)
-
-closes <- as.data.frame(closes)
-
-ggplot(closes, aes(x = closes)) + 
-  geom_histogram(aes(y =..density..),
-                 breaks = seq(-3, 3, by = 0.5), 
-                 colour = "black", 
-                 fill = "#607D8B") +
-  stat_function(fun = dnorm, args = list(mean = media, sd = sqrt(varianza)), lwd=2) + 
-  theme_minimal(40) + xlab("Precio de cierre") + ylab("Densidad") +
-  stat_function(fun = dlnorm, args = list(meanlog = medialog , sdlog = sqrt(varianzalog)), 
-                colour = "#00B0FF", lwd = 2) +
-  xlim(c(-4,4))
+# Cargando bases de datos: Exportaciones y bitcoin
+load(file = "_environment.RData") 
 ```
 
-## Histograma
+## Serie de tiempo: <br> Total de exportaciones de Colombia 2020-01 hasta 2023-06.
 
-La s (en mayúscula S, nombre ese, plural eses) es la vigésima letra y la decimosexta consonante del alfabeto español, y la decimonovena letra del alfabeto latino básico.
+<br>
 
-En español se le representa un sonido consonante obstruyente, fricativo, alveolar (en las zonas donde existe el fonema /θ/) o dental-alveolar (en
+### Análisis descriptivo
 
--   spañol se le representa un sonido
-
--   spañol se le representa un sonido
-
--   spañol se le representa un sonido
+<br>
 
 ```{r}
-hist(rnorm(100))
-```
+#| echo: false
+#| output: false
 
-## usando la librería `ggplot2`
+Exportaciones$Total <- round(Exportaciones$Total)
+Exportaciones$Mes <- as.yearmon(Exportaciones$Mes)
+```
 
 ```{r}
-#| echo: true
-#| fig-align: center
-#| fig-cap: Figura 1$:$ Gráfico de dispersión de mpg vs wt
-library(ggplot2)
-ggplot(mtcars, aes(wt, mpg)) + geom_point(size = 2) + theme_minimal(35)
+#| echo: false
+#| output: false
+
+# mirar formato de exportaciones
+str(Exportaciones)
+# cambiar la ventana de datos
+Exportaciones <- Exportaciones[97:378,]
+Exportaciones_xts <- xts(Exportaciones$Total, order.by = Exportaciones$Mes)
+
+head(Exportaciones_xts)
+ts_info(Exportaciones_xts)
+class(Exportaciones_xts)
+frequency(Exportaciones_xts)
+#
+periodicity(Exportaciones_xts)
+tclass(Exportaciones_xts)
 ```
 
-# PART 1 With `code` {.center .center-x}
+```{r}
+#| output: true
+#| fig-height: 3.5
+ts_plot(Exportaciones_xts,
+           title = "Total de exportaciones colombianas 2000 - 2023",
+           Ytitle = "Total de las importaciones (Millones de dólares)",
+           Xtitle = "Año",
+           Xgrid = TRUE,
+Ygrid = TRUE)
+```
 
-## New slide
+## Serie de tiempo: <br> Bitcoin
 
-With only text
 
-<!-- {{< include _extensions/mcanouil/coeos/about.qmd >}} -->
+
