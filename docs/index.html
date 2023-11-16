@@ -11,7 +11,7 @@
   <meta name="generator" content="quarto-1.3.353">
 
   <meta name="author" content="Kevin - José - Mario">
-  <title>Análisis de series de tiempo: Análisis descriptivo y modelamiento</title>
+  <title>Modelos estructurales de series de tiempo</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -29,71 +29,6 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
-    /* CSS for syntax highlighting */
-    pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-    pre > code.sourceCode > span:empty { height: 1.2em; }
-    .sourceCode { overflow: visible; }
-    code.sourceCode > span { color: inherit; text-decoration: inherit; }
-    div.sourceCode { margin: 1em 0; }
-    pre.sourceCode { margin: 0; }
-    @media screen {
-    div.sourceCode { overflow: auto; }
-    }
-    @media print {
-    pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-    }
-    pre.numberSource code
-      { counter-reset: source-line 0; }
-    pre.numberSource code > span
-      { position: relative; left: -4em; counter-increment: source-line; }
-    pre.numberSource code > span > a:first-child::before
-      { content: counter(source-line);
-        position: relative; left: -1em; text-align: right; vertical-align: baseline;
-        border: none; display: inline-block;
-        -webkit-touch-callout: none; -webkit-user-select: none;
-        -khtml-user-select: none; -moz-user-select: none;
-        -ms-user-select: none; user-select: none;
-        padding: 0 4px; width: 4em;
-      }
-    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-    div.sourceCode
-      { color: #e1e4e8; background-color: #24292e; }
-    @media screen {
-    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-    }
-    code span { color: #e1e4e8; } /* Normal */
-    code span.al { color: #ff5555; font-weight: bold; } /* Alert */
-    code span.an { color: #6a737d; } /* Annotation */
-    code span.at { color: #f97583; } /* Attribute */
-    code span.bn { color: #79b8ff; } /* BaseN */
-    code span.bu { color: #f97583; } /* BuiltIn */
-    code span.cf { color: #f97583; } /* ControlFlow */
-    code span.ch { color: #9ecbff; } /* Char */
-    code span.cn { color: #79b8ff; } /* Constant */
-    code span.co { color: #6a737d; } /* Comment */
-    code span.cv { color: #6a737d; } /* CommentVar */
-    code span.do { color: #6a737d; } /* Documentation */
-    code span.dt { color: #f97583; } /* DataType */
-    code span.dv { color: #79b8ff; } /* DecVal */
-    code span.er { color: #ff5555; text-decoration: underline; } /* Error */
-    code span.ex { color: #f97583; font-weight: bold; } /* Extension */
-    code span.fl { color: #79b8ff; } /* Float */
-    code span.fu { color: #b392f0; } /* Function */
-    code span.im { color: #9ecbff; } /* Import */
-    code span.in { color: #6a737d; } /* Information */
-    code span.kw { color: #f97583; } /* Keyword */
-    code span.op { color: #e1e4e8; } /* Operator */
-    code span.ot { color: #b392f0; } /* Other */
-    code span.pp { color: #f97583; } /* Preprocessor */
-    code span.re { color: #6a737d; } /* RegionMarker */
-    code span.sc { color: #79b8ff; } /* SpecialChar */
-    code span.ss { color: #9ecbff; } /* SpecialString */
-    code span.st { color: #9ecbff; } /* String */
-    code span.va { color: #ffab70; } /* Variable */
-    code span.vs { color: #9ecbff; } /* VerbatimString */
-    code span.wa { color: #ff5555; } /* Warning */
   </style>
   <link rel="stylesheet" href="site_libs/revealjs/dist/theme/quarto.css">
   <link href="site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -384,14 +319,6 @@
       margin-right: 0; 
     }
   </style>
-  <script src="site_libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
-  <script src="site_libs/plotly-binding-4.10.2/plotly.js"></script>
-  <script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
-  <script src="site_libs/jquery-3.5.1/jquery.min.js"></script>
-  <link href="site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
-  <script src="site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
-  <link href="site_libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
-  <script src="site_libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
   <link rel="shortcut icon" href="https://raw.githubusercontent.com/mcanouil/hex-stickers/main/SVG/coeos.svg">
 </head>
 <body class="quarto-light">
@@ -399,7 +326,7 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Análisis de series de tiempo: <br>Análisis descriptivo y modelamiento</h1>
+  <h1 class="title">Modelos estructurales de series de tiempo</h1>
   <p class="subtitle">Series de tiempo</p>
 
 <div class="quarto-title-authors">
@@ -413,81 +340,58 @@ Kevin - José - Mario
     </div>
 </div>
 
-  <p class="date">domingo, 8 de octubre, 2023</p>
+  <p class="date">miércoles, 15 de noviembre, 2023</p>
 </section>
-<section id="serie-de-tiempo-total-de-exportaciones-de-colombia-2000-01-hasta-2023-06." class="slide level2">
-<h2>Serie de tiempo: <br> Total de exportaciones de Colombia 2000-01 hasta 2023-06.</h2>
-<h3 id="análisis-descriptivo">Análisis descriptivo</h3>
-<div class="cell">
-<div class="cell-output-display">
-<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-75feedcdcb291b6664e0" style="width:100%;height:520px;"></div>
-<script type="application/json" data-for="htmlwidget-75feedcdcb291b6664e0">{"x":{"visdat":{"4aa43bb23120":["function () ","plotlyVisDat"]},"cur_data":"4aa43bb23120","attrs":{"4aa43bb23120":{"x":{},"y":{},"mode":"lines","line":{"width":2,"dash":null,"color":"black"},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"Año","showgrid":false,"tickfont":{"size":18}},"yaxis":{"domain":[0,1],"automargin":true,"title":"Total de exportaciones (Miles de dólares)","showgrid":true,"titlefont":{"size":18}},"title":"Serie de tiempo del total de exportaciones <br />        desde enero del 2000 hasta junio de 2023","hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[2000,2000.0833333333333,2000.1666666666667,2000.25,2000.3333333333333,2000.4166666666667,2000.5,2000.5833333333333,2000.6666666666667,2000.75,2000.8333333333333,2000.9166666666667,2001,2001.0833333333333,2001.1666666666667,2001.25,2001.3333333333333,2001.4166666666667,2001.5,2001.5833333333333,2001.6666666666667,2001.75,2001.8333333333333,2001.9166666666667,2002,2002.0833333333333,2002.1666666666667,2002.25,2002.3333333333333,2002.4166666666667,2002.5,2002.5833333333333,2002.6666666666667,2002.75,2002.8333333333333,2002.9166666666667,2003,2003.0833333333333,2003.1666666666667,2003.25,2003.3333333333333,2003.4166666666667,2003.5,2003.5833333333333,2003.6666666666667,2003.75,2003.8333333333333,2003.9166666666667,2004,2004.0833333333333,2004.1666666666667,2004.25,2004.3333333333333,2004.4166666666667,2004.5,2004.5833333333333,2004.6666666666667,2004.75,2004.8333333333333,2004.9166666666667,2005,2005.0833333333333,2005.1666666666667,2005.25,2005.3333333333333,2005.4166666666667,2005.5,2005.5833333333333,2005.6666666666667,2005.75,2005.8333333333333,2005.9166666666667,2006,2006.0833333333333,2006.1666666666667,2006.25,2006.3333333333333,2006.4166666666667,2006.5,2006.5833333333333,2006.6666666666667,2006.75,2006.8333333333333,2006.9166666666667,2007,2007.0833333333333,2007.1666666666667,2007.25,2007.3333333333333,2007.4166666666667,2007.5,2007.5833333333333,2007.6666666666667,2007.75,2007.8333333333333,2007.9166666666667,2008,2008.0833333333333,2008.1666666666667,2008.25,2008.3333333333333,2008.4166666666667,2008.5,2008.5833333333333,2008.6666666666667,2008.75,2008.8333333333333,2008.9166666666667,2009,2009.0833333333333,2009.1666666666667,2009.25,2009.3333333333333,2009.4166666666667,2009.5,2009.5833333333333,2009.6666666666667,2009.75,2009.8333333333333,2009.9166666666667,2010,2010.0833333333333,2010.1666666666667,2010.25,2010.3333333333333,2010.4166666666667,2010.5,2010.5833333333333,2010.6666666666667,2010.75,2010.8333333333333,2010.9166666666667,2011,2011.0833333333333,2011.1666666666667,2011.25,2011.3333333333335,2011.4166666666667,2011.5,2011.5833333333335,2011.6666666666667,2011.75,2011.8333333333335,2011.9166666666667,2012,2012.0833333333335,2012.1666666666667,2012.25,2012.3333333333335,2012.4166666666667,2012.5,2012.5833333333335,2012.6666666666667,2012.75,2012.8333333333335,2012.9166666666667,2013,2013.0833333333335,2013.1666666666667,2013.25,2013.3333333333335,2013.4166666666667,2013.5,2013.5833333333335,2013.6666666666667,2013.75,2013.8333333333335,2013.9166666666667,2014,2014.0833333333335,2014.1666666666667,2014.25,2014.3333333333335,2014.4166666666667,2014.5,2014.5833333333335,2014.6666666666667,2014.75,2014.8333333333335,2014.9166666666667,2015,2015.0833333333335,2015.1666666666667,2015.25,2015.3333333333335,2015.4166666666667,2015.5,2015.5833333333335,2015.6666666666667,2015.75,2015.8333333333335,2015.9166666666667,2016,2016.0833333333335,2016.1666666666667,2016.25,2016.3333333333335,2016.4166666666667,2016.5,2016.5833333333335,2016.6666666666667,2016.75,2016.8333333333335,2016.9166666666667,2017,2017.0833333333335,2017.1666666666667,2017.25,2017.3333333333335,2017.4166666666667,2017.5,2017.5833333333335,2017.6666666666667,2017.75,2017.8333333333335,2017.9166666666667,2018,2018.0833333333335,2018.1666666666667,2018.25,2018.3333333333335,2018.4166666666667,2018.5,2018.5833333333335,2018.6666666666667,2018.75,2018.8333333333335,2018.9166666666667,2019,2019.0833333333335,2019.1666666666667,2019.25,2019.3333333333335,2019.4166666666667,2019.5,2019.5833333333335,2019.6666666666667,2019.75,2019.8333333333335,2019.9166666666667,2020,2020.0833333333335,2020.1666666666667,2020.25,2020.3333333333335,2020.4166666666667,2020.5,2020.5833333333335,2020.6666666666667,2020.75,2020.8333333333335,2020.9166666666667,2021,2021.0833333333335,2021.1666666666667,2021.25,2021.3333333333335,2021.4166666666667,2021.5,2021.5833333333335,2021.6666666666667,2021.75,2021.8333333333335,2021.9166666666667,2022,2022.0833333333335,2022.1666666666667,2022.25,2022.3333333333335,2022.4166666666667,2022.5,2022.5833333333335,2022.6666666666667,2022.75,2022.8333333333335,2022.9166666666667,2023,2023.0833333333335,2023.1666666666667,2023.25,2023.3333333333335,2023.4166666666667],"y":[1011676,1054098,1053546,886359,1146258,1153956,1104408,1242391,1102913,981716,1192681,1228398,1017195,964437,1002450,1058457,1068023,996736,1005867,1189605,1078781,1013772,965973,968599,943702,945935,859303,1123902,1076509,921463,1040876,915457,1055414,1070342,966897,1055590,923427,1033043,1034233,1101056,1181888,995297,1267598,1092850,1079472,1169195,1082836,1167628,1183399,1031826,1206657,1271618,1335727,1433647,1541103,1516523,1519458,1529291,1585709,1633370,1378980,1529265,1722081,1682450,1737198,2097853,1653833,1882740,1908016,1788905,1826199,1938567,1668171,1862024,1929864,1872161,2211681,2039364,2141958,2129881,2104243,2271572,2146547,2134504,1843668,1914770,2384657,2497750,2727980,2114259,2648147,2621002,2523170,2623649,3152653,3227536,2842306,2822470,3007288,3365420,3392615,3675654,3801685,3294187,3133994,2981105,2245379,2224271,2525698,2340118,2711332,2427571,2742519,2738083,2898600,2673470,2795983,2948687,2861294,3182972,2913433,2869156,3337903,3490978,3513331,3060628,3157626,3291236,3271661,3535759,3426095,3845531,3760176,3958572,4893312,4823094,5153710,4708737,4866229,4941645,4582401,4772996,5147330,5306738,4785773,4999318,5712355,5010929,5403375,4563431,4976905,4570780,4910403,5432930,4807338,4951628,4849196,4667767,4617842,4949487,5332470,4870839,4652297,4977706,4849996,4837983,4948665,5272122,4808832,4271442,4408181,4316676,5495867,4704814,5048930,4813091,5077247,4322278,3794686,3794711,2916976,3160957,3461944,3219706,3381084,3217408,3043778,2868451,2898168,2815522,2444535,2588994,1919053,2328723,2334998,2463793,2751470,2780512,2266997,3044377,2797686,2770014,2833622,3477094,2785044,2716024,3300421,2697992,3505436,2895612,3125483,3191598,3389679,3277516,3122237,4014818,3324889,3027603,3365116,3786537,3719410,3331933,3632055,3684399,3512842,3768666,3343509,3407819,3066110,3183071,3344850,3862819,3748342,3096363,3255830,3264261,3067349,3326497,2943625,3330051,3419466,2943626,2439036,1864239,2221172,2289482,2551988,2584767,2544874,2644954,2523372,3028837,2610936,2938994,3383554,2976372,3096913,3182216,3444158,3465143,3792236,3799111,4155805,4544551,3801609,4209198,4780210,5460531,4662521,5497617,5913682,4388737,4778520,4213182,4562248,4642084,3696188,4202234,4431911,3739214,4497862,3985981],"mode":"lines","line":{"color":"black","width":2,"dash":[]},"type":"scatter","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
-</div>
-</div>
+<section id="contenido" class="slide level2">
+<h2>Contenido</h2>
+<ol type="1">
+<li><p>Introducción</p></li>
+<li><p>Modelos de Espacio - Estado</p></li>
+<li><p>Filtro de Kalman</p></li>
+<li><p>Predicción</p></li>
+<li><p>Estimación</p></li>
+<li><p>Diagnóstico</p></li>
+</ol>
 </section>
-<section id="section" class="slide level2">
-<h2></h2>
-<h4 id="estabilización-de-la-varianza">Estabilización de la varianza</h4>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>(lambda <span class="ot">&lt;-</span> forecast<span class="sc">::</span><span class="fu">BoxCox.lambda</span>(Exportaciones_ts, <span class="at">method =</span><span class="st">"loglik"</span>,</span>
-<span id="cb1-2"><a href="#cb1-2"></a>                                   <span class="at">lower =</span> <span class="sc">-</span><span class="dv">2</span>, <span class="at">upper =</span> <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.2</code></pre>
-</div>
-</div>
-
-<img data-src="index_files/figure-revealjs/unnamed-chunk-7-1.png" class="img-fluid r-stretch quarto-figure-center" width="1152"></section>
-<section id="section-1" class="slide level2">
-<h2></h2>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>lambda_loglik <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">boxcox</span>(<span class="fu">lm</span>(Exportaciones_ts <span class="sc">~</span> <span class="dv">1</span>),</span>
-<span id="cb3-2"><a href="#cb3-2"></a>                              <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">3</span>, <span class="at">length =</span> <span class="dv">100</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
-</div>
-<img data-src="index_files/figure-revealjs/unnamed-chunk-8-1.png" class="img-fluid r-stretch quarto-figure-center" width="768"><div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>maximo <span class="ot">&lt;-</span> <span class="fu">which.max</span>(lambda_loglik<span class="sc">$</span>y)</span>
-<span id="cb4-2"><a href="#cb4-2"></a>(lambda_loglik <span class="ot">&lt;-</span> lambda_loglik<span class="sc">$</span>x[maximo])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.6262626</code></pre>
-</div>
-</div>
+<section id="introducción" class="slide level2">
+<h2>Introducción</h2>
+<p>En los modelos estructurales de series de tiempo se tienen las siguientes consideraciones:</p>
+<ul>
+<li><p>Los datos provienen de algún proceso no observable llamado Espacio - Estado.</p></li>
+<li><p>Los datos que observamos también son generados por este proceso de Espacio - Estado, pero vienen dados con un ruido añadido.</p></li>
+</ul>
+<p>El interés recae en modelar el Espacio - Estado no observable en lugar de modelar los datos observables directamente.</p>
+<p>Estos modelos suelen considerar la clásica descomposición en la cuál una serie de tiempoes vista como la suma de las componentes de tendencia, estacionalidad y error.</p>
 </section>
-<section id="section-2" class="slide level2">
-<h2></h2>
-
-<img data-src="index_files/figure-revealjs/unnamed-chunk-10-1.png" class="img-fluid r-stretch quarto-figure-center" width="1440"></section>
-<section id="section-3" class="slide level2">
-<h2></h2>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>lambda_loglik <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">boxcox</span>(<span class="fu">lm</span>(serie_estabilizada062 <span class="sc">~</span> <span class="dv">1</span>),</span>
-<span id="cb6-2"><a href="#cb6-2"></a>                              <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">3</span>, <span class="at">length =</span> <span class="dv">100</span>))  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
-</div>
-<img data-src="index_files/figure-revealjs/unnamed-chunk-11-1.png" class="img-fluid r-stretch quarto-figure-center" width="768"><div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>maximo <span class="ot">&lt;-</span> <span class="fu">which.max</span>(lambda_loglik<span class="sc">$</span>y)</span>
-<span id="cb7-2"><a href="#cb7-2"></a>(lambda_loglik <span class="ot">&lt;-</span> lambda_loglik<span class="sc">$</span>x[maximo])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1.030303</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>serie <span class="ot">&lt;-</span> serie_estabilizada062</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="section-4" class="slide level2">
-<h2></h2>
-<h4 id="análisis-de-tendencia">Análisis de tendencia</h4>
-<h5 id="primera-diferenciación-de-la-serie">Primera diferenciación de la serie</h5>
+<section id="modelo-de-nivel-local" class="slide level2">
+<h2>Modelo de nivel local</h2>
+<ul>
+<li><span class="math inline">\(y_t:\)</span> datos observables</li>
+<li><span class="math inline">\(\mu_t:\)</span> estados no observables</li>
+</ul>
+<span class="math display">\[\begin{aligned}
+y_t &amp; =\mu_t+\varepsilon_t &amp; &amp; \varepsilon_t \sim N\left(0, \sigma_{\varepsilon}^2\right) \\
+\mu_{t+1} &amp; =\mu_t+\xi_t &amp; &amp; \xi_t \sim N\left(0, \sigma_{\xi}^2\right)
+\end{aligned}\]</span>
+<p><span class="math inline">\(\mu_t\)</span> es el nivel de la serie en el tiempo <span class="math inline">\(t\)</span>.</p>
 <p><br></p>
-<div class="cell" data-fig.weight="10">
-<div class="cell-output-display">
-<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-9c94bb344ce1d3269b1c" style="width:100%;height:520px;"></div>
-<script type="application/json" data-for="htmlwidget-9c94bb344ce1d3269b1c">{"x":{"visdat":{"4aa410e14564":["function () ","plotlyVisDat"]},"cur_data":"4aa410e14564","attrs":{"4aa410e14564":{"x":{},"y":{},"mode":"lines","line":{"width":2,"dash":null,"color":"#00526d"},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"","showgrid":false},"yaxis":{"domain":[0,1],"automargin":true,"title":"","showgrid":false},"title":"Serie diferenciada","hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[2000.0833333333335,2000.1666666666667,2000.2500000000002,2000.3333333333335,2000.4166666666667,2000.5000000000002,2000.5833333333335,2000.6666666666667,2000.7500000000002,2000.8333333333335,2000.9166666666667,2001,2001.0833333333335,2001.1666666666667,2001.2500000000002,2001.3333333333335,2001.4166666666667,2001.5000000000002,2001.5833333333335,2001.6666666666667,2001.7500000000002,2001.8333333333335,2001.9166666666667,2002,2002.0833333333335,2002.1666666666667,2002.2500000000002,2002.3333333333335,2002.4166666666667,2002.5000000000002,2002.5833333333335,2002.6666666666667,2002.7500000000002,2002.8333333333335,2002.9166666666667,2003,2003.0833333333335,2003.1666666666667,2003.2500000000002,2003.3333333333335,2003.4166666666667,2003.5000000000002,2003.5833333333335,2003.6666666666667,2003.7500000000002,2003.8333333333335,2003.9166666666667,2004,2004.0833333333335,2004.1666666666667,2004.2500000000002,2004.3333333333335,2004.4166666666667,2004.5000000000002,2004.5833333333335,2004.6666666666667,2004.7500000000002,2004.8333333333335,2004.9166666666667,2005,2005.0833333333335,2005.1666666666667,2005.2500000000002,2005.3333333333335,2005.4166666666667,2005.5000000000002,2005.5833333333335,2005.6666666666667,2005.7500000000002,2005.8333333333335,2005.9166666666667,2006,2006.0833333333335,2006.1666666666667,2006.2500000000002,2006.3333333333335,2006.4166666666667,2006.5000000000002,2006.5833333333335,2006.6666666666667,2006.7500000000002,2006.8333333333335,2006.9166666666667,2007,2007.0833333333335,2007.1666666666667,2007.2500000000002,2007.3333333333335,2007.4166666666667,2007.5000000000002,2007.5833333333335,2007.6666666666667,2007.7500000000002,2007.8333333333335,2007.9166666666667,2008,2008.0833333333335,2008.1666666666667,2008.2500000000002,2008.3333333333335,2008.4166666666667,2008.5000000000002,2008.5833333333335,2008.6666666666667,2008.7500000000002,2008.8333333333335,2008.9166666666667,2009,2009.0833333333335,2009.1666666666667,2009.2500000000002,2009.3333333333335,2009.4166666666667,2009.5000000000002,2009.5833333333335,2009.6666666666667,2009.7500000000002,2009.8333333333335,2009.9166666666667,2010,2010.0833333333335,2010.1666666666667,2010.2500000000002,2010.3333333333335,2010.4166666666667,2010.5000000000002,2010.5833333333335,2010.6666666666667,2010.7500000000002,2010.8333333333335,2010.9166666666667,2011,2011.0833333333335,2011.1666666666667,2011.2500000000002,2011.3333333333335,2011.4166666666667,2011.5000000000002,2011.5833333333335,2011.6666666666667,2011.75,2011.8333333333335,2011.9166666666667,2012,2012.0833333333335,2012.1666666666667,2012.25,2012.3333333333335,2012.4166666666667,2012.5,2012.5833333333335,2012.6666666666667,2012.75,2012.8333333333335,2012.9166666666667,2013,2013.0833333333335,2013.1666666666667,2013.25,2013.3333333333335,2013.4166666666667,2013.5,2013.5833333333335,2013.6666666666667,2013.75,2013.8333333333335,2013.9166666666667,2014,2014.0833333333335,2014.1666666666667,2014.25,2014.3333333333335,2014.4166666666667,2014.5,2014.5833333333335,2014.6666666666667,2014.75,2014.8333333333335,2014.9166666666667,2015,2015.0833333333335,2015.1666666666667,2015.25,2015.3333333333335,2015.4166666666667,2015.5,2015.5833333333335,2015.6666666666667,2015.75,2015.8333333333335,2015.9166666666667,2016,2016.0833333333335,2016.1666666666667,2016.25,2016.3333333333335,2016.4166666666667,2016.5,2016.5833333333335,2016.6666666666667,2016.75,2016.8333333333335,2016.9166666666667,2017,2017.0833333333335,2017.1666666666667,2017.25,2017.3333333333335,2017.4166666666667,2017.5,2017.5833333333335,2017.6666666666667,2017.75,2017.8333333333335,2017.9166666666667,2018,2018.0833333333335,2018.1666666666667,2018.25,2018.3333333333335,2018.4166666666667,2018.5,2018.5833333333335,2018.6666666666667,2018.75,2018.8333333333335,2018.9166666666667,2019,2019.0833333333335,2019.1666666666667,2019.25,2019.3333333333335,2019.4166666666667,2019.5,2019.5833333333335,2019.6666666666667,2019.75,2019.8333333333335,2019.9166666666667,2020,2020.0833333333335,2020.1666666666667,2020.25,2020.3333333333335,2020.4166666666667,2020.5,2020.5833333333335,2020.6666666666667,2020.75,2020.8333333333335,2020.9166666666667,2021,2021.0833333333335,2021.1666666666667,2021.25,2021.3333333333335,2021.4166666666667,2021.5,2021.5833333333335,2021.6666666666667,2021.75,2021.8333333333335,2021.9166666666667,2022,2022.0833333333335,2022.1666666666667,2022.25,2022.3333333333335,2022.4166666666667,2022.5,2022.5833333333335,2022.6666666666667,2022.75,2022.8333333333335,2022.9166666666667,2023,2023.0833333333335,2023.1666666666667,2023.25,2023.3333333333335,2023.4166666666667],"y":[239.84482514949559,-3.0974599766086612,-968.29281996695136,1480.3542539691534,41.807458618011879,-270.95661619848943,744.00402117691738,-752.24934243549251,-683.07189470403318,1171.0273596638672,190.3033001338863,-1158.2600457094122,-302.96177246569823,218.892783138288,316.93935030300963,53.499979206964781,-403.14192437080419,52.225619892331451,1016.0145784069427,-605.14526095269503,-365.79885705598826,-274.57960426647151,15.214898643196648,-144.87951556511871,13.052016201221704,-515.19215144908958,1521.2421283771691,-261.70181124514238,-888.02483265839874,688.41538205916549,-723.89403257086087,805.63689156989312,83.498988659946917,-588.0125965398347,505.50061603215545,-759.56227261041568,632.61294039396307,6.7259330523902463,373.1761401570202,440.27965358789152,-1035.0516295703619,1489.7746268822157,-940.36419885466603,-74.225510676667909,491.49280338242897,-472.79603152435811,464.33581406653138,84.955170441086011,-835.18430483682823,959.70238113118285,343.12439938082389,332.25712054798896,496.20953005828233,530.16957738292876,-120.02169572229286,14.369336511099391,48.065539253710085,273.58225025490901,228.29414010441542,-1249.8636565334582,747.8603258902458,920.40407596349723,-185.89689051630558,256.38388897823825,1619.2962829709522,-2010.9327949921953,1058.9389406819446,113.89385146905988,-541.81262570352374,171.0543308666438,507.67142285287082,-1241.8717864930022,897.29162712455582,305.66066490631965,-259.72600487686032,1488.7621322266841,-744.00977384780526,445.67469270967376,-52.042334159586972,-110.84657679675547,714.69319467687455,-532.05808527307818,-51.854057302914953,-1287.670549041397,321.42164508049973,2022.049424118859,463.62747257389856,920.27470305177849,-2527.1195546677427,2211.4238784091413,-108.15116197355019,-393.30633729193869,403.87088017125643,2037.9630327246523,277.76257279402853,-1456.2941105834907,-76.920794917561579,709.10600029564739,1329.3410831318251,98.727127301055589,1010.5728224410268,440.57287003617239,-1809.8969879910037,-592.56451711598856,-576.19945949351677,-2945.2200830874153,-89.43307198335242,1248.8467194788918,-761.81802783945204,1503.1914675336902,-1141.4819407567866,1264.1476061918165,-17.41588606860023,623.65920393480701,-878.54001803237043,481.3770255761774,589.10497109257994,-335.71145068783153,1217.8426506573342,-1017.1022864515435,-170.38388544430927,1757.5250986897954,553.57578268319048,80.070646733882313,-1661.1893387167474,363.27039403622621,493.63117937814604,-71.846346503603854,956.28228878702794,-393.72886535867656,1481.9970280356938,-296.48354548152929,685.37740069972278,3070.7607917149107,-222.56884330181856,1037.7338846101011,-1402.8197791280581,501.95252114363029,238.20937108805811,-1147.3660502443927,612.75438483553808,1177.4838749881492,491.64935841115948,-1628.3860262460657,675.11497075972875,2180.0305171641339,-2143.6350073726244,1212.2382671064042,-2638.7544572068873,1319.7760525873673,-1295.9379687545952,1086.5169501567907,1618.3365877727629,-1945.0049392240799,456.61368172297807,-323.63059863986928,-579.56285281816963,-160.95110994645802,1057.4058935866815,1188.6726718013888,-1436.9729913020092,-697.95844835430398,1034.9891508963083,-403.08489728067798,-38.118962729142368,349.88599234380308,1006.1286200935428,-1448.6622749536218,-1747.5284791630329,452.09584896063461,-301.94936000387315,3728.5461440988074,-2463.4790815779415,1089.2876536883814,-743.42371243163871,831.80426386801628,-2424.1814053792878,-1789.216130619774,0.086907128283201018,-3199.386846216501,921.67709977970662,1101.1585975734379,-883.24870690515672,591.06421617506203,-599.55980823449136,-648.62659417067698,-669.16151614909541,114.47297937358962,-319.46502087227782,-1479.6689192476879,585.51895445008267,-2834.821231229258,1770.4972606189494,26.16767856927072,531.42637666526389,1150.8723560025755,113.62319315343848,-2080.9170397631169,3093.7160137178689,-945.81654689421703,-108.00311718260127,247.6664027700499,2398.7220585299547,-2587.6769796793196,-270.60127067663416,2217.5482089343386,-2288.6666773148863,3031.0388400972624,-2260.98922052938,871.41746528028671,246.1517376978627,726.31522424265495,-409.26398618625171,-575.33796476233692,3179.2299664886923,-2430.4072875258571,-1104.7078184660095,1251.2990605246305,1498.3162925971774,-234.32045692352767,-1384.8703616886196,1077.5591132519694,184.47142428333609,-608.35393436316008,903.28455911366109,-1514.7428006010741,233.55538409421933,-1260.8924031860988,437.22702972998741,594.99716283405724,1836.4867575210046,-397.53671475368901,-2357.4926504694413,592.50689342707483,31.020148645035079,-732.54463186311114,960.61033461499756,-1429.8888201218651,1442.8642046085224,324.76442492131901,-1767.624807125263,-1995.9380478417334,-2473.9398478809344,1564.9888614978372,288.44352989040271,1079.7637772601192,131.84630937489783,-160.54421239486328,401.01763946509891,-487.93962040260521,1976.2735655610195,-1623.9963899385912,1282.3138484959491,1655.2853182267027,-1512.6651620786361,455.44556464736525,318.30838763068823,958.08375124163649,75.554991565641103,1156.4396044412351,23.897167363447807,1218.5718370425966,1284.3453648131726,-2494.238278604189,1388.8741581154754,1863.9411063799562,2115.2479823991634,-2492.2927906871046,2604.6765418706891,1242.0146339669955,-4737.8722023139744,1262.8362382430496,-1845.2306733528167,1149.5118946048169,258.2280209025048,-3178.0815226179766,1733.7247324071868,760.89616788587227,-2343.8994987331389,2559.6444065873475,-1707.4046054898936],"mode":"lines","line":{"color":"#00526d","width":2,"dash":[]},"type":"scatter","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
-</div>
-</div>
+<p>Los parámetros del modelo son <span class="math inline">\(\sigma^2_\varepsilon\)</span> y <span class="math inline">\(\sigma^2_\xi\)</span>.</p>
 </section>
-<section id="serie-de-tiempo-bitcoin" class="slide level2">
-<h2>Serie de tiempo: <br> Bitcoin</h2>
+<section id="modelo-de-tendencia-lineal-local" class="slide level2">
+<h2>Modelo de tendencia lineal local</h2>
+<ul>
+<li><span class="math inline">\(y_t:\)</span> datos observables</li>
+<li><span class="math inline">\(\mu_t, v_t:\)</span> estados no observables</li>
+</ul>
+<span class="math display">\[\begin{aligned}
+y_t &amp; =\mu_t+\varepsilon_t &amp; &amp; \varepsilon_t \sim N\left(0, \sigma_{\varepsilon}^2\right) \\
+\mu_{t+1} &amp; =\mu_t+\nu_t+\xi_t &amp; &amp; \xi_t \sim N\left(0, \sigma_{\xi}^2\right) \\
+\nu_{t+1} &amp; =\nu_t+\zeta_t &amp; &amp; \zeta_t \sim N\left(0, \sigma_\zeta^2\right)
+\end{aligned}\]</span>
+<p><span class="math inline">\(\mu_t\)</span> es el nivel de la serie en el tiempo <span class="math inline">\(t\)</span>.</p>
+<p><span class="math inline">\(v_t\)</span> es la pendiente de la serie en el tiempo <span class="math inline">\(t\)</span>.</p>
+<p><br></p>
+<p>Los parámetros del modelo son <span class="math inline">\(\sigma^2_\varepsilon\)</span>, <span class="math inline">\(\sigma^2_\xi\)</span> y <span class="math inline">\(\sigma^2_\zeta\)</span>.</p>
 
 
 <img src="_extensions/coeos/logo2.png" class="slide-logo r-stretch"><div class="footer footer-default">
@@ -705,44 +609,6 @@ Kevin - José - Mario
         ]
       });
     </script>
-    
-    <script>
-      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
-      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
-      // slide changes (different for each slide format).
-      (function () {
-        // dispatch for htmlwidgets
-        function fireSlideEnter() {
-          const event = window.document.createEvent("Event");
-          event.initEvent("slideenter", true, true);
-          window.document.dispatchEvent(event);
-        }
-
-        function fireSlideChanged(previousSlide, currentSlide) {
-          fireSlideEnter();
-
-          // dispatch for shiny
-          if (window.jQuery) {
-            if (previousSlide) {
-              window.jQuery(previousSlide).trigger("hidden");
-            }
-            if (currentSlide) {
-              window.jQuery(currentSlide).trigger("shown");
-            }
-          }
-        }
-
-        // hookup for slidy
-        if (window.w3c_slidy) {
-          window.w3c_slidy.add_observer(function (slide_num) {
-            // slide_num starts at position 1
-            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
-          });
-        }
-
-      })();
-    </script>
-
     <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {

@@ -1,5 +1,5 @@
 ---
-title: "Análisis de series de tiempo: <br>Análisis descriptivo y modelamiento"
+title: "Modelos estructurales de series de tiempo"
 subtitle: "Series de tiempo"
 author: Kevin - José - Mario
 institute: UNAL - Departamento de estadística
@@ -14,174 +14,68 @@ fig-width: 5
 echo: false
 output: false
 warning: false
+editor_options: 
+  chunk_output_type: console
 ---
 
-```{r}
-# librerias
-library(zoo)
-library(xts) 
-library(TSstudio) 
-library(lubridate) 
-library(tidyverse) 
-library(ggplot2) 
-library(readxl)
-library(forecast)
-library(MASS)
-library(timetk)
-library(feasts)
-library(fable)
-library(plotly)
-options(scipen = 12)
-```
+## Contenido
 
-```{r}
-# Cargando bases de datos: Exportaciones y bitcoin
-load(file = "_environment.RData") 
-```
+1.  Introducción
 
-## Serie de tiempo: <br> Total de exportaciones de Colombia 2000-01 hasta 2023-06.
+2.  Modelos de Espacio - Estado
 
-### Análisis descriptivo
+3.  Filtro de Kalman
 
+4.  Predicción
 
-```{r}
-Exportaciones$Total <- round(Exportaciones$Total)
-Exportaciones$Mes <- as.yearmon(Exportaciones$Mes)
-```
+5.  Estimación
 
-```{r}
-Exportaciones <- Exportaciones[97:378,]
-Exportaciones_ts <-  ts(Exportaciones[,'Total'], frequency = 12, start = c(2000,1), end = c(2023,6))
-```
+6.  Diagnóstico
 
-```{r}
-#| output: true
-#| fig-height: 4
+## Introducción
 
-serie_plot <- ts_plot(Exportaciones_ts,
-        title = "Serie de tiempo del total de exportaciones 
-        desde enero del 2000 hasta junio de 2023",
-        Ytitle = "Total de exportaciones (Miles de dólares)",
-        Xtitle = "Año",
-        line.mode = "lines",
-        # slider = TRUE,
-        Xgrid = FALSE,
-        Ygrid = TRUE, 
-        color = "black") |> 
-  layout(
-    xaxis = list(tickfont = list(size = 18)), 
-    yaxis = list(titlefont = list(size = 18)))
-serie_plot
-```
+En los modelos estructurales de series de tiempo se tienen las siguientes consideraciones:
 
-## 
-#### Estabilización de la varianza
+- Los datos provienen de algún proceso no observable llamado Espacio - Estado.
 
-```{r}
-#| echo: true
-#| output: true
+- Los datos que observamos también son generados por este proceso de Espacio - Estado, pero vienen dados con un ruido añadido.
 
-(lambda <- forecast::BoxCox.lambda(Exportaciones_ts, method ="loglik",
-                                   lower = -2, upper = 3))
-```
+El interés recae en modelar el Espacio - Estado no observable en lugar de modelar los datos observables directamente.
 
-```{r}
-#| output: true
-#| fig-align: center
-#| fig-width: 12
-#| fig-height: 8
+Estos modelos suelen considerar la clásica descomposición en la cuál una serie de tiempoes vista como la suma de las componentes de tendencia, estacionalidad y error.
 
-serie_estabilizada02 <- Exportaciones_ts |> BoxCox(lambda = 0.2)
+## Modelo de nivel local
 
-autoplot(serie_estabilizada02, lwd = 0.8) + xlab('Año') + theme_grey(24) + 
-ylab(expression(paste('Serie con tranformación Box-Cox ', lambda, '= 0.2')))
-```
+- $y_t:$ datos observables
+- $\mu_t:$ estados no observables
 
-##
-```{r}
-#| echo: true
-#| output: true
-#| fig-align: center
-#| fig-height: 5
-#| fig-width: 8
+\begin{aligned}
+y_t & =\mu_t+\varepsilon_t & & \varepsilon_t \sim N\left(0, \sigma_{\varepsilon}^2\right) \\
+\mu_{t+1} & =\mu_t+\xi_t & & \xi_t \sim N\left(0, \sigma_{\xi}^2\right)
+\end{aligned}
 
-lambda_loglik <- MASS::boxcox(lm(Exportaciones_ts ~ 1),
-                              seq(-2, 3, length = 100))
-```
+$\mu_t$ es el nivel de la serie en el tiempo $t$. 
 
-```{r}
-#| echo: true
-#| output: true
-
-maximo <- which.max(lambda_loglik$y)
-(lambda_loglik <- lambda_loglik$x[maximo])
-```
-
-##
-
-```{r}
-#| output: true
-#| fig-align: center
-#| fig-width: 15
-#| fig-height: 10
-
-serie_estabilizada062 <- Exportaciones_ts |> BoxCox(lambda = 0.6262626)
-
-autoplot(serie_estabilizada062, lwd = 0.8) + xlab('Año') + theme_grey(24) +
-ylab(expression(paste('Serie con tranformación Box-Cox ', lambda, '= 0.6262626'))) 
-```
-
-##
-
-```{r}
-#| echo: true
-#| output: true
-#| fig-align: center
-#| fig-height: 5
-#| fig-width: 8
-
-lambda_loglik <- MASS::boxcox(lm(serie_estabilizada062 ~ 1),
-                              seq(-2, 3, length = 100))  
-```
-
-```{r}
-#| echo: true
-#| output: true
-
-maximo <- which.max(lambda_loglik$y)
-(lambda_loglik <- lambda_loglik$x[maximo])
-```
-
-```{r}
-#| echo: true
-
-serie <- serie_estabilizada062
-```
-
-##
-#### Análisis de tendencia
-##### Primera diferenciación de la serie
 <br>
 
-```{r}
-#| output: true
-#| fig-height: 4
-#| fig-weight: 10
+Los parámetros del modelo son $\sigma^2_\varepsilon$ y $\sigma^2_\xi$.
 
+## Modelo de tendencia lineal local
 
-dserie <- diff(serie)
-sintendencia_diff <- ts_plot(dserie, title = "Serie diferenciada")
-sintendencia_diff
-```
+- $y_t:$ datos observables
+- $\mu_t, v_t:$ estados no observables
 
+\begin{aligned}
+y_t & =\mu_t+\varepsilon_t & & \varepsilon_t \sim N\left(0, \sigma_{\varepsilon}^2\right) \\
+\mu_{t+1} & =\mu_t+\nu_t+\xi_t & & \xi_t \sim N\left(0, \sigma_{\xi}^2\right) \\
+\nu_{t+1} & =\nu_t+\zeta_t & & \zeta_t \sim N\left(0, \sigma_\zeta^2\right)
+\end{aligned}
 
+$\mu_t$ es el nivel de la serie en el tiempo $t$. 
 
+$v_t$ es la pendiente de la serie en el tiempo $t$. 
 
+<br>
 
-
-
-
-## Serie de tiempo: <br> Bitcoin
-
-
+Los parámetros del modelo son $\sigma^2_\varepsilon$, $\sigma^2_\xi$ y $\sigma^2_\zeta$.
 

@@ -91,14 +91,20 @@ code span.at {
 
 #title-slide {
   text-align: left;
-
+  .author,
   .institute,
   .date,
   .quarto-title-affiliation,
   .quarto-title-author-email {
-    font-style: italic;
+  font-style: italic;
   font-size: 100%;
-    color: #7F7F7F;
+  font-family: Georgia;
+  color: #7F7F7F;
+  }
+  .title{color: $body-color;
+    font-style: italic;
+    font-size: 200%;
+    font-family: Georgia;
   }
   .subtitle{color: $body-color;
     font-style: italic;
@@ -108,6 +114,8 @@ code span.at {
 
   .author, .quarto-title-author-name {
     color: #7F7F7F;
+    font-family: Georgia;
+    font-size: 100%;
   }
 
   .quarto-title-authors {
@@ -232,7 +240,7 @@ p.author::before, div.quarto-title-author::before {
 
 //texto de las diapositivas
 .reveal p {
-    font-size: 0.6em;
+    font-size: 0.8em;
 }
 
 ul li { list-style-type: square;
@@ -247,3 +255,4 @@ ul li { list-style-type: square;
     text-align: start !important;
     text-align-last: start !important;
 }
+

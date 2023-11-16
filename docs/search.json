@@ -1,44 +1,30 @@
 [
   {
-    "objectID": "index.html#serie-de-tiempo-total-de-exportaciones-de-colombia-2000-01-hasta-2023-06.",
-    "href": "index.html#serie-de-tiempo-total-de-exportaciones-de-colombia-2000-01-hasta-2023-06.",
-    "title": "Análisis de series de tiempo: Análisis descriptivo y modelamiento",
-    "section": "Serie de tiempo:  Total de exportaciones de Colombia 2000-01 hasta 2023-06.",
-    "text": "Serie de tiempo:  Total de exportaciones de Colombia 2000-01 hasta 2023-06.\nAnálisis descriptivo"
+    "objectID": "index.html#contenido",
+    "href": "index.html#contenido",
+    "title": "Modelos estructurales de series de tiempo",
+    "section": "Contenido",
+    "text": "Contenido\n\nIntroducción\nModelos de Espacio - Estado\nFiltro de Kalman\nPredicción\nEstimación\nDiagnóstico"
   },
   {
-    "objectID": "index.html#section",
-    "href": "index.html#section",
-    "title": "Análisis de series de tiempo: Análisis descriptivo y modelamiento",
-    "section": "",
-    "text": "Estabilización de la varianza\n\n(lambda &lt;- forecast::BoxCox.lambda(Exportaciones_ts, method =\"loglik\",\n                                   lower = -2, upper = 3))\n\n[1] 0.2"
+    "objectID": "index.html#introducción",
+    "href": "index.html#introducción",
+    "title": "Modelos estructurales de series de tiempo",
+    "section": "Introducción",
+    "text": "Introducción\nEn los modelos estructurales de series de tiempo se tienen las siguientes consideraciones:\n\nLos datos provienen de algún proceso no observable llamado Espacio - Estado.\nLos datos que observamos también son generados por este proceso de Espacio - Estado, pero vienen dados con un ruido añadido.\n\nEl interés recae en modelar el Espacio - Estado no observable en lugar de modelar los datos observables directamente.\nEstos modelos suelen considerar la clásica descomposición en la cuál una serie de tiempoes vista como la suma de las componentes de tendencia, estacionalidad y error."
   },
   {
-    "objectID": "index.html#section-1",
-    "href": "index.html#section-1",
-    "title": "Análisis de series de tiempo: Análisis descriptivo y modelamiento",
-    "section": "",
-    "text": "lambda_loglik &lt;- MASS::boxcox(lm(Exportaciones_ts ~ 1),\n                              seq(-2, 3, length = 100))\n\n\n\nmaximo &lt;- which.max(lambda_loglik$y)\n(lambda_loglik &lt;- lambda_loglik$x[maximo])\n\n[1] 0.6262626"
+    "objectID": "index.html#modelo-de-nivel-local",
+    "href": "index.html#modelo-de-nivel-local",
+    "title": "Modelos estructurales de series de tiempo",
+    "section": "Modelo de nivel local",
+    "text": "Modelo de nivel local\n\n\\(y_t:\\) datos observables\n\\(\\mu_t:\\) estados no observables\n\n\\[\\begin{aligned}\ny_t & =\\mu_t+\\varepsilon_t & & \\varepsilon_t \\sim N\\left(0, \\sigma_{\\varepsilon}^2\\right) \\\\\n\\mu_{t+1} & =\\mu_t+\\xi_t & & \\xi_t \\sim N\\left(0, \\sigma_{\\xi}^2\\right)\n\\end{aligned}\\]\n\\(\\mu_t\\) es el nivel de la serie en el tiempo \\(t\\).\n\nLos parámetros del modelo son \\(\\sigma^2_\\varepsilon\\) y \\(\\sigma^2_\\xi\\)."
   },
   {
-    "objectID": "index.html#section-3",
-    "href": "index.html#section-3",
-    "title": "Análisis de series de tiempo: Análisis descriptivo y modelamiento",
-    "section": "",
-    "text": "lambda_loglik &lt;- MASS::boxcox(lm(serie_estabilizada062 ~ 1),\n                              seq(-2, 3, length = 100))  \n\n\n\nmaximo &lt;- which.max(lambda_loglik$y)\n(lambda_loglik &lt;- lambda_loglik$x[maximo])\n\n[1] 1.030303\n\n\n\nserie &lt;- serie_estabilizada062"
-  },
-  {
-    "objectID": "index.html#section-4",
-    "href": "index.html#section-4",
-    "title": "Análisis de series de tiempo: Análisis descriptivo y modelamiento",
-    "section": "",
-    "text": "Análisis de tendencia\nPrimera diferenciación de la serie"
-  },
-  {
-    "objectID": "index.html#serie-de-tiempo-bitcoin",
-    "href": "index.html#serie-de-tiempo-bitcoin",
-    "title": "Análisis de series de tiempo: Análisis descriptivo y modelamiento",
-    "section": "Serie de tiempo:  Bitcoin",
-    "text": "Serie de tiempo:  Bitcoin\n\n\n\nUniversidad Nacional de Colombia"
+    "objectID": "index.html#modelo-de-tendencia-lineal-local",
+    "href": "index.html#modelo-de-tendencia-lineal-local",
+    "title": "Modelos estructurales de series de tiempo",
+    "section": "Modelo de tendencia lineal local",
+    "text": "Modelo de tendencia lineal local\n\n\\(y_t:\\) datos observables\n\\(\\mu_t, v_t:\\) estados no observables\n\n\\[\\begin{aligned}\ny_t & =\\mu_t+\\varepsilon_t & & \\varepsilon_t \\sim N\\left(0, \\sigma_{\\varepsilon}^2\\right) \\\\\n\\mu_{t+1} & =\\mu_t+\\nu_t+\\xi_t & & \\xi_t \\sim N\\left(0, \\sigma_{\\xi}^2\\right) \\\\\n\\nu_{t+1} & =\\nu_t+\\zeta_t & & \\zeta_t \\sim N\\left(0, \\sigma_\\zeta^2\\right)\n\\end{aligned}\\]\n\\(\\mu_t\\) es el nivel de la serie en el tiempo \\(t\\).\n\\(v_t\\) es la pendiente de la serie en el tiempo \\(t\\).\n\nLos parámetros del modelo son \\(\\sigma^2_\\varepsilon\\), \\(\\sigma^2_\\xi\\) y \\(\\sigma^2_\\zeta\\).\n\n\n\nUniversidad Nacional de Colombia"
   }
 ]
