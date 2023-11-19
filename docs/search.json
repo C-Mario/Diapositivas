@@ -25,6 +25,13 @@
     "href": "index.html#modelo-de-tendencia-lineal-local",
     "title": "Modelos estructurales de series de tiempo",
     "section": "Modelo de tendencia lineal local",
-    "text": "Modelo de tendencia lineal local\n\n\\(y_t:\\) datos observables\n\\(\\mu_t, v_t:\\) estados no observables\n\n\\[\\begin{aligned}\ny_t & =\\mu_t+\\varepsilon_t & & \\varepsilon_t \\sim N\\left(0, \\sigma_{\\varepsilon}^2\\right) \\\\\n\\mu_{t+1} & =\\mu_t+\\nu_t+\\xi_t & & \\xi_t \\sim N\\left(0, \\sigma_{\\xi}^2\\right) \\\\\n\\nu_{t+1} & =\\nu_t+\\zeta_t & & \\zeta_t \\sim N\\left(0, \\sigma_\\zeta^2\\right)\n\\end{aligned}\\]\n\\(\\mu_t\\) es el nivel de la serie en el tiempo \\(t\\).\n\\(v_t\\) es la pendiente de la serie en el tiempo \\(t\\).\n\nLos parámetros del modelo son \\(\\sigma^2_\\varepsilon\\), \\(\\sigma^2_\\xi\\) y \\(\\sigma^2_\\zeta\\).\n\n\n\nUniversidad Nacional de Colombia"
+    "text": "Modelo de tendencia lineal local\n\n\\(y_t:\\) datos observables\n\\(\\mu_t, v_t:\\) estados no observables\n\n\\[\\begin{aligned}\ny_t & =\\mu_t+\\varepsilon_t & & \\varepsilon_t \\sim N\\left(0, \\sigma_{\\varepsilon}^2\\right) \\\\\n\\mu_{t+1} & =\\mu_t+\\nu_t+\\xi_t & & \\xi_t \\sim N\\left(0, \\sigma_{\\xi}^2\\right) \\\\\n\\nu_{t+1} & =\\nu_t+\\zeta_t & & \\zeta_t \\sim N\\left(0, \\sigma_\\zeta^2\\right)\n\\end{aligned}\\]\n\\(\\mu_t\\) es el nivel de la serie en el tiempo \\(t\\).\n\\(v_t\\) es la pendiente de la serie en el tiempo \\(t\\).\n\nLos parámetros del modelo son \\(\\sigma^2_\\varepsilon\\), \\(\\sigma^2_\\xi\\) y \\(\\sigma^2_\\zeta\\)."
+  },
+  {
+    "objectID": "index.html#probando",
+    "href": "index.html#probando",
+    "title": "Modelos estructurales de series de tiempo",
+    "section": "Probando",
+    "text": "Probando\n\n\n\nUniversidad Nacional de Colombia"
   }
 ]

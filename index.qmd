@@ -79,3 +79,4 @@ $v_t$ es la pendiente de la serie en el tiempo $t$.
 
 Los parámetros del modelo son $\sigma^2_\varepsilon$, $\sigma^2_\xi$ y $\sigma^2_\zeta$.
 
+## Probando
