@@ -20,17 +20,19 @@ editor_options:
 
 ## Contenido
 
-1.  Introducción
+<br/>
 
-2.  Modelos de Espacio - Estado
+::: {.incremental}
+1. Modelos de Espacio - Estado
+2. Filtro de Kalman
+3. Modelos Estructurales de Series de tiempo
+4. Predicción de las componentes del modelo
+5. Estimación de los parámetros del modelo
+6. Diagnóstico
+7. Ejemplo Aplicado en R
+8. Conclusiones
+:::
 
-3.  Filtro de Kalman
-
-4.  Predicción
-
-5.  Estimación
-
-6.  Diagnóstico
 
 ## Introducción
 
@@ -44,10 +46,11 @@ El interés recae en modelar el Espacio - Estado no observable en lugar de model
 
 Estos modelos suelen considerar la clásica descomposición en la cuál una serie de tiempoes vista como la suma de las componentes de tendencia, estacionalidad y error.
 
+
 ## Modelo de nivel local
 
 - $y_t:$ datos observables
-- $\mu_t:$ estados no observables
+- $\mu_t:$ estado no observable
 
 \begin{aligned}
 y_t & =\mu_t+\varepsilon_t & & \varepsilon_t \sim N\left(0, \sigma_{\varepsilon}^2\right) \\
@@ -56,14 +59,13 @@ y_t & =\mu_t+\varepsilon_t & & \varepsilon_t \sim N\left(0, \sigma_{\varepsilon}
 
 $\mu_t$ es el nivel de la serie en el tiempo $t$. 
 
-<br>
-
 Los parámetros del modelo son $\sigma^2_\varepsilon$ y $\sigma^2_\xi$.
 
-## Modelo de tendencia lineal local
+
+## Modelo de tendencia local lineal
 
 - $y_t:$ datos observables
-- $\mu_t, v_t:$ estados no observables
+- $\mu_t, \nu_t:$ estados no observables
 
 \begin{aligned}
 y_t & =\mu_t+\varepsilon_t & & \varepsilon_t \sim N\left(0, \sigma_{\varepsilon}^2\right) \\
@@ -71,12 +73,52 @@ y_t & =\mu_t+\varepsilon_t & & \varepsilon_t \sim N\left(0, \sigma_{\varepsilon}
 \nu_{t+1} & =\nu_t+\zeta_t & & \zeta_t \sim N\left(0, \sigma_\zeta^2\right)
 \end{aligned}
 
-$\mu_t$ es el nivel de la serie en el tiempo $t$. 
-
-$v_t$ es la pendiente de la serie en el tiempo $t$. 
-
-<br>
+$\mu_t$ es el nivel de la serie en el tiempo $t$. <br> 
+$\nu_t$ es la pendiente de la serie en el tiempo $t$. 
 
 Los parámetros del modelo son $\sigma^2_\varepsilon$, $\sigma^2_\xi$ y $\sigma^2_\zeta$.
 
-## Probando
+
+## Modelo de tendencia local con estacionalidad
+
+- $y_t:$ datos observables
+- $\mu_t, \nu_t, \gamma_t:$ estados no observables
+
+\begin{aligned}
+y_t & =\mu_t+\gamma_t+\varepsilon_t & & \varepsilon_t \sim N\left(0, \sigma_{\varepsilon}^2\right) \\
+\mu_{t+1} & =\mu_t+\nu_t+\xi_t & & \xi_t \sim N\left(0, \sigma_{\xi}^2\right) \\
+\nu_{t+1} & =\nu_t+\zeta_t & & \zeta_t \sim N\left(0, \sigma_\zeta^2\right) \\
+\gamma_t & = -\sum_{s=1}^{S-1} \tau_{t-s} + \omega_t & & \omega_t \sim N\left(0, \sigma_\omega^2\right)
+\end{aligned}
+
+$\mu_t$ es el nivel de la serie en el tiempo $t$. <br>
+$\nu_t$ es la pendiente de la serie en el tiempo $t$. <br> 
+$\gamma_t$ es la componente estacional en el tiempo $t$.
+
+Los parámetros del modelo son $\sigma^2_\varepsilon$, $\sigma^2_\xi$ y $\sigma^2_\zeta$.
+
+
+## Modelo de tendencia local con estacionalidad y regresión
+
+- $y_t:$ datos observables
+- $\mu_t, \nu_t, \gamma_t, \beta_t^Tx_t:$ estados no observables
+
+\begin{aligned}
+y_t & =\mu_t+\gamma_t+\beta_t^Tx_t+\varepsilon_t & & \varepsilon_t \sim N\left(0, \sigma_{\varepsilon}^2\right)
+\end{aligned}
+
+## Forma general de un modelo de Espacio - Estado lineal gaussiano
+
+- $y_t:$ datos observables
+- $\alpha_t:$ variable de estado
+
+\begin{aligned}
+y_t & =Z_t\alpha_t+\varepsilon_t & & \varepsilon_t \sim N\left(0, H_t\right) \hspace{1cm} \textrm{Ecuación de observación}\\
+\alpha_{t+1} & = T_t\alpha_t+R_t\eta_t & & \eta_t \sim N\left(0,Q_t\right) \hspace{1cm} \textrm{Ecuación de estados}\\
+\end{aligned}
+
+$\mu_t$ es el nivel de la serie en el tiempo $t$. <br>
+$\nu_t$ es la pendiente de la serie en el tiempo $t$. <br> 
+$\gamma_t$ es la componente estacional en el tiempo $t$.
+
+Los parámetros del modelo son $H_t$ y $Q_t$.
