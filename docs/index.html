@@ -340,18 +340,23 @@ Kevin - José - Mario
     </div>
 </div>
 
-  <p class="date">miércoles, 15 de noviembre, 2023</p>
+  <p class="date">lunes, 20 de noviembre, 2023</p>
 </section>
 <section id="contenido" class="slide level2">
 <h2>Contenido</h2>
+<p><br></p>
+<div>
 <ol type="1">
-<li><p>Introducción</p></li>
-<li><p>Modelos de Espacio - Estado</p></li>
-<li><p>Filtro de Kalman</p></li>
-<li><p>Predicción</p></li>
-<li><p>Estimación</p></li>
-<li><p>Diagnóstico</p></li>
+<li class="fragment">Modelos de Espacio - Estado</li>
+<li class="fragment">Filtro de Kalman</li>
+<li class="fragment">Modelos Estructurales de Series de tiempo</li>
+<li class="fragment">Predicción de las componentes del modelo</li>
+<li class="fragment">Estimación de los parámetros del modelo</li>
+<li class="fragment">Diagnóstico</li>
+<li class="fragment">Ejemplo Aplicado en R</li>
+<li class="fragment">Conclusiones</li>
 </ol>
+</div>
 </section>
 <section id="introducción" class="slide level2">
 <h2>Introducción</h2>
@@ -367,31 +372,66 @@ Kevin - José - Mario
 <h2>Modelo de nivel local</h2>
 <ul>
 <li><span class="math inline">\(y_t:\)</span> datos observables</li>
-<li><span class="math inline">\(\mu_t:\)</span> estados no observables</li>
+<li><span class="math inline">\(\mu_t:\)</span> estado no observable</li>
 </ul>
 <span class="math display">\[\begin{aligned}
 y_t &amp; =\mu_t+\varepsilon_t &amp; &amp; \varepsilon_t \sim N\left(0, \sigma_{\varepsilon}^2\right) \\
 \mu_{t+1} &amp; =\mu_t+\xi_t &amp; &amp; \xi_t \sim N\left(0, \sigma_{\xi}^2\right)
 \end{aligned}\]</span>
 <p><span class="math inline">\(\mu_t\)</span> es el nivel de la serie en el tiempo <span class="math inline">\(t\)</span>.</p>
-<p><br></p>
 <p>Los parámetros del modelo son <span class="math inline">\(\sigma^2_\varepsilon\)</span> y <span class="math inline">\(\sigma^2_\xi\)</span>.</p>
 </section>
-<section id="modelo-de-tendencia-lineal-local" class="slide level2">
-<h2>Modelo de tendencia lineal local</h2>
+<section id="modelo-de-tendencia-local-lineal" class="slide level2">
+<h2>Modelo de tendencia local lineal</h2>
 <ul>
 <li><span class="math inline">\(y_t:\)</span> datos observables</li>
-<li><span class="math inline">\(\mu_t, v_t:\)</span> estados no observables</li>
+<li><span class="math inline">\(\mu_t, \nu_t:\)</span> estados no observables</li>
 </ul>
 <span class="math display">\[\begin{aligned}
 y_t &amp; =\mu_t+\varepsilon_t &amp; &amp; \varepsilon_t \sim N\left(0, \sigma_{\varepsilon}^2\right) \\
 \mu_{t+1} &amp; =\mu_t+\nu_t+\xi_t &amp; &amp; \xi_t \sim N\left(0, \sigma_{\xi}^2\right) \\
 \nu_{t+1} &amp; =\nu_t+\zeta_t &amp; &amp; \zeta_t \sim N\left(0, \sigma_\zeta^2\right)
 \end{aligned}\]</span>
-<p><span class="math inline">\(\mu_t\)</span> es el nivel de la serie en el tiempo <span class="math inline">\(t\)</span>.</p>
-<p><span class="math inline">\(v_t\)</span> es la pendiente de la serie en el tiempo <span class="math inline">\(t\)</span>.</p>
-<p><br></p>
+<p><span class="math inline">\(\mu_t\)</span> es el nivel de la serie en el tiempo <span class="math inline">\(t\)</span>. <br> <span class="math inline">\(\nu_t\)</span> es la pendiente de la serie en el tiempo <span class="math inline">\(t\)</span>.</p>
 <p>Los parámetros del modelo son <span class="math inline">\(\sigma^2_\varepsilon\)</span>, <span class="math inline">\(\sigma^2_\xi\)</span> y <span class="math inline">\(\sigma^2_\zeta\)</span>.</p>
+</section>
+<section id="modelo-de-tendencia-local-con-estacionalidad" class="slide level2">
+<h2>Modelo de tendencia local con estacionalidad</h2>
+<ul>
+<li><span class="math inline">\(y_t:\)</span> datos observables</li>
+<li><span class="math inline">\(\mu_t, \nu_t, \gamma_t:\)</span> estados no observables</li>
+</ul>
+<span class="math display">\[\begin{aligned}
+y_t &amp; =\mu_t+\gamma_t+\varepsilon_t &amp; &amp; \varepsilon_t \sim N\left(0, \sigma_{\varepsilon}^2\right) \\
+\mu_{t+1} &amp; =\mu_t+\nu_t+\xi_t &amp; &amp; \xi_t \sim N\left(0, \sigma_{\xi}^2\right) \\
+\nu_{t+1} &amp; =\nu_t+\zeta_t &amp; &amp; \zeta_t \sim N\left(0, \sigma_\zeta^2\right) \\
+\gamma_t &amp; = -\sum_{s=1}^{S-1} \tau_{t-s} + \omega_t &amp; &amp; \omega_t \sim N\left(0, \sigma_\omega^2\right)
+\end{aligned}\]</span>
+<p><span class="math inline">\(\mu_t\)</span> es el nivel de la serie en el tiempo <span class="math inline">\(t\)</span>. <br> <span class="math inline">\(\nu_t\)</span> es la pendiente de la serie en el tiempo <span class="math inline">\(t\)</span>. <br> <span class="math inline">\(\gamma_t\)</span> es la componente estacional en el tiempo <span class="math inline">\(t\)</span>.</p>
+<p>Los parámetros del modelo son <span class="math inline">\(\sigma^2_\varepsilon\)</span>, <span class="math inline">\(\sigma^2_\xi\)</span> y <span class="math inline">\(\sigma^2_\zeta\)</span>.</p>
+</section>
+<section id="modelo-de-tendencia-local-con-estacionalidad-y-regresión" class="slide level2">
+<h2>Modelo de tendencia local con estacionalidad y regresión</h2>
+<ul>
+<li><span class="math inline">\(y_t:\)</span> datos observables</li>
+<li><span class="math inline">\(\mu_t, \nu_t, \gamma_t, \beta_t^Tx_t:\)</span> estados no observables</li>
+</ul>
+<span class="math display">\[\begin{aligned}
+y_t &amp; =\mu_t+\gamma_t+\beta_t^Tx_t+\varepsilon_t &amp; &amp; \varepsilon_t \sim N\left(0, \sigma_{\varepsilon}^2\right)
+\end{aligned}\]</span>
+</section>
+<section id="forma-general-de-un-modelo-de-espacio---estado-lineal-gaussiano" class="slide level2">
+<h2>Forma general de un modelo de Espacio - Estado lineal gaussiano</h2>
+<ul>
+<li><span class="math inline">\(y_t:\)</span> datos observables</li>
+<li><span class="math inline">\(\alpha_t:\)</span> variable de estado</li>
+</ul>
+<span class="math display">\[\begin{aligned}
+y_t &amp; =Z_t\alpha_t+\varepsilon_t &amp; &amp; \varepsilon_t \sim N\left(0, H_t\right) \hspace{1cm} \textrm{Ecuación de observación}\\
+\alpha_{t+1} &amp; = T_t\alpha_t+R_t\eta_t &amp; &amp; \eta_t \sim N\left(0,Q_t\right) \hspace{1cm} \textrm{Ecuación de estados}\\
+\end{aligned}\]</span>
+<p><span class="math inline">\(\mu_t\)</span> es el nivel de la serie en el tiempo <span class="math inline">\(t\)</span>. <br> <span class="math inline">\(\nu_t\)</span> es la pendiente de la serie en el tiempo <span class="math inline">\(t\)</span>. <br> <span class="math inline">\(\gamma_t\)</span> es la componente estacional en el tiempo <span class="math inline">\(t\)</span>.</p>
+<p>Los parámetros del modelo son <span class="math inline">\(H_t\)</span> y <span class="math inline">\(Q_t\)</span>.</p>
 
 
 <img src="_extensions/coeos/logo2.png" class="slide-logo r-stretch"><div class="footer footer-default">
