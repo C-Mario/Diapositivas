@@ -11,7 +11,21 @@
     "href": "index.html#introducción",
     "title": "Modelos estructurales de series de tiempo",
     "section": "Introducción",
-    "text": "Introducción\nEn los modelos estructurales de series de tiempo se tienen las siguientes consideraciones:\n\nLos datos provienen de algún proceso no observable llamado Espacio - Estado.\nLos datos que observamos también son generados por este proceso de Espacio - Estado, pero vienen dados con un ruido añadido.\n\nEl interés recae en modelar el Espacio - Estado no observable en lugar de modelar los datos observables directamente.\nEstos modelos suelen considerar la clásica descomposición en la cuál una serie de tiempoes vista como la suma de las componentes de tendencia, estacionalidad y error."
+    "text": "Introducción\nEn los modelos estructurales de series de tiempo se tienen las siguientes consideraciones:\n\nLos datos provienen de algún proceso no observable llamado Espacio - Estado.\nLos datos que observamos también son generados por este proceso de Espacio - Estado, pero vienen dados con un ruido añadido.\n\nEl interés recae en modelar el Espacio - Estado no observable en lugar de modelar los datos observables directamente.\nEstos modelos suelen considerar la clásica descomposición en la cuál una serie de tiempo es vista como la suma de las componentes de tendencia, estacionalidad y error."
+  },
+  {
+    "objectID": "index.html#modelos-de-espacio---estado",
+    "href": "index.html#modelos-de-espacio---estado",
+    "title": "Modelos estructurales de series de tiempo",
+    "section": "Modelos de Espacio - Estado",
+    "text": "Modelos de Espacio - Estado\nLos modelos de Espacio - Estado modelan la estructura temporal de los datos por medio de estados no observables (latentes) que cambian en el tiempo.\nLos estados no observables se representan como vectores \\(\\alpha_1, \\cdots, \\alpha_n\\) y están asociados a las observaciones \\(y_1, \\cdots, y_n\\). La relación o dependendencia probabilística entre los estados y las observaciones es especificada por el modelo de Espacio - Estado.\nEl objetivo es inferir propiedades de los estados \\(\\alpha_t\\) a partir de las observaciones \\(y_1, \\cdots, y_n\\).\nLos estados no observables del modelo se modelan mediante un modelo estocástico, su dinámica sigue un proceso de Markov de primer orden.\nNos enfocaremos en los modelos de Espacio - Estado lineales y gaussianos."
+  },
+  {
+    "objectID": "index.html#filtro-de-kalman",
+    "href": "index.html#filtro-de-kalman",
+    "title": "Modelos estructurales de series de tiempo",
+    "section": "Filtro de Kalman",
+    "text": "Filtro de Kalman\n\nEl filtro de Kalman calcula la media y la varianza del estado no observado, dado las observaciones.\nEl estado es gaussiano, su distribución está caracterizada por la media y la varianza.\nEl filtro de Kalman es un algoritmo recursivo; la mejor estimación actual se actualiza cada vez que se obtiene una nueva observación.\nPara iniciar la recursión, se requieren \\(a_1\\) y \\(P_1\\), lo cuáles se asumen conocidos.\nExisten varias maneras de inicializar el algoritmo cuando \\(a_1\\) y \\(P_1\\) son desconocidos."
   },
   {
     "objectID": "index.html#modelo-de-nivel-local",
@@ -32,7 +46,7 @@
     "href": "index.html#modelo-de-tendencia-local-con-estacionalidad",
     "title": "Modelos estructurales de series de tiempo",
     "section": "Modelo de tendencia local con estacionalidad",
-    "text": "Modelo de tendencia local con estacionalidad\n\n\\(y_t:\\) datos observables\n\\(\\mu_t, \\nu_t, \\gamma_t:\\) estados no observables\n\n\\[\\begin{aligned}\ny_t & =\\mu_t+\\gamma_t+\\varepsilon_t & & \\varepsilon_t \\sim N\\left(0, \\sigma_{\\varepsilon}^2\\right) \\\\\n\\mu_{t+1} & =\\mu_t+\\nu_t+\\xi_t & & \\xi_t \\sim N\\left(0, \\sigma_{\\xi}^2\\right) \\\\\n\\nu_{t+1} & =\\nu_t+\\zeta_t & & \\zeta_t \\sim N\\left(0, \\sigma_\\zeta^2\\right) \\\\\n\\gamma_t & = -\\sum_{s=1}^{S-1} \\tau_{t-s} + \\omega_t & & \\omega_t \\sim N\\left(0, \\sigma_\\omega^2\\right)\n\\end{aligned}\\]\n\\(\\mu_t\\) es el nivel de la serie en el tiempo \\(t\\).  \\(\\nu_t\\) es la pendiente de la serie en el tiempo \\(t\\).  \\(\\gamma_t\\) es la componente estacional en el tiempo \\(t\\).\nLos parámetros del modelo son \\(\\sigma^2_\\varepsilon\\), \\(\\sigma^2_\\xi\\) y \\(\\sigma^2_\\zeta\\)."
+    "text": "Modelo de tendencia local con estacionalidad\n\n\\(y_t:\\) datos observables\n\\(\\mu_t, \\nu_t, \\gamma_t:\\) estados no observables\n\n\\[\\begin{aligned}\ny_t & =\\mu_t+\\gamma_t+\\varepsilon_t & & \\varepsilon_t \\sim N\\left(0, \\sigma_{\\varepsilon}^2\\right) \\\\\n\\mu_{t+1} & =\\mu_t+\\nu_t+\\xi_t & & \\xi_t \\sim N\\left(0, \\sigma_{\\xi}^2\\right) \\\\\n\\nu_{t+1} & =\\nu_t+\\zeta_t & & \\zeta_t \\sim N\\left(0, \\sigma_\\zeta^2\\right) \\\\\n\\gamma_t & = -\\sum_{s=1}^{S-1} \\tau_{t-s} + \\omega_t & & \\omega_t \\sim N\\left(0, \\sigma_\\omega^2\\right)\n\\end{aligned}\\]\n\\(\\mu_t\\) es el nivel de la serie en el tiempo \\(t\\), \\(\\nu_t\\) es la pendiente de la serie en el tiempo \\(t\\) y \\(\\gamma_t\\) es la componente estacional en el tiempo \\(t\\).\nLos parámetros del modelo son \\(\\sigma^2_\\varepsilon\\), \\(\\sigma^2_\\xi\\) y \\(\\sigma^2_\\zeta\\)."
   },
   {
     "objectID": "index.html#modelo-de-tendencia-local-con-estacionalidad-y-regresión",
@@ -45,7 +59,7 @@
     "objectID": "index.html#forma-general-de-un-modelo-de-espacio---estado-lineal-gaussiano",
     "href": "index.html#forma-general-de-un-modelo-de-espacio---estado-lineal-gaussiano",
     "title": "Modelos estructurales de series de tiempo",
-    "section": "Forma general de un modelo de Espacio - Estado lineal gaussiano",
-    "text": "Forma general de un modelo de Espacio - Estado lineal gaussiano\n\n\\(y_t:\\) datos observables\n\\(\\alpha_t:\\) variable de estado\n\n\\[\\begin{aligned}\ny_t & =Z_t\\alpha_t+\\varepsilon_t & & \\varepsilon_t \\sim N\\left(0, H_t\\right) \\hspace{1cm} \\textrm{Ecuación de observación}\\\\\n\\alpha_{t+1} & = T_t\\alpha_t+R_t\\eta_t & & \\eta_t \\sim N\\left(0,Q_t\\right) \\hspace{1cm} \\textrm{Ecuación de estados}\\\\\n\\end{aligned}\\]\n\\(\\mu_t\\) es el nivel de la serie en el tiempo \\(t\\).  \\(\\nu_t\\) es la pendiente de la serie en el tiempo \\(t\\).  \\(\\gamma_t\\) es la componente estacional en el tiempo \\(t\\).\nLos parámetros del modelo son \\(H_t\\) y \\(Q_t\\).\n\n\n\nUniversidad Nacional de Colombia"
+    "section": "Forma general de un modelo de Espacio - Estado lineal Gaussiano",
+    "text": "Forma general de un modelo de Espacio - Estado lineal Gaussiano\n\n\\(y_t:\\) datos observables\n\\(\\alpha_t:\\) variable de estado\n\n\\[\\begin{aligned}\ny_t & =Z_t\\alpha_t+\\varepsilon_t & & \\varepsilon_t \\sim N\\left(0, H_t\\right) \\hspace{1cm} \\textrm{Ecuación de observación}\\\\\n\\alpha_{t+1} & = T_t\\alpha_t+R_t\\eta_t & & \\eta_t \\sim N\\left(0,Q_t\\right) \\hspace{1cm} \\textrm{Ecuación de estados}\\\\\n\\end{aligned}\\]\n\\(\\mu_t\\) es el nivel de la serie en el tiempo \\(t\\).  \\(\\nu_t\\) es la pendiente de la serie en el tiempo \\(t\\).  \\(\\gamma_t\\) es la componente estacional en el tiempo \\(t\\).\nLos parámetros del modelo son \\(H_t\\) y \\(Q_t\\).\n\n\n\nUniversidad Nacional de Colombia"
   }
 ]
