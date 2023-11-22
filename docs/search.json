@@ -35,6 +35,13 @@
     "text": "Modelo de nivel local\n\n\\(y_t:\\) datos observables\n\\(\\mu_t:\\) estado no observable\n\n\\[\\begin{aligned}\ny_t & =\\mu_t+\\varepsilon_t & & \\varepsilon_t \\sim N\\left(0, \\sigma_{\\varepsilon}^2\\right) \\\\\n\\mu_{t+1} & =\\mu_t+\\xi_t & & \\xi_t \\sim N\\left(0, \\sigma_{\\xi}^2\\right)\n\\end{aligned}\\]\n\\(\\mu_t\\) es el nivel de la serie en el tiempo \\(t\\).\nLos parámetros del modelo son \\(\\sigma^2_\\varepsilon\\) y \\(\\sigma^2_\\xi\\)."
   },
   {
+    "objectID": "index.html#example",
+    "href": "index.html#example",
+    "title": "Modelos estructurales de series de tiempo",
+    "section": "Example",
+    "text": "Example\n\nNilo &lt;- datasets::Nile\n# ajustar modelo \nmodelNilo &lt;- rucm::ucm(formula = Nile~0, data = Nile, level = TRUE)\n#\nplot(Nilo)\nlines(modelNilo$s.level, col = \"cyan\")"
+  },
+  {
     "objectID": "index.html#modelo-de-tendencia-local-lineal",
     "href": "index.html#modelo-de-tendencia-local-lineal",
     "title": "Modelos estructurales de series de tiempo",
