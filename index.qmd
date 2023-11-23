@@ -11,11 +11,11 @@ format: coeos-revealjs
 fig-responsive: true
 fig-height: 5
 fig-width: 5
-echo: false
-output: false
+echo: True
+output: True
 warning: false
 editor_options: 
-  chunk_output_type: console
+  chunk_output_type: inline
 ---
 
 ## Contenido
@@ -33,25 +33,23 @@ editor_options:
 8.  Conclusiones
 :::
 
-
 ## Introducción
 
 En los modelos estructurales de series de tiempo se tienen las siguientes consideraciones:
 
--   Los datos provienen de algún proceso no observable llamado Espacio - Estado.
+-   Las observaciones provienen de un Espacio-Estado no observable, que es dinámico.
 
--   Los datos que observamos también son generados por este proceso de Espacio - Estado, pero vienen dados con un ruido añadido.
+-   Las componentes del modelo (no observables) son generados por este proceso de Espacio - Estado, además vienen acompañadas con un ruido añadido.
 
-El interés recae en modelar el Espacio - Estado no observable en lugar de modelar los datos observables directamente.
+En general, el interés recae en modelar el Espacio-Estado no observable. Además, los modelos suelen considerar la clásica descomposición en la que una serie de tiempo es vista como la suma de las componentes de tendencia, estacionalidad y error.
 
-Estos modelos suelen considerar la clásica descomposición en la cuál una serie de tiempo es vista como la suma de las componentes de tendencia, estacionalidad y error.
-
+No obstante esta metodología para el modelado es flexible y modular, además permite una inspección visual de los componentes subyacentes del modelo.
 
 ## Modelos de Espacio - Estado
 
 Los modelos de Espacio - Estado modelan la estructura temporal de los datos por medio de estados no observables (latentes) que cambian en el tiempo.
 
-Los estados no observables se representan como vectores $\alpha_1, \cdots, \alpha_n$ y están asociados a las observaciones $y_1, \cdots, y_n$. La relación o dependendencia probabilística entre los estados y las observaciones es especificada por el modelo de Espacio - Estado.
+Los estados no observables se representan como vectores $\alpha_1, \cdots, \alpha_n$ y están asociados a las observaciones $y_1, \cdots, y_n$. La relación o dependencia probabilística entre los estados y las observaciones es especificada por el modelo de Espacio - Estado.
 
 El objetivo es inferir propiedades de los estados $\alpha_t$ a partir de las observaciones $y_1, \cdots, y_n$.
 
@@ -59,24 +57,22 @@ Los estados no observables del modelo se modelan mediante un modelo estocástico
 
 Nos enfocaremos en los modelos de Espacio - Estado lineales y gaussianos.
 
-
 ## Filtro de Kalman
 
-- El filtro de Kalman calcula la media y la varianza del estado no observado, dado las observaciones.
+-   El filtro de Kalman calcula la media y la varianza del estado no observado, dado las observaciones.
 
-- El estado es gaussiano, su distribución está caracterizada por la media y la varianza.
+-   El estado es gaussiano, su distribución está caracterizada por la media y la varianza.
 
-- El filtro de Kalman es un algoritmo recursivo; la mejor estimación actual se actualiza cada vez que se  obtiene una nueva observación.
+-   El filtro de Kalman es un algoritmo recursivo; la mejor estimación actual se actualiza cada vez que se obtiene una nueva observación.
 
-- Para iniciar la recursión, se requieren $a_1$ y $P_1$, lo cuáles se asumen conocidos.
+-   Para iniciar la recursión, se requieren $a_1$ y $P_1$, lo cuáles se asumen conocidos.
 
-- Existen varias maneras de inicializar el algoritmo cuando $a_1$ y $P_1$ son desconocidos.
-
+-   Existen varias maneras de inicializar el algoritmo cuando $a_1$ y $P_1$ son desconocidos.
 
 ## Modelo de nivel local
 
 -   $y_t:$ datos observables
--   $\mu_t:$ estado no observable
+-   $\mu_t:$ estado no observable (Componente de tendencia)
 
 ```{=tex}
 \begin{aligned}
@@ -84,9 +80,21 @@ y_t & =\mu_t+\varepsilon_t & & \varepsilon_t \sim N\left(0, \sigma_{\varepsilon}
 \mu_{t+1} & =\mu_t+\xi_t & & \xi_t \sim N\left(0, \sigma_{\xi}^2\right)
 \end{aligned}
 ```
-$\mu_t$ es el nivel de la serie en el tiempo $t$.
+$\mu_t$ es el nivel (Tendencia estocastica) de la serie en el tiempo $t$.
 
 Los parámetros del modelo son $\sigma^2_\varepsilon$ y $\sigma^2_\xi$.
+
+## Example
+
+```{r}
+#| output-location: fragment
+Nilo <- datasets::Nile
+# ajustar modelo 
+modelNilo <- rucm::ucm(formula = Nile~0, data = Nile, level = TRUE)
+#
+plot(Nilo)
+lines(modelNilo$s.level, col = "cyan")
+```
 
 ## Modelo de tendencia local lineal
 
