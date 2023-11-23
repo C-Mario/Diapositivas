@@ -69,6 +69,14 @@ Nos enfocaremos en los modelos de Espacio - Estado lineales y gaussianos.
 
 -   Existen varias maneras de inicializar el algoritmo cuando $a_1$ y $P_1$ son desconocidos.
 
+## Modelos estructurales de series de tiempo
+
+Un modelo estructural es aquel en el que una serie de tiempo es descompuesta en componentes no observables tales como tendencia, estacionalidad, ciclos, términos de error y otras componentes relevantes como efectos de impacto o la inclusión de otras variables explicativas.
+
+Las componentes se modelan explícitamente y pueden ser interpretadas directamente. 
+
+Los modelos estructurales de series de tiempo se llevarán a la forma de un modelo de Espacio - Estado a través del cuál se aplicará el algoritmo del Filtro de Kalman y el suavizador asociado. Además permitirá calcular la función de verosimilitud.
+
 ## Modelo de nivel local
 
 -   $y_t:$ datos observables

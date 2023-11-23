@@ -28,6 +28,13 @@
     "text": "Filtro de Kalman\n\nEl filtro de Kalman calcula la media y la varianza del estado no observado, dado las observaciones.\nEl estado es gaussiano, su distribución está caracterizada por la media y la varianza.\nEl filtro de Kalman es un algoritmo recursivo; la mejor estimación actual se actualiza cada vez que se obtiene una nueva observación.\nPara iniciar la recursión, se requieren \\(a_1\\) y \\(P_1\\), lo cuáles se asumen conocidos.\nExisten varias maneras de inicializar el algoritmo cuando \\(a_1\\) y \\(P_1\\) son desconocidos."
   },
   {
+    "objectID": "index.html#modelos-estructurales-de-series-de-tiempo",
+    "href": "index.html#modelos-estructurales-de-series-de-tiempo",
+    "title": "Modelos estructurales de series de tiempo",
+    "section": "Modelos estructurales de series de tiempo",
+    "text": "Modelos estructurales de series de tiempo\nUn modelo estructural es aquel en el que una serie de tiempo es descompuesta en componentes no observables tales como tendencia, estacionalidad, ciclos, términos de error y otras componentes relevantes como efectos de impacto o la inclusión de otras variables explicativas.\nLas componentes se modelan explícitamente y pueden ser interpretadas directamente.\nLos modelos estructurales de series de tiempo se llevarán a la forma de un modelo de Espacio - Estado a través del cuál se aplicará el algoritmo del Filtro de Kalman y el suavizador asociado. Además permitirá calcular la función de verosimilitud."
+  },
+  {
     "objectID": "index.html#modelo-de-nivel-local",
     "href": "index.html#modelo-de-nivel-local",
     "title": "Modelos estructurales de series de tiempo",

@@ -8,7 +8,7 @@
 <link href="site_libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.450">
+  <meta name="generator" content="quarto-1.3.353">
 
   <meta name="author" content="Kevin Rubiano - José Valdés - Mario Castañeda">
   <title>Modelos estructurales de series de tiempo</title>
@@ -450,6 +450,12 @@ Kevin Rubiano - José Valdés - Mario Castañeda
 <li><p>Para iniciar la recursión, se requieren <span class="math inline">\(a_1\)</span> y <span class="math inline">\(P_1\)</span>, lo cuáles se asumen conocidos.</p></li>
 <li><p>Existen varias maneras de inicializar el algoritmo cuando <span class="math inline">\(a_1\)</span> y <span class="math inline">\(P_1\)</span> son desconocidos.</p></li>
 </ul>
+</section>
+<section id="modelos-estructurales-de-series-de-tiempo" class="slide level2">
+<h2>Modelos estructurales de series de tiempo</h2>
+<p>Un modelo estructural es aquel en el que una serie de tiempo es descompuesta en componentes no observables tales como tendencia, estacionalidad, ciclos, términos de error y otras componentes relevantes como efectos de impacto o la inclusión de otras variables explicativas.</p>
+<p>Las componentes se modelan explícitamente y pueden ser interpretadas directamente.</p>
+<p>Los modelos estructurales de series de tiempo se llevarán a la forma de un modelo de Espacio - Estado a través del cuál se aplicará el algoritmo del Filtro de Kalman y el suavizador asociado. Además permitirá calcular la función de verosimilitud.</p>
 </section>
 <section id="modelo-de-nivel-local" class="slide level2">
 <h2>Modelo de nivel local</h2>
