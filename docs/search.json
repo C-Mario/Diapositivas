@@ -11,14 +11,14 @@
     "href": "index.html#introducción",
     "title": "Modelos estructurales de series de tiempo",
     "section": "Introducción",
-    "text": "Introducción\nEn los modelos estructurales de series de tiempo se tienen las siguientes consideraciones:\n\nLos datos provienen de algún proceso no observable llamado Espacio - Estado.\nLos datos que observamos también son generados por este proceso de Espacio - Estado, pero vienen dados con un ruido añadido.\n\nEl interés recae en modelar el Espacio - Estado no observable en lugar de modelar los datos observables directamente.\nEstos modelos suelen considerar la clásica descomposición en la cuál una serie de tiempo es vista como la suma de las componentes de tendencia, estacionalidad y error."
+    "text": "Introducción\nEn los modelos estructurales de series de tiempo se tienen las siguientes consideraciones:\n\nLas observaciones provienen de un Espacio-Estado no observable, que es dinámico.\nLas componentes del modelo (no observables) son generados por este proceso de Espacio - Estado, además vienen acompañadas con un ruido añadido.\n\nEn general, el interés recae en modelar el Espacio-Estado no observable. Además, los modelos suelen considerar la clásica descomposición en la que una serie de tiempo es vista como la suma de las componentes de tendencia, estacionalidad y error.\nNo obstante esta metodología para el modelado es flexible y modular, además permite una inspección visual de los componentes subyacentes del modelo."
   },
   {
     "objectID": "index.html#modelos-de-espacio---estado",
     "href": "index.html#modelos-de-espacio---estado",
     "title": "Modelos estructurales de series de tiempo",
     "section": "Modelos de Espacio - Estado",
-    "text": "Modelos de Espacio - Estado\nLos modelos de Espacio - Estado modelan la estructura temporal de los datos por medio de estados no observables (latentes) que cambian en el tiempo.\nLos estados no observables se representan como vectores \\(\\alpha_1, \\cdots, \\alpha_n\\) y están asociados a las observaciones \\(y_1, \\cdots, y_n\\). La relación o dependendencia probabilística entre los estados y las observaciones es especificada por el modelo de Espacio - Estado.\nEl objetivo es inferir propiedades de los estados \\(\\alpha_t\\) a partir de las observaciones \\(y_1, \\cdots, y_n\\).\nLos estados no observables del modelo se modelan mediante un modelo estocástico, su dinámica sigue un proceso de Markov de primer orden.\nNos enfocaremos en los modelos de Espacio - Estado lineales y gaussianos."
+    "text": "Modelos de Espacio - Estado\nLos modelos de Espacio - Estado modelan la estructura temporal de los datos por medio de estados no observables (latentes) que cambian en el tiempo.\nLos estados no observables se representan como vectores \\(\\alpha_1, \\cdots, \\alpha_n\\) y están asociados a las observaciones \\(y_1, \\cdots, y_n\\). La relación o dependencia probabilística entre los estados y las observaciones es especificada por el modelo de Espacio - Estado.\nEl objetivo es inferir propiedades de los estados \\(\\alpha_t\\) a partir de las observaciones \\(y_1, \\cdots, y_n\\).\nLos estados no observables del modelo se modelan mediante un modelo estocástico, su dinámica sigue un proceso de Markov de primer orden.\nNos enfocaremos en los modelos de Espacio - Estado lineales y gaussianos."
   },
   {
     "objectID": "index.html#filtro-de-kalman",
@@ -32,7 +32,7 @@
     "href": "index.html#modelo-de-nivel-local",
     "title": "Modelos estructurales de series de tiempo",
     "section": "Modelo de nivel local",
-    "text": "Modelo de nivel local\n\n\\(y_t:\\) datos observables\n\\(\\mu_t:\\) estado no observable\n\n\\[\\begin{aligned}\ny_t & =\\mu_t+\\varepsilon_t & & \\varepsilon_t \\sim N\\left(0, \\sigma_{\\varepsilon}^2\\right) \\\\\n\\mu_{t+1} & =\\mu_t+\\xi_t & & \\xi_t \\sim N\\left(0, \\sigma_{\\xi}^2\\right)\n\\end{aligned}\\]\n\\(\\mu_t\\) es el nivel de la serie en el tiempo \\(t\\).\nLos parámetros del modelo son \\(\\sigma^2_\\varepsilon\\) y \\(\\sigma^2_\\xi\\)."
+    "text": "Modelo de nivel local\n\n\\(y_t:\\) datos observables\n\\(\\mu_t:\\) estado no observable (Componente de tendencia)\n\n\\[\\begin{aligned}\ny_t & =\\mu_t+\\varepsilon_t & & \\varepsilon_t \\sim N\\left(0, \\sigma_{\\varepsilon}^2\\right) \\\\\n\\mu_{t+1} & =\\mu_t+\\xi_t & & \\xi_t \\sim N\\left(0, \\sigma_{\\xi}^2\\right)\n\\end{aligned}\\]\n\\(\\mu_t\\) es el nivel (Tendencia estocastica) de la serie en el tiempo \\(t\\).\nLos parámetros del modelo son \\(\\sigma^2_\\varepsilon\\) y \\(\\sigma^2_\\xi\\)."
   },
   {
     "objectID": "index.html#example",

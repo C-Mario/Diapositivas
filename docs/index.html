@@ -405,7 +405,7 @@ Kevin Rubiano - José Valdés - Mario Castañeda
     </div>
 </div>
 
-  <p class="date">miércoles, 22 de noviembre, 2023</p>
+  <p class="date">jueves, 23 de noviembre, 2023</p>
 </section>
 <section id="contenido" class="slide level2">
 <h2>Contenido</h2>
@@ -427,16 +427,16 @@ Kevin Rubiano - José Valdés - Mario Castañeda
 <h2>Introducción</h2>
 <p>En los modelos estructurales de series de tiempo se tienen las siguientes consideraciones:</p>
 <ul>
-<li><p>Los datos provienen de algún proceso no observable llamado Espacio - Estado.</p></li>
-<li><p>Los datos que observamos también son generados por este proceso de Espacio - Estado, pero vienen dados con un ruido añadido.</p></li>
+<li><p>Las observaciones provienen de un Espacio-Estado no observable, que es dinámico.</p></li>
+<li><p>Las componentes del modelo (no observables) son generados por este proceso de Espacio - Estado, además vienen acompañadas con un ruido añadido.</p></li>
 </ul>
-<p>El interés recae en modelar el Espacio - Estado no observable en lugar de modelar los datos observables directamente.</p>
-<p>Estos modelos suelen considerar la clásica descomposición en la cuál una serie de tiempo es vista como la suma de las componentes de tendencia, estacionalidad y error.</p>
+<p>En general, el interés recae en modelar el Espacio-Estado no observable. Además, los modelos suelen considerar la clásica descomposición en la que una serie de tiempo es vista como la suma de las componentes de tendencia, estacionalidad y error.</p>
+<p>No obstante esta metodología para el modelado es flexible y modular, además permite una inspección visual de los componentes subyacentes del modelo.</p>
 </section>
 <section id="modelos-de-espacio---estado" class="slide level2">
 <h2>Modelos de Espacio - Estado</h2>
 <p>Los modelos de Espacio - Estado modelan la estructura temporal de los datos por medio de estados no observables (latentes) que cambian en el tiempo.</p>
-<p>Los estados no observables se representan como vectores <span class="math inline">\(\alpha_1, \cdots, \alpha_n\)</span> y están asociados a las observaciones <span class="math inline">\(y_1, \cdots, y_n\)</span>. La relación o dependendencia probabilística entre los estados y las observaciones es especificada por el modelo de Espacio - Estado.</p>
+<p>Los estados no observables se representan como vectores <span class="math inline">\(\alpha_1, \cdots, \alpha_n\)</span> y están asociados a las observaciones <span class="math inline">\(y_1, \cdots, y_n\)</span>. La relación o dependencia probabilística entre los estados y las observaciones es especificada por el modelo de Espacio - Estado.</p>
 <p>El objetivo es inferir propiedades de los estados <span class="math inline">\(\alpha_t\)</span> a partir de las observaciones <span class="math inline">\(y_1, \cdots, y_n\)</span>.</p>
 <p>Los estados no observables del modelo se modelan mediante un modelo estocástico, su dinámica sigue un proceso de Markov de primer orden.</p>
 <p>Nos enfocaremos en los modelos de Espacio - Estado lineales y gaussianos.</p>
@@ -455,13 +455,13 @@ Kevin Rubiano - José Valdés - Mario Castañeda
 <h2>Modelo de nivel local</h2>
 <ul>
 <li><span class="math inline">\(y_t:\)</span> datos observables</li>
-<li><span class="math inline">\(\mu_t:\)</span> estado no observable</li>
+<li><span class="math inline">\(\mu_t:\)</span> estado no observable (Componente de tendencia)</li>
 </ul>
 <span class="math display">\[\begin{aligned}
 y_t &amp; =\mu_t+\varepsilon_t &amp; &amp; \varepsilon_t \sim N\left(0, \sigma_{\varepsilon}^2\right) \\
 \mu_{t+1} &amp; =\mu_t+\xi_t &amp; &amp; \xi_t \sim N\left(0, \sigma_{\xi}^2\right)
 \end{aligned}\]</span>
-<p><span class="math inline">\(\mu_t\)</span> es el nivel de la serie en el tiempo <span class="math inline">\(t\)</span>.</p>
+<p><span class="math inline">\(\mu_t\)</span> es el nivel (Tendencia estocastica) de la serie en el tiempo <span class="math inline">\(t\)</span>.</p>
 <p>Los parámetros del modelo son <span class="math inline">\(\sigma^2_\varepsilon\)</span> y <span class="math inline">\(\sigma^2_\xi\)</span>.</p>
 </section>
 <section id="example" class="slide level2">

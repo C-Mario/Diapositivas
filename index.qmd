@@ -37,19 +37,19 @@ editor_options:
 
 En los modelos estructurales de series de tiempo se tienen las siguientes consideraciones:
 
--   Los datos provienen de algún proceso no observable llamado Espacio - Estado.
+-   Las observaciones provienen de un Espacio-Estado no observable, que es dinámico.
 
--   Los datos que observamos también son generados por este proceso de Espacio - Estado, pero vienen dados con un ruido añadido.
+-   Las componentes del modelo (no observables) son generados por este proceso de Espacio - Estado, además vienen acompañadas con un ruido añadido.
 
-El interés recae en modelar el Espacio - Estado no observable en lugar de modelar los datos observables directamente.
+En general, el interés recae en modelar el Espacio-Estado no observable. Además, los modelos suelen considerar la clásica descomposición en la que una serie de tiempo es vista como la suma de las componentes de tendencia, estacionalidad y error.
 
-Estos modelos suelen considerar la clásica descomposición en la cuál una serie de tiempo es vista como la suma de las componentes de tendencia, estacionalidad y error.
+No obstante esta metodología para el modelado es flexible y modular, además permite una inspección visual de los componentes subyacentes del modelo.
 
 ## Modelos de Espacio - Estado
 
 Los modelos de Espacio - Estado modelan la estructura temporal de los datos por medio de estados no observables (latentes) que cambian en el tiempo.
 
-Los estados no observables se representan como vectores $\alpha_1, \cdots, \alpha_n$ y están asociados a las observaciones $y_1, \cdots, y_n$. La relación o dependendencia probabilística entre los estados y las observaciones es especificada por el modelo de Espacio - Estado.
+Los estados no observables se representan como vectores $\alpha_1, \cdots, \alpha_n$ y están asociados a las observaciones $y_1, \cdots, y_n$. La relación o dependencia probabilística entre los estados y las observaciones es especificada por el modelo de Espacio - Estado.
 
 El objetivo es inferir propiedades de los estados $\alpha_t$ a partir de las observaciones $y_1, \cdots, y_n$.
 
@@ -72,7 +72,7 @@ Nos enfocaremos en los modelos de Espacio - Estado lineales y gaussianos.
 ## Modelo de nivel local
 
 -   $y_t:$ datos observables
--   $\mu_t:$ estado no observable
+-   $\mu_t:$ estado no observable (Componente de tendencia)
 
 ```{=tex}
 \begin{aligned}
@@ -80,7 +80,7 @@ y_t & =\mu_t+\varepsilon_t & & \varepsilon_t \sim N\left(0, \sigma_{\varepsilon}
 \mu_{t+1} & =\mu_t+\xi_t & & \xi_t \sim N\left(0, \sigma_{\xi}^2\right)
 \end{aligned}
 ```
-$\mu_t$ es el nivel de la serie en el tiempo $t$.
+$\mu_t$ es el nivel (Tendencia estocastica) de la serie en el tiempo $t$.
 
 Los parámetros del modelo son $\sigma^2_\varepsilon$ y $\sigma^2_\xi$.
 
