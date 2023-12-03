@@ -405,7 +405,7 @@ Kevin Rubiano - José Valdés - Mario Castañeda
     </div>
 </div>
 
-  <p class="date">jueves, 23 de noviembre, 2023</p>
+  <p class="date">domingo, 3 de diciembre, 2023</p>
 </section>
 <section id="contenido" class="slide level2">
 <h2>Contenido</h2>
@@ -528,15 +528,90 @@ y_t &amp; =\mu_t+\gamma_t+\beta_t^Tx_t+\varepsilon_t &amp; &amp; \varepsilon_t \
 <section id="forma-general-de-un-modelo-de-espacio---estado-lineal-gaussiano" class="slide level2">
 <h2>Forma general de un modelo de Espacio - Estado lineal Gaussiano</h2>
 <ul>
-<li><span class="math inline">\(y_t:\)</span> datos observables</li>
-<li><span class="math inline">\(\alpha_t:\)</span> variable de estado</li>
+<li><span class="math inline">\(y_t:\)</span> vector de observaciones</li>
+<li><span class="math inline">\(\alpha_t:\)</span> vector de estados no observable</li>
 </ul>
 <span class="math display">\[\begin{aligned}
 y_t &amp; =Z_t\alpha_t+\varepsilon_t &amp; &amp; \varepsilon_t \sim N\left(0, H_t\right) \hspace{1cm} \textrm{Ecuación de observación}\\
-\alpha_{t+1} &amp; = T_t\alpha_t+R_t\eta_t &amp; &amp; \eta_t \sim N\left(0,Q_t\right) \hspace{1cm} \textrm{Ecuación de estados}\\
+\alpha_{t+1} &amp; = T_t\alpha_t+R_t\eta_t &amp; &amp; \eta_t \sim N\left(0,Q_t\right) \hspace{1cm} \textrm{Ecuación de estados}
 \end{aligned}\]</span>
-<p><span class="math inline">\(\mu_t\)</span> es el nivel de la serie en el tiempo <span class="math inline">\(t\)</span>. <br> <span class="math inline">\(\nu_t\)</span> es la pendiente de la serie en el tiempo <span class="math inline">\(t\)</span>. <br> <span class="math inline">\(\gamma_t\)</span> es la componente estacional en el tiempo <span class="math inline">\(t\)</span>.</p>
+<p><span class="math display">\[t=1,\cdots,n\]</span></p>
+<p>Distribución del estado inicial <span class="math inline">\(\alpha_1 \sim N\left(a_1,P_1\right).\)</span></p>
+<ul>
+<li><p><span class="math inline">\(\varepsilon_t\)</span> y <span class="math inline">\(\eta_t\)</span> son independientes para todo <span class="math inline">\(t, s\)</span> e independientes de <span class="math inline">\(\alpha_1\)</span>.</p></li>
+<li><p>Las matrices <span class="math inline">\(Z_t\)</span>, <span class="math inline">\(T_t\)</span>, <span class="math inline">\(R_t\)</span>, <span class="math inline">\(H_t\)</span> y <span class="math inline">\(Q_t\)</span> determinan la estructura del modelo. Estas matrices pueden contener parámetros desconocidos.</p></li>
+</ul>
 <p>Los parámetros del modelo son <span class="math inline">\(H_t\)</span> y <span class="math inline">\(Q_t\)</span>.</p>
+</section>
+<section id="predicción-de-las-componentes-del-modelo" class="slide level2">
+<h2>Predicción de las componentes del modelo</h2>
+<p>El tratamiento estadístico de las componentes no observables del modelo puede ser llevado a cabo usando la forma general del modelo de Espacio - Estado y los algoritmos asociados del Filtro de Kalman y de Suavizado.</p>
+</section>
+<section id="filtrado" class="slide level2">
+<h2>Filtrado</h2>
+<p>Sea <span class="math inline">\(Y_t = \left\{y_1, \cdots , y_t\right\}\)</span>. El Filtro de Kalman es una forma recursiva para calcular: <span class="math display">\[a_{t|t} = E\left(\alpha_t|Y_t\right) \hspace{2cm} P_{t|t} = Var\left(\alpha_{t}|Y_t\right)\]</span> <span class="math display">\[a_{t+1}  = E\left(\alpha_{t+1}|Y_t\right) \hspace{2cm} P_{t+1} = Var\left(\alpha_{t+1}|Y_t\right).\]</span> Como se asume normalidad en todo el modelo,</p>
+<p><span class="math display">\[\alpha_t \sim N\left(a_{t|t}, P_{t|t}\right)\]</span> <span class="math display">\[\alpha_{t+1} \sim N\left(a_{t+1}, P_{t+1}\right)\]</span> La idea es calcular <span class="math inline">\(a_{t|t}\)</span>, <span class="math inline">\(P_{t|t}\)</span>, <span class="math inline">\(a_{t+1}\)</span> y <span class="math inline">\(P_{t+1}\)</span> partir de <span class="math inline">\(a_t\)</span> y <span class="math inline">\(P_t\)</span> donde</p>
+<p><span class="math display">\[\alpha_t|Y_{t-1} \sim N\left(a_t, P_t\right)\]</span></p>
+</section>
+<section id="section" class="slide level2">
+<h2></h2>
+<p>El error de predicción <span class="math inline">\(1\)</span> paso adelante de <span class="math inline">\(y_t\)</span> se denota como <span class="math inline">\(v_t\)</span> y se define como: <span class="math display">\[v_t = E\left(y_t|Y_{t-1}\right) = y_t - E\left(Z_t\alpha_t + \varepsilon_t|Y_{t-1}\right) = \color{RoyalBlue}{y_t - Z_ta_t}\]</span> La varianza del error de predicción <span class="math inline">\(1\)</span> paso adelante de <span class="math inline">\(v_t\)</span> se denota como <span class="math inline">\(F_t\)</span> y está dado por: <span class="math display">\[F_t = Var\left(v_t|Y_{t-1}\right) = Var\left(y_t - Z_ta_t|Y_{t-1}\right) =  Var\left(Z_t\alpha_t + \varepsilon_t - Z_ta_t|Y_{t-1}\right) = \color{RoyalBlue}{Z_tP_tZ_t^\prime + H_t}\]</span> Con esto, se actualiza el estimador filtrado de <span class="math inline">\(\alpha_t\)</span> y su respectiva varianza:</p>
+<p><span class="math display">\[a_{t|t} = \color{RoyalBlue}{a_t + P_tZ_t^\prime F_t^{-1}v_t}\]</span> <span class="math display">\[P_{t|t} = \color{RoyalBlue}{P_t-P_tZ_t^\prime F_t^{-1}Z_tP_t}\]</span></p>
+</section>
+<section id="section-1" class="slide level2">
+<h2></h2>
+<p>Luego se calculan <span class="math inline">\(a_{t+1}\)</span> y <span class="math inline">\(P_{t+1}\)</span> de forma recursiva. Teniendo en cuenta que <span class="math inline">\(\alpha_{t+1} = T_t\alpha_t + R_t\eta_t\)</span> se tiene que: <span class="math display">\[a_{t+1} = E\left(T_t\alpha_t + R_t\eta_t|Y_t\right) = T_tE\left(\alpha_t|Y_t\right)\]</span> <span class="math display">\[P_{t+1} = Var\left(T_t\alpha_t + R_t\eta_t|Y_t\right) = T_tVar\left(\alpha_t|Y_t\right)T_t^\prime + R_tQ_tR_t^\prime\]</span> <span class="math display">\[t=1,\cdots,n.\]</span> Y reemplazando las actualizaciones, el predictor <span class="math inline">\(1\)</span> paso adelante de <span class="math inline">\(\alpha_t\)</span> y su varianza están dados por: <span class="math display">\[\begin{align*}
+a_{t+1} &amp;= T_t\left(a_t + P_tZ_t^\prime F_t^{-1}v_t\right)\\
+&amp;= T_ta_t + T_tP_tZ_t^\prime F_t^{-1}v_t\\
+&amp;= \color{RoyalBlue}{T_ta_t + K_tv_t}
+\end{align*}\]</span></p>
+<p><span class="math display">\[\begin{align*}
+P_{t+1} &amp;= T_t\left(P_t-P_tZ_t^\prime F_t^{-1}Z_tP_t\right)T_t^\prime + R_tQ_tR_t^\prime\\
+&amp;= T_tP_tT_t^\prime - T_tP_tZ_t^\prime F_t^{-1}Z_tP_tT_t^\prime + R_tQ_tR_t^\prime\\
+&amp;= T_tP_tT_t^\prime - K_tZ_tP_tT_t^\prime + R_tQ_tR_t^\prime\\
+&amp;= \color{RoyalBlue}{T_tP_t\left(T_t-K_tZ_t\right)^\prime + R_tQ_tR_t^\prime}
+\end{align*}\]</span></p>
+</section>
+<section id="section-2" class="slide level2">
+<h2></h2>
+<h3 id="filtro-de-kalman-1"><span style="color:#F282B4;">Filtro de Kalman</span></h3>
+<p><span class="math display">\[\begin{array}{ll}\quad v_t=y_t-Z_t a_t &amp; F_t=Z_t P_t Z_t^{\prime}+H_t \\ a_{t \mid t}=a_t+P_t Z_t^{\prime} F_t^{-1} \nu_t &amp; P_{t \mid t}=P_t-P_t Z_t^{\prime} F_t^{-1} Z_t P_t \\ a_{t+1}=T_t a_t+K_t \nu_t &amp; P_{t+1}=T_t P_t\left(T_t-K_t Z_t\right)^{\prime}+R_t Q_t R_t^{\prime}\end{array}\]</span> <span class="math inline">\(K_t=T_tP_tZ_t^\prime F_t^{-1}\)</span> es la ganancia de Kalman.</p>
+<p>Una vez calculados <span class="math inline">\(a_{t|t}\)</span> y <span class="math inline">\(P_{t|t}\)</span>, las predicciones del filtro se calculan como: <span class="math display">\[a_{t+1} = T_ta_{t|t}\]</span> <span class="math display">\[P_{t+1} = T_tP_{t|t}T_t^\prime + R_tQ_tR_t^\prime\]</span> <!-- \begin{align*} --> <!-- v_t \hspace{1cm} & 1\times 1 \hspace{3.3cm} F_t \hspace{1cm} 1\times 1\\ --> <!-- a_t \hspace{1cm} & m\times 1 \hspace{3cm} K_t \hspace{1cm} m\times 1\\ --> <!-- a_{t|t} \hspace{1cm} & m\times 1 \hspace{3cm}P_t \hspace{1cm} m\times m\\ --> <!-- &\hspace{5.5cm} P_{t|t} \hspace{1cm} m\times m --> <!-- \end{align*} --></p>
+</section>
+<section id="suavizado" class="slide level2">
+<h2>Suavizado</h2>
+<p>Sea <span class="math inline">\(Y_n = \left\{y_1, \cdots, y_n\right\}.\)</span> El suavizado se refiere al cálculo de <span class="math inline">\(\hat{\alpha}_t = E\left(\alpha_t|Y_n\right)\)</span> y de <span class="math inline">\(V_t = Var\left(\alpha_t|Y_n\right)\)</span>.</p>
+<p><span class="math inline">\(\hat{\alpha}_t\)</span> y <span class="math inline">\(V_t\)</span> se calculan de forma recursiva a partir del estado inicial <span class="math inline">\(\alpha_1 \sim N\left(a_1, P_1\right)\)</span> como sigue: <span class="math display">\[\begin{array}{ll}\quad r_{t-1}=Z_t^\prime F_t^{-1}v_t + L_t^\prime r_t &amp; \hspace{3cm}N_{t-1} = Z_t^\prime F_t^{-1}Z_t + L_t^\prime N_tL_t \\ \hspace{2cm}\hat{\alpha}_t = a_t + P_tr_{t-1} &amp; \hspace{4.5cm}V_t = P_t- P_tN_{t-1}P_t \\\end{array}\]</span> <span class="math display">\[t=n,\cdots,1.\]</span> El algoritmo se inicializa con <span class="math inline">\(r_n=0\)</span> y <span class="math inline">\(N_n=0.\)</span></p>
+</section>
+<section id="pronósticos" class="slide level2">
+<h2>Pronósticos</h2>
+<p>El pronóstico de observaciones futuras es tratado como si estas fueran valores faltantes.</p>
+<h3 id="observaciones-faltantes"><span style="color:#F282B4;">Observaciones faltantes</span></h3>
+<p>Los modelos de Espacio - Estado permiten la presencia de observaciones faltantes y la derivación de los algoritmos del Filtro de Kalman y de Suavizado es particularmente sencilla.</p>
+<p>Ambos algoritmos preservan la misma forma a excepción que se hace <span class="math inline">\(Z_t=0\)</span> en los tiempos <span class="math inline">\(t\)</span> en que hay observaciones faltantes.</p>
+<p>Así, se tiene que las ecuaciones del Filtro de Kalman quedan como sigue:</p>
+<p><span class="math display">\[a_{t|t} = a_t, \hspace{2cm} P_{t|t} = P_t, \hspace{2cm} a_{t+1} = T_ta_t, \hspace{2cm} P_{t+1} = T_tP_tT_t^\prime + R_tQ_tR_t^\prime\]</span> y las recursiones del Suavizado:</p>
+<p><span class="math display">\[r_{t-1}= T^\prime_t r_t, \hspace{2cm} N_{t-1} = T_t^\prime N_t T_t\]</span> para cada <span class="math inline">\(t\)</span> que presente observación faltante.</p>
+</section>
+<section id="section-3" class="slide level2">
+<h2></h2>
+<h3 id="pronósticos-1"><span style="color:#F282B4;">Pronósticos</span></h3>
+<p>El interés es pronosticar <span class="math inline">\(y_{n+j}\)</span>, <span class="math inline">\(j = 1,\cdots,J\)</span> a partir de <span class="math inline">\(y_1, \cdots, y_n.\)</span></p>
+<p>Sea <span class="math inline">\(\bar{y}_{n+j} = E\left(y_{n+j}|Y_n\right)\)</span> el cuál minimiza el error cuadrático medio de predicción <span class="math inline">\(\bar{F}_{n+j} = E\left[\left(\bar{y}_{n+j}-y_{n+j}\right)^2|Y_n\right]\)</span>.</p>
+<p>La predicción de <span class="math inline">\(y_{n+j}\)</span> cuando <span class="math inline">\(j=1\)</span> se obtiene directamente. De la ecuación de observación se tiene que <span class="math inline">\(y_{n+1} = Z_{n+1}\alpha_{n+1} + \varepsilon_{n+1}\)</span>, luego: <span class="math display">\[\bar{y}_{n+1} = Z_{n+1}E\left(\alpha_{n+1}|Y_n\right) = Z_{n+1}a_{n+1}\]</span> <span class="math display">\[\bar{F}_{n+1} = E\left[\left(\bar{y}_{n+1}-y_{n+1}\right)^2\right] = Z_{n+1}P_{n+1}Z^\prime_{n+1} + H_{n+1}.\]</span></p>
+<p>Cuando <span class="math inline">\(j=2,\cdots,J\)</span>, el pronóstico <span class="math inline">\(\bar{y}_{n+j}\)</span> se hace asumiendo que <span class="math inline">\(y_{n+j}\)</span>, <span class="math inline">\(j=2,\cdots,J\)</span> son observaciones faltantes.</p>
+</section>
+<section id="section-4" class="slide level2">
+<h2></h2>
+<p>Sean <span class="math inline">\(\bar{a}_{n+j} = E\left(\alpha_{n+j}|Y_n\right)\)</span> y <span class="math inline">\(\bar{P}_{n+j} = E\left[\left(\bar{a}_{n+j} - \alpha_{n+j}\right)\left(\bar{a}_{n+j} - \alpha_{n+j}\right)^\prime|Y_n\right]\)</span>.</p>
+<p>De la ecuación de observación se tiene que <span class="math inline">\(y_{n+j} = Z_{n+j}\alpha_{n+j} + \varepsilon_{n+j}\)</span>, luego: <span class="math display">\[\bar{y}_{n+j} = Z_{n+j}E\left(\alpha_{n+j}|Y_n\right) = Z_{n+j}\bar{a}_{n+j}\]</span> <span class="math display">\[\bar{F} = Z_{n+j}\bar{P}_{n+j}Z^\prime_{n+j}+H_{n+j}\]</span>.</p>
+<p>Las recursiones para calcular <span class="math inline">\(\bar{a}_{n+j}\)</span> y <span class="math inline">\(\bar{P}_{n+j}\)</span> se obtienen mediante la ecuación de estados <span class="math inline">\(\alpha_{n+j+1} = T_{n+j} \alpha_{n+j} + R_{n+j}\eta_{n+j}\)</span>, luego:</p>
+<p><span class="math display">\[\bar{a}_{n+j+1} = T_{n+j}E\left(\alpha_{n+j}|Y_n\right) = T_{n+j}\bar{a}_{n+j}\]</span> <span class="math display">\[\textrm{donde} \hspace{1cm} \bar{a}_{n+1} = a_{n+1}\]</span> <span class="math display">\[\bar{P}_{n+j+1} = T_{n+j}\bar{P}_{n+j}T_{n+j}^\prime + R_{n+j}Q_{n+j}R^\prime_{n+j}\]</span> <span class="math display">\[j = 1, \cdots, J-1.\]</span></p>
+</section>
+<section id="estimación-de-parámetros" class="slide level2">
+<h2>Estimación de parámetros</h2>
+<p>Las matrices del sistema dependen típicamente de un vector de parámetros <span class="math inline">\(\psi\)</span>. Asumiendo que el vector de estados inicial tiene distribución conocida <span class="math inline">\(\alpha_1 \sim N\left(a_1,P_1\right)\)</span> entonces la estimación de los parámetros se hace vía la función de verosimilitud:</p>
+<p><span class="math display">\[L = \prod_{t=1}^n p\left(y_t|Y_{t-1}\right)\]</span> <span class="math display">\[\log L = \sum_{t=1}^n \log p\left(y_t|Y_{t-1}\right)\]</span> Teniendo en cuenta que <span class="math inline">\(y_t|Y_{t-1} \sim N\left(Z_ta_t, F_t\right)\)</span> entonces: <span class="math display">\[\log L = -\frac{n}{2}\log 2\pi - \frac{1}{2}\sum_{t=1}^n\left(\log F_t + F_t^{-1}v_t^2\right)\]</span> donde <span class="math inline">\(v_t = y_t - Z_ta_t.\)</span></p>
 
 
 <img src="_extensions/coeos/logo2.png" class="slide-logo r-stretch"><div class="footer footer-default">
