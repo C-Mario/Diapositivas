@@ -587,11 +587,10 @@ P_{t+1} &amp;= T_t\left(P_t-P_tZ_t^\prime F_t^{-1}Z_tP_t\right)T_t^\prime + R_tQ
 <h2>Pronósticos</h2>
 <p>El pronóstico de observaciones futuras es tratado como si estas fueran valores faltantes.</p>
 <h3 id="observaciones-faltantes"><span style="color:#F282B4;">Observaciones faltantes</span></h3>
-<p>Los modelos de Espacio - Estado permiten la presencia de observaciones faltantes y la derivación de los algoritmos del Filtro de Kalman y de Suavizado es particularmente sencilla.</p>
-<p>Ambos algoritmos preservan la misma forma a excepción que se hace <span class="math inline">\(Z_t=0\)</span> en los tiempos <span class="math inline">\(t\)</span> en que hay observaciones faltantes.</p>
+<p>Los algoritmos del Filtro de Kalman y de Suavizado preservan la misma forma a excepción que se hace <span class="math inline">\(Z_t=0\)</span> en los tiempos <span class="math inline">\(t\)</span> en que hay observaciones faltantes.</p>
 <p>Así, se tiene que las ecuaciones del Filtro de Kalman quedan como sigue:</p>
-<p><span class="math display">\[a_{t|t} = a_t, \hspace{2cm} P_{t|t} = P_t, \hspace{2cm} a_{t+1} = T_ta_t, \hspace{2cm} P_{t+1} = T_tP_tT_t^\prime + R_tQ_tR_t^\prime\]</span> y las recursiones del Suavizado:</p>
-<p><span class="math display">\[r_{t-1}= T^\prime_t r_t, \hspace{2cm} N_{t-1} = T_t^\prime N_t T_t\]</span> para cada <span class="math inline">\(t\)</span> que presente observación faltante.</p>
+<p><span class="math display">\[a_{t|t} = a_t, \hspace{1cm} P_{t|t} = P_t, \hspace{1cm} a_{t+1} = T_ta_t, \hspace{1cm} P_{t+1} = T_tP_tT_t^\prime + R_tQ_tR_t^\prime\]</span> y las recursiones del Suavizado:</p>
+<p><span class="math display">\[r_{t-1}= T^\prime_t r_t, \hspace{1cm} N_{t-1} = T_t^\prime N_t T_t\]</span> para cada <span class="math inline">\(t\)</span> que presente observación faltante.</p>
 </section>
 <section id="section-3" class="slide level2">
 <h2></h2>
@@ -604,7 +603,7 @@ P_{t+1} &amp;= T_t\left(P_t-P_tZ_t^\prime F_t^{-1}Z_tP_t\right)T_t^\prime + R_tQ
 <section id="section-4" class="slide level2">
 <h2></h2>
 <p>Sean <span class="math inline">\(\bar{a}_{n+j} = E\left(\alpha_{n+j}|Y_n\right)\)</span> y <span class="math inline">\(\bar{P}_{n+j} = E\left[\left(\bar{a}_{n+j} - \alpha_{n+j}\right)\left(\bar{a}_{n+j} - \alpha_{n+j}\right)^\prime|Y_n\right]\)</span>.</p>
-<p>De la ecuación de observación se tiene que <span class="math inline">\(y_{n+j} = Z_{n+j}\alpha_{n+j} + \varepsilon_{n+j}\)</span>, luego: <span class="math display">\[\bar{y}_{n+j} = Z_{n+j}E\left(\alpha_{n+j}|Y_n\right) = Z_{n+j}\bar{a}_{n+j}\]</span> <span class="math display">\[\bar{F} = Z_{n+j}\bar{P}_{n+j}Z^\prime_{n+j}+H_{n+j}\]</span>.</p>
+<p>De la ecuación de observación se tiene que <span class="math inline">\(y_{n+j} = Z_{n+j}\alpha_{n+j} + \varepsilon_{n+j}\)</span>, luego: <span class="math display">\[\bar{y}_{n+j} = Z_{n+j}E\left(\alpha_{n+j}|Y_n\right) = Z_{n+j}\bar{a}_{n+j}\]</span> <span class="math display">\[\bar{F} = Z_{n+j}\bar{P}_{n+j}Z^\prime_{n+j}+H_{n+j}.\]</span></p>
 <p>Las recursiones para calcular <span class="math inline">\(\bar{a}_{n+j}\)</span> y <span class="math inline">\(\bar{P}_{n+j}\)</span> se obtienen mediante la ecuación de estados <span class="math inline">\(\alpha_{n+j+1} = T_{n+j} \alpha_{n+j} + R_{n+j}\eta_{n+j}\)</span>, luego:</p>
 <p><span class="math display">\[\bar{a}_{n+j+1} = T_{n+j}E\left(\alpha_{n+j}|Y_n\right) = T_{n+j}\bar{a}_{n+j}\]</span> <span class="math display">\[\textrm{donde} \hspace{1cm} \bar{a}_{n+1} = a_{n+1}\]</span> <span class="math display">\[\bar{P}_{n+j+1} = T_{n+j}\bar{P}_{n+j}T_{n+j}^\prime + R_{n+j}Q_{n+j}R^\prime_{n+j}\]</span> <span class="math display">\[j = 1, \cdots, J-1.\]</span></p>
 </section>
