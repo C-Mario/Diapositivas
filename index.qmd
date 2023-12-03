@@ -248,16 +248,14 @@ El pronóstico de observaciones futuras es tratado como si estas fueran valores 
 
 ### <span style="color:#F282B4;">Observaciones faltantes</span>
 
-Los modelos de Espacio - Estado permiten la presencia de observaciones faltantes y la derivación de los algoritmos del Filtro de Kalman y de Suavizado es particularmente sencilla.
-
-Ambos algoritmos preservan la misma forma a excepción que se hace $Z_t=0$ en los tiempos $t$ en que hay observaciones faltantes.
+Los algoritmos del Filtro de Kalman y de Suavizado preservan la misma forma a excepción que se hace $Z_t=0$ en los tiempos $t$ en que hay observaciones faltantes.
 
 Así, se tiene que las ecuaciones del Filtro de Kalman quedan como sigue:
 
-$$a_{t|t} = a_t, \hspace{2cm} P_{t|t} = P_t, \hspace{2cm} a_{t+1} = T_ta_t, \hspace{2cm} P_{t+1} = T_tP_tT_t^\prime + R_tQ_tR_t^\prime$$
+$$a_{t|t} = a_t, \hspace{1cm} P_{t|t} = P_t, \hspace{1cm} a_{t+1} = T_ta_t, \hspace{1cm} P_{t+1} = T_tP_tT_t^\prime + R_tQ_tR_t^\prime$$
 y las recursiones del Suavizado:
 
-$$r_{t-1}= T^\prime_t r_t, \hspace{2cm} N_{t-1} = T_t^\prime N_t T_t$$
+$$r_{t-1}= T^\prime_t r_t, \hspace{1cm} N_{t-1} = T_t^\prime N_t T_t$$
 para cada $t$ que presente observación faltante.
 
 ##
@@ -279,7 +277,7 @@ Sean $\bar{a}_{n+j} = E\left(\alpha_{n+j}|Y_n\right)$ y $\bar{P}_{n+j} = E\left[
 
 De la ecuación de observación se tiene que $y_{n+j} = Z_{n+j}\alpha_{n+j} + \varepsilon_{n+j}$, luego:
 $$\bar{y}_{n+j} = Z_{n+j}E\left(\alpha_{n+j}|Y_n\right) = Z_{n+j}\bar{a}_{n+j}$$
-$$\bar{F} = Z_{n+j}\bar{P}_{n+j}Z^\prime_{n+j}+H_{n+j}$$.
+$$\bar{F} = Z_{n+j}\bar{P}_{n+j}Z^\prime_{n+j}+H_{n+j}.$$
 
 Las recursiones para calcular $\bar{a}_{n+j}$ y $\bar{P}_{n+j}$ se obtienen mediante la ecuación de estados $\alpha_{n+j+1} = T_{n+j} \alpha_{n+j} + R_{n+j}\eta_{n+j}$, luego:
 
