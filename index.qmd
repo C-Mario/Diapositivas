@@ -335,3 +335,289 @@ $$\bar{a}_{n+j+1} = T_{n+j}E\left(\alpha_{n+j}|Y_n\right) = T_{n+j}\bar{a}_{n+j}
 Las matrices del sistema dependen típicamente de un vector de parámetros $\psi$. Asumiendo que el vector de estados inicial tiene distribución conocida $\alpha_1 \sim N\left(a_1,P_1\right)$ entonces la estimación de los parámetros se hace vía la función de verosimilitud:
 
 $$L = \prod_{t=1}^n p\left(y_t|Y_{t-1}\right)$$ $$\log L = \sum_{t=1}^n \log p\left(y_t|Y_{t-1}\right)$$ Teniendo en cuenta que $y_t|Y_{t-1} \sim N\left(Z_ta_t, F_t\right)$ entonces: $$\log L = -\frac{n}{2}\log 2\pi - \frac{1}{2}\sum_{t=1}^n\left(\log F_t + F_t^{-1}v_t^2\right)$$ donde $v_t = y_t - Z_ta_t.$
+
+## Diagnóstico 
+
+Para este se realiza comprobación de supuestos sobre los residuales $e_t$,que se obtienen de la siguiente manera:
+
+$$e_t=\frac{v_t}{\sqrt{F_t}}$$
+
+Se prueba si cumplen los supuestos de:
+
+- Normalidad (Jarque - Bera Test, Shapiro - Wilk Test)
+- Hocedasticidad 
+- No autocorrelación (Box - Pierce Test, Box - Ljung Test))
+
+## Ejemplo Aplicado 
+
+Se modela a continuación la Serie de Exportaciones mensuales en colombia usando el *Modelo de Tendencia Lineal Local con Estacionalidad* expuesto anteriormente. El modelamiento se realiza usando el paquete *stm* de R.\\
+
+```{r}
+#| echo: false
+library(tsm)
+library(dlm)
+library(dplyr)
+library(zoo)
+library(forecast)
+
+# EXPORTACIONES
+
+#Cargar datos
+load(file = "_environment.RData")
+
+#Ajuste del formato de los datos
+options(scipen = 12)
+Exportaciones$Total <- round(Exportaciones$Total)
+Exportaciones$Mes <- as.yearmon(Exportaciones$Mes)
+
+# Cambiar la ventana de datos
+Exportaciones <- Exportaciones[97:378,]
+
+# Crear dataframe
+exportaciones <- data.frame(as.Date(Exportaciones$Mes),Exportaciones$Total)
+colnames(exportaciones) <- c("Fecha", "Dato")
+
+#Crear objeto de tipo ts indicandole la fecha de inicio y la frecuencia
+exportaciones_ts <- ts(exportaciones$Dato,start = c(2000,01),frequency = 12)
+```
+
+```{r}
+plot(exportaciones_ts)
+```
+
+```{r}
+#| echo: false
+#Transformación logarítmica con lambda = 0.45
+lexportaciones_ts <- (1/0.45)*((exportaciones_ts^(0.45))-1)
+inf<-lexportaciones_ts
+
+### Dividir en entrenamiento y prueba
+
+lserie <- length(inf)
+ntrain <- trunc(lserie*0.8)
+train <- window(inf, end = time(inf)[ntrain])
+test <- window(inf, start = time(inf)[ntrain]+1/12) 
+ntest <- length(test)
+paste("Número de datos en el conjunto de entrenamiento:", ntrain)
+paste("Número de datos en el conjunto de entrenamiento:", ntest)
+
+```
+
+## Predicción de las componentes
+
+Se realiza la transformación de Box-Cox con $\lambda = 0.45$ sobre los datos y se entrena el modelo sobre el primer $80\%$ de la serie para luego evaluar la capacidad predictiva del modelo un paso adelante. Las predicciones de las componentes del modelo son: 
+
+```{r}
+#| echo: false
+### Modelo de nivel local con Tendencia y  componente estacional ####
+
+fn <- function(parm) {
+  mod <- dlmModPoly(order = 2) + dlmModSeas(frequency = 12)
+  V(mod) <- exp(parm[1])
+  diag(W(mod))[1:2] <- exp(parm[2:3])
+  return(mod)
+}
+
+fit <- dlmMLE(train, rep(0, 3), build = fn, hessian = TRUE)
+conv <- fit$convergence  # zero for converged
+
+loglik <- dlmLL(train, dlmModPoly(1) + dlmModSeas(12))
+n.coef <- 3
+r.aic <- (2 * (loglik)) + 2 * (sum(n.coef))  #dlmLL caculates the neg. LL
+r.bic <- (2 * (loglik)) + (log(length(train))) * (n.coef)
+
+mod <- fn(fit$par)
+
+obs.error.var <- V(mod)
+state.error.var <- diag(W(mod))
+
+filtered <- dlmFilter(train, mod = mod)
+smoothed <- dlmSmooth(filtered)
+
+resids <- residuals(filtered, sd = FALSE)
+
+mu <- dropFirst(smoothed$s[, 1])
+upsilon <- dropFirst(smoothed$s[, 2])
+gammas <- dropFirst(smoothed$s[, 3])
+mu.1 <- mu[1]
+mu.end <- mu[length(mu)]
+upsilon.1 <- upsilon[1]
+upsilon.end <- upsilon[length(mu)]
+gammas.1 <- gammas[1]
+gammas.end <- gammas[length(mu)]
+```
+
+
+```{r}
+#| echo: false
+par(mfrow = c(4, 1), mar = c(2.2, 2.2, 1, 1), cex = 0.8)
+plot.ts(train, col = "lightblue", xlab = "", ylab = "", lwd = 2)
+lines(mu, col = "black")
+legend("topright", legend = c("Datos observados", "Nivel"), 
+       lwd = c(2, 1), col = c("lightblue", "black"), bty = "n")
+
+plot.ts(upsilon, col = "darkgrey", xlab = "", ylab = "", 
+        lwd = 2)
+legend("topright", legend = "Pendiente", lwd = 2, col = "darkgrey", 
+       bty = "n")
+
+plot.ts(gammas, col = "darkgrey", xlab = "", ylab = "", 
+        lwd = 2)
+legend("topright", legend = "Estacional", lwd = 2, col = "darkgrey", 
+       bty = "n")
+
+plot.ts(resids, ylab = "", xlab = "", col = "darkgrey", 
+        lwd = 2)
+abline(h = 0)
+legend("topright", legend = "Residuales", lwd = 2, col = "darkgrey", 
+       bty = "n")
+```
+
+
+## Ajuste de las componentes combinadas
+
+```{r}
+#| echo: false
+### Ajuste de las componentes combinadas
+
+par(mfrow = c(1, 1), mar = c(2.2, 2.2, 1, 1), cex = 0.8)
+alpha <- mu + upsilon + gammas
+par(mfrow = c(1, 1), mar = c(2.2, 2.2, 1, 1), cex = 0.8)
+plot.ts(train, col = "lightblue", xlab = "", ylab = "", lwd = 2)
+lines(alpha, col = "black")
+legend("topright", legend = c("Datos Observados", "Componentes de estado"), 
+       lwd = c(2, 1), col = c("lightblue", "black"), bty = "n")
+```
+
+
+```{r}
+#| echo: false
+#cat("AIC", r.aic)
+#cat("BIC", r.bic)
+#cat("V.variance", obs.error.var)
+#cat("W.variance", state.error.var)
+```
+
+## Residuales
+
+```{r}
+#| echo: false
+par(mfrow = c(1, 2), mar = c(2.2, 2.2, 1, 1), cex = 0.8)
+hist(resids, prob = TRUE, col = "grey", main = "", breaks = seq(-4,4, length.out = 50)
+)
+```
+
+## ACF residuales
+
+```{r}
+ac(resids,main = "ACF y PACF Residuales")  # acf
+```
+
+## Pruebas de normalidad y autocorrelación
+
+Se rechaza la prueba de normalidad, por lo que los residuales no cumplen este supuesto.
+```{r}
+tseries::jarque.bera.test(resids)
+```
+
+No se rechaza la prueba de No Autocorrelación por lo que los residuales sí cumplen este supuesto.
+
+```{r}
+Box.test(resids, lag = 12, type = "Box-Pierce", fitdf = 2)  # joint autocorrelation
+```
+
+## Pronóstico
+
+Se presenta el pronóstico del modelo para los siguientes 12 meses junto con los datos reales observados en esos 12 meses. 
+
+```{r}
+#| echo: false
+### Pronostico
+
+alpha <- mu + upsilon + gammas
+
+comb.state <- alpha
+
+forecast <- dlmForecast(filtered, nAhead = 48)
+
+var.2 <- unlist(forecast$Q)
+wid.2 <- qnorm(0.05, lower = FALSE) * sqrt(var.2)
+comb.fore <- forecast$f
+
+result <- ts(c(comb.state, comb.fore), start = c(2000,1), frequency = 12)
+
+result <- InvBoxCox(result,lambda=0.45)
+
+par(mfrow = c(1, 1), mar = c(2.2, 2.2, 1, 1), cex = 0.8)
+plot.ts(exportaciones_ts[150:237], col = "black", plot.type = "single", 
+        xlab = "", ylab = "", lty = 1.5)
+lines(result[150:237], col = "blue", lwd = 0.8)
+abline(v = 75, col = "red", lwd = 1, lty = 3)
+legend("topleft", legend = c("Datos Observados", "Modelo Ajustado"), 
+       lwd = c(1.5, 1), col = c("black", "blue"), bty = "n")
+
+dife=(exportaciones_ts[226:237]-result[226:237])^2
+ecm=(1/(12))*sum(dife)
+recm1pasoModelo1=sqrt(ecm)
+cat("RECM12", recm1pasoModelo1)
+```
+
+## Capacidad predictiva un paso adelante
+
+Con el fin de comparar con los modelos ajustados anteriormente a esta serie, evaluamos mediante el Rolling la capacidad predictiva del modelo estructural ajustado anteriormente.
+
+```{r}
+# ROLLING
+h <- 1
+n <- ntest - h + 1
+
+fc <- ts(numeric(n), start=c(2018,10), freq=12)
+
+for(i in 1:n){  
+  x <- window(lexportaciones_ts, end=c(2018, 9+(i-1)))
+  filtered <- dlmFilter(x, mod = mod)
+  fc[i] <-dlmForecast(filtered, nAhead = h)$f
+}
+```
+
+## Predicciones Un paso Adelantes Rolling
+
+```{r}
+#| echo: false
+test1<-InvBoxCox(test,lambda=0.45)
+fc1<-InvBoxCox(fc,lambda=0.45)
+
+result <- ts(c(comb.state, fc), start = c(2000,1), frequency = 12)
+
+result<-InvBoxCox(result, lambda=0.45)
+
+par(mfrow = c(1, 1), mar = c(2.2, 2.2, 1, 1), cex = 0.8)
+plot.ts(exportaciones_ts, col = "black", plot.type = "single", 
+        xlab = "", ylab = "", lty = 1.5)
+lines(result, col = "blue", lwd = 0.8)
+abline(v = c(2018,10), col = "red", lwd = 1, lty = 3)
+legend("topleft", legend = c("Datos Observados", "Modelo ajustado"), 
+       lwd = c(1.5, 1), col = c("black", "blue"), bty = "n")
+
+dife=(test1-fc1)^2
+ecm=(1/(ntest))*sum(dife)
+recm1pasoModelo1=sqrt(ecm)
+
+cat("RECM_UN_PASO", recm1pasoModelo1)
+```
+
+## Mejoría del modelo al ir incluyendo las componentes
+
+Se ajustaron para la misma serie los siguientes modelos y se obtuvo el error de predicción un paso adelante para cada uno de ellos con el fin de compararlos.
+
+- Modelo de Nivel Local: No normalidad y no cumple No Autocorrelación. ($RECM = 428858.3$)
+
+- Modelo de Tendencia Lineal Local: No normalidad y no cumple No Autocorrelación. ($RECM = 430407.9$)
+
+- Modelo de Nivel Local con Estacionalidad: No normalidad y sí cumple No Autocorrelación. ($RECM = 425911.6$)
+
+- Modelo de Tendencia Lineal Local con Estacionalidad ($RECM = 423125.1$).
+
+##
+
+*MUCHAS GRACIAS*

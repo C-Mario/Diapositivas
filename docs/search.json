@@ -158,6 +158,97 @@
     "href": "index.html#estimación-de-parámetros",
     "title": "Modelos estructurales de series de tiempo",
     "section": "Estimación de parámetros",
-    "text": "Estimación de parámetros\nLas matrices del sistema dependen típicamente de un vector de parámetros \\(\\psi\\). Asumiendo que el vector de estados inicial tiene distribución conocida \\(\\alpha_1 \\sim N\\left(a_1,P_1\\right)\\) entonces la estimación de los parámetros se hace vía la función de verosimilitud:\n\\[L = \\prod_{t=1}^n p\\left(y_t|Y_{t-1}\\right)\\] \\[\\log L = \\sum_{t=1}^n \\log p\\left(y_t|Y_{t-1}\\right)\\] Teniendo en cuenta que \\(y_t|Y_{t-1} \\sim N\\left(Z_ta_t, F_t\\right)\\) entonces: \\[\\log L = -\\frac{n}{2}\\log 2\\pi - \\frac{1}{2}\\sum_{t=1}^n\\left(\\log F_t + F_t^{-1}v_t^2\\right)\\] donde \\(v_t = y_t - Z_ta_t.\\)\n\n\n\nUniversidad Nacional de Colombia"
+    "text": "Estimación de parámetros\nLas matrices del sistema dependen típicamente de un vector de parámetros \\(\\psi\\). Asumiendo que el vector de estados inicial tiene distribución conocida \\(\\alpha_1 \\sim N\\left(a_1,P_1\\right)\\) entonces la estimación de los parámetros se hace vía la función de verosimilitud:\n\\[L = \\prod_{t=1}^n p\\left(y_t|Y_{t-1}\\right)\\] \\[\\log L = \\sum_{t=1}^n \\log p\\left(y_t|Y_{t-1}\\right)\\] Teniendo en cuenta que \\(y_t|Y_{t-1} \\sim N\\left(Z_ta_t, F_t\\right)\\) entonces: \\[\\log L = -\\frac{n}{2}\\log 2\\pi - \\frac{1}{2}\\sum_{t=1}^n\\left(\\log F_t + F_t^{-1}v_t^2\\right)\\] donde \\(v_t = y_t - Z_ta_t.\\)"
+  },
+  {
+    "objectID": "index.html#diagnóstico",
+    "href": "index.html#diagnóstico",
+    "title": "Modelos estructurales de series de tiempo",
+    "section": "Diagnóstico",
+    "text": "Diagnóstico\nPara este se realiza comprobación de supuestos sobre los residuales \\(e_t\\),que se obtienen de la siguiente manera:\n\\[e_t=\\frac{v_t}{\\sqrt{F_t}}\\]\nSe prueba si cumplen los supuestos de:\n\nNormalidad (Jarque - Bera Test, Shapiro - Wilk Test)\nHocedasticidad\nNo autocorrelación (Box - Pierce Test, Box - Ljung Test))"
+  },
+  {
+    "objectID": "index.html#ejemplo-aplicado",
+    "href": "index.html#ejemplo-aplicado",
+    "title": "Modelos estructurales de series de tiempo",
+    "section": "Ejemplo Aplicado",
+    "text": "Ejemplo Aplicado\nSe modela a continuación la Serie de Exportaciones mensuales en colombia usando el Modelo de Tendencia Lineal Local con Estacionalidad expuesto anteriormente. El modelamiento se realiza usando el paquete stm de R.\\\n\nplot(exportaciones_ts)\n\n\n\n\n[1] \"Número de datos en el conjunto de entrenamiento: 225\"\n\n\n[1] \"Número de datos en el conjunto de entrenamiento: 57\""
+  },
+  {
+    "objectID": "index.html#predicción-de-las-componentes",
+    "href": "index.html#predicción-de-las-componentes",
+    "title": "Modelos estructurales de series de tiempo",
+    "section": "Predicción de las componentes",
+    "text": "Predicción de las componentes\nSe realiza la transformación de Box-Cox con \\(\\lambda = 0.45\\) sobre los datos y se entrena el modelo sobre el primer \\(80\\%\\) de la serie para luego evaluar la capacidad predictiva del modelo un paso adelante. Las predicciones de las componentes del modelo son:"
+  },
+  {
+    "objectID": "index.html#ajuste-de-las-componentes-combinadas",
+    "href": "index.html#ajuste-de-las-componentes-combinadas",
+    "title": "Modelos estructurales de series de tiempo",
+    "section": "Ajuste de las componentes combinadas",
+    "text": "Ajuste de las componentes combinadas"
+  },
+  {
+    "objectID": "index.html#residuales-y-acf",
+    "href": "index.html#residuales-y-acf",
+    "title": "Modelos estructurales de series de tiempo",
+    "section": "Residuales y ACF",
+    "text": "Residuales y ACF"
+  },
+  {
+    "objectID": "index.html#pruebas-de-normalidad-y-autocorrelación",
+    "href": "index.html#pruebas-de-normalidad-y-autocorrelación",
+    "title": "Modelos estructurales de series de tiempo",
+    "section": "Pruebas de normalidad y autocorrelación",
+    "text": "Pruebas de normalidad y autocorrelación\nSe rechaza la prueba de normalidad, por lo que los residuales no cumplen este supuesto.\n\ntseries::jarque.bera.test(resids)\n\n\n    Jarque Bera Test\n\ndata:  resids\nX-squared = 12.66, df = 2, p-value = 0.001782\n\n\nNo se rechaza la prueba de No Autocorrelación por lo que los residuales sí cumplen este supuesto.\n\nBox.test(resids, lag = 12, type = \"Box-Pierce\", fitdf = 2)  # joint autocorrelation\n\n\n    Box-Pierce test\n\ndata:  resids\nX-squared = 12.246, df = 10, p-value = 0.2689"
+  },
+  {
+    "objectID": "index.html#pronóstico",
+    "href": "index.html#pronóstico",
+    "title": "Modelos estructurales de series de tiempo",
+    "section": "Pronóstico",
+    "text": "Pronóstico\nSe presenta el pronóstico del modelo para los siguientes 12 meses junto con los datos reales observados en esos 12 meses.\n\n\n\nRECM12 296615.1"
+  },
+  {
+    "objectID": "index.html#capacidad-predictiva-un-paso-adelante",
+    "href": "index.html#capacidad-predictiva-un-paso-adelante",
+    "title": "Modelos estructurales de series de tiempo",
+    "section": "Capacidad predictiva un paso adelante",
+    "text": "Capacidad predictiva un paso adelante\nCon el fin de comparar con los modelos ajustados anteriormente a esta serie, evaluamos mediante el Rolling la capacidad predictiva del modelo estructural ajustado anteriormente.\n\n# ROLLING\nh &lt;- 1\nn &lt;- ntest - h + 1\n\nfc &lt;- ts(numeric(n), start=c(2018,10), freq=12)\n\nfor(i in 1:n){  \n  x &lt;- window(lexportaciones_ts, end=c(2018, 9+(i-1)))\n  filtered &lt;- dlmFilter(x, mod = mod)\n  fc[i] &lt;-dlmForecast(filtered, nAhead = h)$f\n}"
+  },
+  {
+    "objectID": "index.html#residuales",
+    "href": "index.html#residuales",
+    "title": "Modelos estructurales de series de tiempo",
+    "section": "Residuales",
+    "text": "Residuales"
+  },
+  {
+    "objectID": "index.html#acf-residuales",
+    "href": "index.html#acf-residuales",
+    "title": "Modelos estructurales de series de tiempo",
+    "section": "ACF residuales",
+    "text": "ACF residuales\n\nac(resids,main = \"ACF y PACF Residuales\")  # acf"
+  },
+  {
+    "objectID": "index.html#predicciones-un-paso-adelantes-rolling",
+    "href": "index.html#predicciones-un-paso-adelantes-rolling",
+    "title": "Modelos estructurales de series de tiempo",
+    "section": "Predicciones Un paso Adelantes Rolling",
+    "text": "Predicciones Un paso Adelantes Rolling\n\n\n\nRECM_UN_PASO 423125.1"
+  },
+  {
+    "objectID": "index.html#mejoría-del-modelo-al-ir-incluyendo-las-componentes",
+    "href": "index.html#mejoría-del-modelo-al-ir-incluyendo-las-componentes",
+    "title": "Modelos estructurales de series de tiempo",
+    "section": "Mejoría del modelo al ir incluyendo las componentes",
+    "text": "Mejoría del modelo al ir incluyendo las componentes\nSe ajustaron para la misma serie los siguientes modelos y se obtuvo el error de predicción un paso adelante para cada uno de ellos con el fin de compararlos.\n\nModelo de Nivel Local: No normalidad y no cumple No Autocorrelación. (\\(RECM = 428858.3\\))\nModelo de Tendencia Lineal Local: No normalidad y no cumple No Autocorrelación. (\\(RECM = 430407.9\\))\nModelo de Nivel Local con Estacionalidad: No normalidad y sí cumple No Autocorrelación. (\\(RECM = 425911.6\\))\nModelo de Tendencia Lineal Local con Estacionalidad (\\(RECM = 423125.1\\))."
+  },
+  {
+    "objectID": "index.html#section-5",
+    "href": "index.html#section-5",
+    "title": "Modelos estructurales de series de tiempo",
+    "section": "",
+    "text": "MUCHAS GRACIAS\n\n\n\nUniversidad Nacional de Colombia"
   }
 ]
