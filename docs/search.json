@@ -21,39 +21,53 @@
     "text": "Modelos de Espacio - Estado\nLos modelos de Espacio - Estado modelan la estructura temporal de los datos por medio de estados no observables (latentes) que cambian en el tiempo.\nLos estados no observables se representan como vectores \\(\\alpha_1, \\cdots, \\alpha_n\\) y están asociados a las observaciones \\(y_1, \\cdots, y_n\\). La relación o dependencia probabilística entre los estados y las observaciones es especificada por el modelo de Espacio - Estado.\nEl objetivo es inferir propiedades de los estados \\(\\alpha_t\\) a partir de las observaciones \\(y_1, \\cdots, y_n\\).\nLos estados no observables del modelo se modelan mediante un modelo estocástico, su dinámica sigue un proceso de Markov de primer orden.\nNos enfocaremos en los modelos de Espacio - Estado lineales y gaussianos."
   },
   {
+    "objectID": "index.html#forma-general-de-un-modelo-de-espacio---estado-lineal-gaussiano",
+    "href": "index.html#forma-general-de-un-modelo-de-espacio---estado-lineal-gaussiano",
+    "title": "Modelos estructurales de series de tiempo",
+    "section": "Forma general de un modelo de Espacio - Estado lineal Gaussiano",
+    "text": "Forma general de un modelo de Espacio - Estado lineal Gaussiano\n\n\\(y_t:\\) vector de observaciones\n\\(\\alpha_t:\\) vector de estados no observable\n\n\\[\\begin{aligned} y_t & =Z_t\\alpha_t+\\varepsilon_t & & \\varepsilon_t \\sim N\\left(0, H_t\\right) \\hspace{1cm} \\textrm{Ecuación de observación}\\\\ \\alpha_{t+1} & = T_t\\alpha_t+R_t\\eta_t & & \\eta_t \\sim N\\left(0,Q_t\\right) \\hspace{1cm} \\textrm{Ecuación de estados} \\end{aligned}\\]\n\\[t=1,\\cdots,n\\]\nDistribución del estado inicial \\(\\alpha_1 \\sim N\\left(a_1,P_1\\right).\\)\n\n\\(\\varepsilon_t\\) y \\(\\eta_t\\) son independientes para todo \\(t, s\\) e independientes de \\(\\alpha_1\\).\nLas matrices \\(Z_t\\), \\(T_t\\), \\(R_t\\), \\(H_t\\) y \\(Q_t\\) determinan la estructura del modelo. Estas matrices pueden contener parámetros desconocidos.\n\nLos parámetros del modelo son \\(H_t\\) y \\(Q_t\\)."
+  },
+  {
     "objectID": "index.html#filtro-de-kalman",
     "href": "index.html#filtro-de-kalman",
     "title": "Modelos estructurales de series de tiempo",
     "section": "Filtro de Kalman",
-    "text": "Filtro de Kalman\n\nEl filtro de Kalman calcula la media y la varianza del estado no observado, dado las observaciones.\nEl estado es gaussiano, su distribución está caracterizada por la media y la varianza.\nEl filtro de Kalman es un algoritmo recursivo; la mejor estimación actual se actualiza cada vez que se obtiene una nueva observación.\nPara iniciar la recursión, se requieren \\(a_1\\) y \\(P_1\\), lo cuáles se asumen conocidos.\nExisten varias maneras de inicializar el algoritmo cuando \\(a_1\\) y \\(P_1\\) son desconocidos."
+    "text": "Filtro de Kalman\n\nEl filtro de Kalman es un algoritmo recursivo; la mejor estimación actual se actualiza cada vez que se obtiene una nueva observación.\nEl filtro de Kalman calcula la media y la varianza del estado no observado, dado las observaciones.\nEl estado es gaussiano, su distribución está caracterizada por la media y la varianza.\nPara iniciar la recursión, se requieren \\(a_1\\) y \\(P_1\\), lo cuáles se asumen conocidos.\nExisten varias maneras de inicializar el algoritmo cuando \\(a_1\\) y \\(P_1\\) son desconocidos.\n\n\n\nFiltro de Kalman"
   },
   {
     "objectID": "index.html#modelos-estructurales-de-series-de-tiempo",
     "href": "index.html#modelos-estructurales-de-series-de-tiempo",
     "title": "Modelos estructurales de series de tiempo",
     "section": "Modelos estructurales de series de tiempo",
-    "text": "Modelos estructurales de series de tiempo\nUn modelo estructural es aquel en el que una serie de tiempo es descompuesta en componentes no observables tales como tendencia, estacionalidad, ciclos, términos de error y otras componentes relevantes como efectos de impacto o la inclusión de otras variables explicativas.\nLas componentes se modelan explícitamente y pueden ser interpretadas directamente.\nLos modelos estructurales de series de tiempo se llevarán a la forma de un modelo de Espacio - Estado a través del cuál se aplicará el algoritmo del Filtro de Kalman y el suavizador asociado. Además permitirá calcular la función de verosimilitud."
+    "text": "Modelos estructurales de series de tiempo\nUn modelo estructural toma una serie de tiempo y la descompone en componentes no observables tales como tendencia, estacionalidad, ciclos, términos de error y otras componentes relevantes como efectos de impacto o la inclusión de otras variables explicativas. Las componentes se modelan explícitamente y pueden ser interpretadas directamente.\nEstos modelos se transforman en un modelo de Espacio-Estado, utilizando el algoritmo del Filtro de Kalman y su suavizador correspondiente, lo que facilita el cálculo de la función de verosimilitud.\n\nModelo estructural de series de tiempo"
   },
   {
     "objectID": "index.html#modelo-de-nivel-local",
     "href": "index.html#modelo-de-nivel-local",
     "title": "Modelos estructurales de series de tiempo",
     "section": "Modelo de nivel local",
-    "text": "Modelo de nivel local\n\n\\(y_t:\\) datos observables\n\\(\\mu_t:\\) estado no observable (Componente de tendencia)\n\n\\[\\begin{aligned}\ny_t & =\\mu_t+\\varepsilon_t & & \\varepsilon_t \\sim N\\left(0, \\sigma_{\\varepsilon}^2\\right) \\\\\n\\mu_{t+1} & =\\mu_t+\\xi_t & & \\xi_t \\sim N\\left(0, \\sigma_{\\xi}^2\\right)\n\\end{aligned}\\]\n\\(\\mu_t\\) es el nivel (Tendencia estocastica) de la serie en el tiempo \\(t\\).\nLos parámetros del modelo son \\(\\sigma^2_\\varepsilon\\) y \\(\\sigma^2_\\xi\\)."
+    "text": "Modelo de nivel local\n\n\\(y_t:\\) datos observables\n\\(\\mu_t:\\) estado no observable (Componente de tendencia)\n\n\\[\\begin{aligned}\ny_t & =\\mu_t+\\varepsilon_t & & \\varepsilon_t \\sim N\\left(0, \\sigma_{\\varepsilon}^2\\right) \\\\\n\\mu_{t+1} & =\\mu_t+\\xi_t & & \\xi_t \\sim N\\left(0, \\sigma_{\\xi}^2\\right)\n\\end{aligned}\\]\n\\(\\mu_t\\) es el nivel (Tendencia estocástica) de la serie en el tiempo \\(t\\).\nLos parámetros del modelo son \\(\\sigma^2_\\varepsilon\\) y \\(\\sigma^2_\\xi\\).\n\\[\\begin{aligned}\n\\alpha_t = \\mu_t \\hspace{2 cm} T_t = R_t = Z_t = 1 \\\\\nQ_t = \\sigma^2_{\\eta} \\hspace{2 cm} H_t = \\sigma^2_{\\epsilon}\n\\end{aligned}\\]"
   },
   {
-    "objectID": "index.html#example",
-    "href": "index.html#example",
+    "objectID": "index.html#ejemplo",
+    "href": "index.html#ejemplo",
     "title": "Modelos estructurales de series de tiempo",
-    "section": "Example",
-    "text": "Example\n\nNilo &lt;- datasets::Nile\n# ajustar modelo \nmodelNilo &lt;- rucm::ucm(formula = Nile~0, data = Nile, level = TRUE)\n#\nplot(Nilo)\nlines(modelNilo$s.level, col = \"cyan\")"
+    "section": "Ejemplo",
+    "text": "Ejemplo\n\n# ajustar modelo \nmodelNilo &lt;- StructTS(Nilo, type=\"level\")"
   },
   {
     "objectID": "index.html#modelo-de-tendencia-local-lineal",
     "href": "index.html#modelo-de-tendencia-local-lineal",
     "title": "Modelos estructurales de series de tiempo",
     "section": "Modelo de tendencia local lineal",
-    "text": "Modelo de tendencia local lineal\n\n\\(y_t:\\) datos observables\n\\(\\mu_t, \\nu_t:\\) estados no observables\n\n\\[\\begin{aligned}\ny_t & =\\mu_t+\\varepsilon_t & & \\varepsilon_t \\sim N\\left(0, \\sigma_{\\varepsilon}^2\\right) \\\\\n\\mu_{t+1} & =\\mu_t+\\nu_t+\\xi_t & & \\xi_t \\sim N\\left(0, \\sigma_{\\xi}^2\\right) \\\\\n\\nu_{t+1} & =\\nu_t+\\zeta_t & & \\zeta_t \\sim N\\left(0, \\sigma_\\zeta^2\\right)\n\\end{aligned}\\]\n\\(\\mu_t\\) es el nivel de la serie en el tiempo \\(t\\).  \\(\\nu_t\\) es la pendiente de la serie en el tiempo \\(t\\).\nLos parámetros del modelo son \\(\\sigma^2_\\varepsilon\\), \\(\\sigma^2_\\xi\\) y \\(\\sigma^2_\\zeta\\)."
+    "text": "Modelo de tendencia local lineal\n\n\\(y_t:\\) datos observables\n\\(\\mu_t, \\nu_t:\\) estados no observables\n\n\\[\\begin{aligned}\ny_t & =\\mu_t+\\varepsilon_t & & \\varepsilon_t \\sim N\\left(0, \\sigma_{\\varepsilon}^2\\right) \\\\\n\\mu_{t+1} & =\\mu_t+\\nu_t+\\xi_t & & \\xi_t \\sim N\\left(0, \\sigma_{\\xi}^2\\right) \\\\\n\\nu_{t+1} & =\\nu_t+\\zeta_t & & \\zeta_t \\sim N\\left(0, \\sigma_\\zeta^2\\right)\n\\end{aligned}\\]\n\\(\\mu_t\\) es el nivel y \\(\\nu_t\\) es la pendiente de la serie en el tiempo \\(t\\).\n\\[\\begin{aligned}\n\\alpha_t = [\\mu_t, \\ \\nu_t] \\hspace{1 cm} T_t = \\begin{bmatrix} 1 & 1 \\\\ 0 & 1 \\end{bmatrix} \\hspace{1 cm} R_t = \\begin{bmatrix} 1 & 0 \\\\ 0 & 1 \\end{bmatrix} \\\\\nZ_t = [1, \\ 0] \\hspace{1 cm} Q_t = \\begin{bmatrix} \\sigma^2_{\\xi} & 0 \\\\ 0 & \\sigma^2_{\\zeta}  \\end{bmatrix}  \\hspace{1 cm} H_t = \\sigma^2_{\\epsilon}\n\\end{aligned}\\]"
+  },
+  {
+    "objectID": "index.html#ejemplo-1",
+    "href": "index.html#ejemplo-1",
+    "title": "Modelos estructurales de series de tiempo",
+    "section": "Ejemplo",
+    "text": "Ejemplo\n\n# ajustar modelo \nmodelASair &lt;- StructTS(AUSAIR, type=\"trend\")"
   },
   {
     "objectID": "index.html#modelo-de-tendencia-local-con-estacionalidad",
@@ -63,18 +77,18 @@
     "text": "Modelo de tendencia local con estacionalidad\n\n\\(y_t:\\) datos observables\n\\(\\mu_t, \\nu_t, \\gamma_t:\\) estados no observables\n\n\\[\\begin{aligned}\ny_t & =\\mu_t+\\gamma_t+\\varepsilon_t & & \\varepsilon_t \\sim N\\left(0, \\sigma_{\\varepsilon}^2\\right) \\\\\n\\mu_{t+1} & =\\mu_t+\\nu_t+\\xi_t & & \\xi_t \\sim N\\left(0, \\sigma_{\\xi}^2\\right) \\\\\n\\nu_{t+1} & =\\nu_t+\\zeta_t & & \\zeta_t \\sim N\\left(0, \\sigma_\\zeta^2\\right) \\\\\n\\gamma_t & = -\\sum_{s=1}^{S-1} \\tau_{t-s} + \\omega_t & & \\omega_t \\sim N\\left(0, \\sigma_\\omega^2\\right)\n\\end{aligned}\\]\n\\(\\mu_t\\) es el nivel de la serie en el tiempo \\(t\\), \\(\\nu_t\\) es la pendiente de la serie en el tiempo \\(t\\) y \\(\\gamma_t\\) es la componente estacional en el tiempo \\(t\\).\nLos parámetros del modelo son \\(\\sigma^2_\\varepsilon\\), \\(\\sigma^2_\\xi\\) y \\(\\sigma^2_\\zeta\\)."
   },
   {
-    "objectID": "index.html#modelo-de-tendencia-local-con-estacionalidad-y-regresión",
-    "href": "index.html#modelo-de-tendencia-local-con-estacionalidad-y-regresión",
+    "objectID": "index.html#ejemplo-2",
+    "href": "index.html#ejemplo-2",
     "title": "Modelos estructurales de series de tiempo",
-    "section": "Modelo de tendencia local con estacionalidad y regresión",
-    "text": "Modelo de tendencia local con estacionalidad y regresión\n\n\\(y_t:\\) datos observables\n\\(\\mu_t, \\nu_t, \\gamma_t, \\beta_t^Tx_t:\\) estados no observables\n\n\\[\\begin{aligned}\ny_t & =\\mu_t+\\gamma_t+\\beta_t^Tx_t+\\varepsilon_t & & \\varepsilon_t \\sim N\\left(0, \\sigma_{\\varepsilon}^2\\right)\n\\end{aligned}\\]"
+    "section": "Ejemplo",
+    "text": "Ejemplo\n\n# ajustar modelo \nmodelASTour &lt;- StructTS(AUsTourist, type=\"BSM\")"
   },
   {
-    "objectID": "index.html#forma-general-de-un-modelo-de-espacio---estado-lineal-gaussiano",
-    "href": "index.html#forma-general-de-un-modelo-de-espacio---estado-lineal-gaussiano",
+    "objectID": "index.html#variables-explicativas-e-intervenciones",
+    "href": "index.html#variables-explicativas-e-intervenciones",
     "title": "Modelos estructurales de series de tiempo",
-    "section": "Forma general de un modelo de Espacio - Estado lineal Gaussiano",
-    "text": "Forma general de un modelo de Espacio - Estado lineal Gaussiano\n\n\\(y_t:\\) vector de observaciones\n\\(\\alpha_t:\\) vector de estados no observable\n\n\\[\\begin{aligned}\ny_t & =Z_t\\alpha_t+\\varepsilon_t & & \\varepsilon_t \\sim N\\left(0, H_t\\right) \\hspace{1cm} \\textrm{Ecuación de observación}\\\\\n\\alpha_{t+1} & = T_t\\alpha_t+R_t\\eta_t & & \\eta_t \\sim N\\left(0,Q_t\\right) \\hspace{1cm} \\textrm{Ecuación de estados}\n\\end{aligned}\\]\n\\[t=1,\\cdots,n\\]\nDistribución del estado inicial \\(\\alpha_1 \\sim N\\left(a_1,P_1\\right).\\)\n\n\\(\\varepsilon_t\\) y \\(\\eta_t\\) son independientes para todo \\(t, s\\) e independientes de \\(\\alpha_1\\).\nLas matrices \\(Z_t\\), \\(T_t\\), \\(R_t\\), \\(H_t\\) y \\(Q_t\\) determinan la estructura del modelo. Estas matrices pueden contener parámetros desconocidos.\n\nLos parámetros del modelo son \\(H_t\\) y \\(Q_t\\)."
+    "section": "Variables explicativas e intervenciones",
+    "text": "Variables explicativas e intervenciones\n\n\\(y_t:\\) datos observables\n\\(\\mu_t, \\nu_t, \\gamma_t, x_t, w_t:\\) estados no observables\n\n\\[\\begin{aligned}\ny_t & =\\mu_t+\\gamma_t+ \\displaystyle\\sum_{j=1}^{k}\\beta_{jt}x_{jt}+ \\delta w_t + \\varepsilon_t & & \\varepsilon_t \\sim N\\left(0, \\sigma_{\\varepsilon}^2\\right)\n\\end{aligned}\\]\nModelo de nivel local\n\\[\\begin{aligned}\n\\begin{array}{ccc}\ny_t = \\mu_t + \\varepsilon_t,  & \\hspace{1 cm} & y_t = \\mu_t + \\beta_t x_t \\varepsilon_t \\\\\n\\mu_{t+1} = \\mu_t + \\lambda_t w_t + \\xi_t & \\hspace{1 cm} &  \\mu_{t+1} = \\mu_t + \\xi_t \\\\\n\\lambda_t+1 = \\lambda_t & \\hspace{1 cm} & \\beta_{t+1} = \\beta_t + \\tau_t\n\\end{array}\n\\end{aligned}\\]"
   },
   {
     "objectID": "index.html#predicción-de-las-componentes-del-modelo",
@@ -88,7 +102,7 @@
     "href": "index.html#filtrado",
     "title": "Modelos estructurales de series de tiempo",
     "section": "Filtrado",
-    "text": "Filtrado\nSea \\(Y_t = \\left\\{y_1, \\cdots , y_t\\right\\}\\). El Filtro de Kalman es una forma recursiva para calcular: \\[a_{t|t} = E\\left(\\alpha_t|Y_t\\right) \\hspace{2cm} P_{t|t} = Var\\left(\\alpha_{t}|Y_t\\right)\\] \\[a_{t+1}  = E\\left(\\alpha_{t+1}|Y_t\\right) \\hspace{2cm} P_{t+1} = Var\\left(\\alpha_{t+1}|Y_t\\right).\\] Como se asume normalidad en todo el modelo,\n\\[\\alpha_t \\sim N\\left(a_{t|t}, P_{t|t}\\right)\\] \\[\\alpha_{t+1} \\sim N\\left(a_{t+1}, P_{t+1}\\right)\\] La idea es calcular \\(a_{t|t}\\), \\(P_{t|t}\\), \\(a_{t+1}\\) y \\(P_{t+1}\\) partir de \\(a_t\\) y \\(P_t\\) donde\n\\[\\alpha_t|Y_{t-1} \\sim N\\left(a_t, P_t\\right)\\]"
+    "text": "Filtrado\nSea \\(Y_t = \\left\\{y_1, \\cdots , y_t\\right\\}\\). El Filtro de Kalman es una forma recursiva para calcular: \\[a_{t|t} = E\\left(\\alpha_t|Y_t\\right) \\hspace{2cm} P_{t|t} = Var\\left(\\alpha_{t}|Y_t\\right)\\] \\[a_{t+1}  = E\\left(\\alpha_{t+1}|Y_t\\right) \\hspace{2cm} P_{t+1} = Var\\left(\\alpha_{t+1}|Y_t\\right).\\] Como se asume normalidad en todo el modelo,\n\\[\\alpha_t | Y_t \\sim N\\left(a_{t|t}, P_{t|t}\\right)\\] \\[\\alpha_{t+1} | Y_t \\sim N\\left(a_{t+1}, P_{t+1}\\right)\\] La idea es calcular \\(a_{t|t}\\), \\(P_{t|t}\\), \\(a_{t+1}\\) y \\(P_{t+1}\\) partir de \\(a_t\\) y \\(P_t\\) donde\n\\[\\alpha_t|Y_{t-1} \\sim N\\left(a_t, P_t\\right)\\]"
   },
   {
     "objectID": "index.html#section",
@@ -116,7 +130,7 @@
     "href": "index.html#suavizado",
     "title": "Modelos estructurales de series de tiempo",
     "section": "Suavizado",
-    "text": "Suavizado\nSea \\(Y_n = \\left\\{y_1, \\cdots, y_n\\right\\}.\\) El suavizado se refiere al cálculo de \\(\\hat{\\alpha}_t = E\\left(\\alpha_t|Y_n\\right)\\) y de \\(V_t = Var\\left(\\alpha_t|Y_n\\right)\\).\n\\(\\hat{\\alpha}_t\\) y \\(V_t\\) se calculan de forma recursiva a partir del estado inicial \\(\\alpha_1 \\sim N\\left(a_1, P_1\\right)\\) como sigue: \\[\\begin{array}{ll}\\quad r_{t-1}=Z_t^\\prime F_t^{-1}v_t + L_t^\\prime r_t & \\hspace{3cm}N_{t-1} = Z_t^\\prime F_t^{-1}Z_t + L_t^\\prime N_tL_t \\\\ \\hspace{2cm}\\hat{\\alpha}_t = a_t + P_tr_{t-1} & \\hspace{4.5cm}V_t = P_t- P_tN_{t-1}P_t \\\\\\end{array}\\] \\[t=n,\\cdots,1.\\] El algoritmo se inicializa con \\(r_n=0\\) y \\(N_n=0.\\)"
+    "text": "Suavizado\nSea \\(Y_n = \\left\\{y_1, \\cdots, y_n\\right\\}.\\) El suavizado se refiere al cálculo de \\(\\hat{\\alpha}_t = E\\left(\\alpha_t|Y_n\\right)\\) y de \\(V_t = Var\\left(\\alpha_t|Y_n\\right)\\).\n\\(\\hat{\\alpha}_t\\) y \\(V_t\\) se calculan de forma recursiva como sigue: \\[\\begin{array}{ll}\\quad r_{t-1}=Z_t^\\prime F_t^{-1}v_t + L_t^\\prime r_t & \\hspace{3cm}N_{t-1} = Z_t^\\prime F_t^{-1}Z_t + L_t^\\prime N_tL_t \\\\ \\hspace{2cm}\\hat{\\alpha}_t = a_t + P_tr_{t-1} & \\hspace{4.5cm}V_t = P_t- P_tN_{t-1}P_t \\\\\\end{array}\\] \\[t=n,\\cdots,1.\\] El algoritmo se inicializa con \\(r_n=0\\) y \\(N_n=0.\\)"
   },
   {
     "objectID": "index.html#pronósticos",
