@@ -8,7 +8,7 @@
 <link href="site_libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.450">
+  <meta name="generator" content="quarto-1.3.433">
 
   <meta name="author" content="Kevin Rubiano - José Valdés - Mario Castañeda">
   <title>Modelos estructurales de series de tiempo</title>
@@ -405,7 +405,7 @@ Kevin Rubiano - José Valdés - Mario Castañeda
     </div>
 </div>
 
-  <p class="date">domingo, 3 de diciembre, 2023</p>
+  <p class="date">lunes, 4 de diciembre, 2023</p>
 </section>
 <section id="contenido" class="slide level2">
 <h2>Contenido</h2>
@@ -637,6 +637,128 @@ P_{t+1} &amp;= T_t\left(P_t-P_tZ_t^\prime F_t^{-1}Z_tP_t\right)T_t^\prime + R_tQ
 <h2>Estimación de parámetros</h2>
 <p>Las matrices del sistema dependen típicamente de un vector de parámetros <span class="math inline">\(\psi\)</span>. Asumiendo que el vector de estados inicial tiene distribución conocida <span class="math inline">\(\alpha_1 \sim N\left(a_1,P_1\right)\)</span> entonces la estimación de los parámetros se hace vía la función de verosimilitud:</p>
 <p><span class="math display">\[L = \prod_{t=1}^n p\left(y_t|Y_{t-1}\right)\]</span> <span class="math display">\[\log L = \sum_{t=1}^n \log p\left(y_t|Y_{t-1}\right)\]</span> Teniendo en cuenta que <span class="math inline">\(y_t|Y_{t-1} \sim N\left(Z_ta_t, F_t\right)\)</span> entonces: <span class="math display">\[\log L = -\frac{n}{2}\log 2\pi - \frac{1}{2}\sum_{t=1}^n\left(\log F_t + F_t^{-1}v_t^2\right)\]</span> donde <span class="math inline">\(v_t = y_t - Z_ta_t.\)</span></p>
+</section>
+<section id="diagnóstico" class="slide level2">
+<h2>Diagnóstico</h2>
+<p>Para este se realiza comprobación de supuestos sobre los residuales <span class="math inline">\(e_t\)</span>,que se obtienen de la siguiente manera:</p>
+<p><span class="math display">\[e_t=\frac{v_t}{\sqrt{F_t}}\]</span></p>
+<p>Se prueba si cumplen los supuestos de:</p>
+<ul>
+<li>Normalidad (Jarque - Bera Test, Shapiro - Wilk Test)</li>
+<li>Hocedasticidad</li>
+<li>No autocorrelación (Box - Pierce Test, Box - Ljung Test))</li>
+</ul>
+</section>
+<section id="ejemplo-aplicado" class="slide level2">
+<h2>Ejemplo Aplicado</h2>
+<p>Se modela a continuación la Serie de Exportaciones mensuales en colombia usando el <em>Modelo de Tendencia Lineal Local con Estacionalidad</em> expuesto anteriormente. El modelamiento se realiza usando el paquete <em>stm</em> de R.\</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">plot</span>(exportaciones_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="index_files/figure-revealjs/unnamed-chunk-11-1.png" class="img-fluid r-stretch" width="960"><div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Número de datos en el conjunto de entrenamiento: 225"</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Número de datos en el conjunto de entrenamiento: 57"</code></pre>
+</div>
+</div>
+</section>
+<section id="predicción-de-las-componentes" class="slide level2">
+<h2>Predicción de las componentes</h2>
+<p>Se realiza la transformación de Box-Cox con <span class="math inline">\(\lambda = 0.45\)</span> sobre los datos y se entrena el modelo sobre el primer <span class="math inline">\(80\%\)</span> de la serie para luego evaluar la capacidad predictiva del modelo un paso adelante. Las predicciones de las componentes del modelo son:</p>
+
+<img data-src="index_files/figure-revealjs/unnamed-chunk-14-1.png" class="img-fluid r-stretch" width="960"></section>
+<section id="ajuste-de-las-componentes-combinadas" class="slide level2">
+<h2>Ajuste de las componentes combinadas</h2>
+
+<img data-src="index_files/figure-revealjs/unnamed-chunk-15-1.png" class="img-fluid r-stretch" width="960"></section>
+<section id="residuales" class="slide level2">
+<h2>Residuales</h2>
+
+<img data-src="index_files/figure-revealjs/unnamed-chunk-17-1.png" class="img-fluid r-stretch" width="960"></section>
+<section id="acf-residuales" class="slide level2">
+<h2>ACF residuales</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">ac</span>(resids,<span class="at">main =</span> <span class="st">"ACF y PACF Residuales"</span>)  <span class="co"># acf</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="index_files/figure-revealjs/unnamed-chunk-18-1.png" class="img-fluid r-stretch" width="960"></section>
+<section id="pruebas-de-normalidad-y-autocorrelación" class="slide level2">
+<h2>Pruebas de normalidad y autocorrelación</h2>
+<p>Se rechaza la prueba de normalidad, por lo que los residuales no cumplen este supuesto.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>tseries<span class="sc">::</span><span class="fu">jarque.bera.test</span>(resids)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Jarque Bera Test
+
+data:  resids
+X-squared = 12.66, df = 2, p-value = 0.001782</code></pre>
+</div>
+</div>
+<p>No se rechaza la prueba de No Autocorrelación por lo que los residuales sí cumplen este supuesto.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="fu">Box.test</span>(resids, <span class="at">lag =</span> <span class="dv">12</span>, <span class="at">type =</span> <span class="st">"Box-Pierce"</span>, <span class="at">fitdf =</span> <span class="dv">2</span>)  <span class="co"># joint autocorrelation</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Box-Pierce test
+
+data:  resids
+X-squared = 12.246, df = 10, p-value = 0.2689</code></pre>
+</div>
+</div>
+</section>
+<section id="pronóstico" class="slide level2">
+<h2>Pronóstico</h2>
+<p>Se presenta el pronóstico del modelo para los siguientes 12 meses junto con los datos reales observados en esos 12 meses.</p>
+<div class="cell">
+
+<div class="cell-output cell-output-stdout">
+<pre><code>RECM12 296615.1</code></pre>
+</div>
+</div>
+<img data-src="index_files/figure-revealjs/unnamed-chunk-21-1.png" class="img-fluid r-stretch" width="960"></section>
+<section id="capacidad-predictiva-un-paso-adelante" class="slide level2">
+<h2>Capacidad predictiva un paso adelante</h2>
+<p>Con el fin de comparar con los modelos ajustados anteriormente a esta serie, evaluamos mediante el Rolling la capacidad predictiva del modelo estructural ajustado anteriormente.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="co"># ROLLING</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a>h <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb13-3"><a href="#cb13-3"></a>n <span class="ot">&lt;-</span> ntest <span class="sc">-</span> h <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb13-4"><a href="#cb13-4"></a></span>
+<span id="cb13-5"><a href="#cb13-5"></a>fc <span class="ot">&lt;-</span> <span class="fu">ts</span>(<span class="fu">numeric</span>(n), <span class="at">start=</span><span class="fu">c</span>(<span class="dv">2018</span>,<span class="dv">10</span>), <span class="at">freq=</span><span class="dv">12</span>)</span>
+<span id="cb13-6"><a href="#cb13-6"></a></span>
+<span id="cb13-7"><a href="#cb13-7"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n){  </span>
+<span id="cb13-8"><a href="#cb13-8"></a>  x <span class="ot">&lt;-</span> <span class="fu">window</span>(lexportaciones_ts, <span class="at">end=</span><span class="fu">c</span>(<span class="dv">2018</span>, <span class="dv">9</span><span class="sc">+</span>(i<span class="dv">-1</span>)))</span>
+<span id="cb13-9"><a href="#cb13-9"></a>  filtered <span class="ot">&lt;-</span> <span class="fu">dlmFilter</span>(x, <span class="at">mod =</span> mod)</span>
+<span id="cb13-10"><a href="#cb13-10"></a>  fc[i] <span class="ot">&lt;-</span><span class="fu">dlmForecast</span>(filtered, <span class="at">nAhead =</span> h)<span class="sc">$</span>f</span>
+<span id="cb13-11"><a href="#cb13-11"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="predicciones-un-paso-adelantes-rolling" class="slide level2">
+<h2>Predicciones Un paso Adelantes Rolling</h2>
+<div class="cell">
+
+<div class="cell-output cell-output-stdout">
+<pre><code>RECM_UN_PASO 423125.1</code></pre>
+</div>
+</div>
+<img data-src="index_files/figure-revealjs/unnamed-chunk-23-1.png" class="img-fluid r-stretch" width="960"></section>
+<section id="mejoría-del-modelo-al-ir-incluyendo-las-componentes" class="slide level2">
+<h2>Mejoría del modelo al ir incluyendo las componentes</h2>
+<p>Se ajustaron para la misma serie los siguientes modelos y se obtuvo el error de predicción un paso adelante para cada uno de ellos con el fin de compararlos.</p>
+<ul>
+<li><p>Modelo de Nivel Local: No normalidad y no cumple No Autocorrelación. (<span class="math inline">\(RECM = 428858.3\)</span>)</p></li>
+<li><p>Modelo de Tendencia Lineal Local: No normalidad y no cumple No Autocorrelación. (<span class="math inline">\(RECM = 430407.9\)</span>)</p></li>
+<li><p>Modelo de Nivel Local con Estacionalidad: No normalidad y sí cumple No Autocorrelación. (<span class="math inline">\(RECM = 425911.6\)</span>)</p></li>
+<li><p>Modelo de Tendencia Lineal Local con Estacionalidad (<span class="math inline">\(RECM = 423125.1\)</span>).</p></li>
+</ul>
+</section>
+<section id="section-5" class="slide level2">
+<h2></h2>
+<p><em>MUCHAS GRACIAS</em></p>
 
 
 <img src="_extensions/coeos/logo2.png" class="slide-logo r-stretch"><div class="footer footer-default">

@@ -274,9 +274,10 @@ hist(resids, prob = TRUE, col = "grey", main = "", breaks = seq(-12,6, length.ou
 
 ac(resids)  # acf
 
-Box.test(resids, lag = 12, type = "Ljung", fitdf = 2)  # joint autocorrelation
+Box.test(resids, lag = 12, type = "Box-Pierce", fitdf = 2)  # joint autocorrelation
 
-shapiro.test(resids)  # normality
+#Test de normalidad
+tseries::jarque.bera.test(resids)
 
 ### Pronostico-------------
 
@@ -374,9 +375,11 @@ hist(resids, prob = TRUE, col = "grey", main = "", breaks = seq(-12,6, length.ou
 
 ac(resids)  # acf
 
-Box.test(resids, lag = 12, type = "Ljung", fitdf = 2)  # joint autocorrelation
+Box.test(resids, lag = 12, type = "Box-Pierce", fitdf = 2)  # joint autocorrelation
 
-shapiro.test(resids)  # normality
+#Test de normalidad
+tseries::jarque.bera.test(resids)
+
 
 ### Pronostico
 
