@@ -9,38 +9,6 @@ library(forecast)
 
 #Leer y transformar los datos
 
-## BITCOIN ####
-
-BTC_Daily <- read.csv("BTC-Daily.csv")
-Data <- data.frame(BTC_Daily$date,BTC_Daily$close)
-colnames(Data) <- c("FechaTiempo", "Valor")
-
-Data$FechaTiempo <- strftime(Data$FechaTiempo, format="%Y-%m-%d")
-Data$FechaTiempo <- as.Date(Data$FechaTiempo)
-
-Bitcoin <- Data %>%
-  filter(FechaTiempo >= as.Date("2017-01-01"),
-         FechaTiempo <= as.Date("2021-12-31")) |> 
-  arrange(FechaTiempo)
-
-head(Bitcoin); tail(Bitcoin)
-
-# objeto xts  
-Data_xts <- xts::xts(Bitcoin$Valor, order.by = Bitcoin$FechaTiempo)
-plot(Data_xts)
-
-#transformación logarítmica
-lData_xts <- log(Data_xts)+100
-plot(lData_xts)
-
-# pasando a objeto ts
-ldata_ts <- TSstudio::xts_to_ts(lData_xts, frequency = 365,
-                                start = as.Date("2017-01-01"))
-
-plot(ldata_ts);inf<-ldata_ts
-#inf<-diff(ldata_ts, lag=1);plot(inf)
-
-
 ## EXPORTACIONES----
 
 #Cargar datos
@@ -84,13 +52,12 @@ plot(quejas_ts);inf<-quejas_ts
 lserie <- length(inf)
 ntrain <- trunc(lserie*0.8)
 train <- window(inf, end = time(inf)[ntrain])
-test <- window(inf, start = time(inf)[ntrain]+1/365) 
+test <- window(inf, start = time(inf)[ntrain]+1/12) 
 ntest <- length(test)
 paste("Número de datos en el conjunto de entrenamiento:", ntrain)
 paste("Número de datos en el conjunto de entrenamiento:", ntest)
 
 ## QUEJAS EQUIPAJE ####
-
 
 #### LOCAL LEVEL MODEL ####
 
@@ -171,7 +138,8 @@ ac(resids)  # acf
 
 Box.test(resids, lag = 12, type = "Box-Pierce", fitdf = 2)  # joint autocorrelation
 
-shapiro.test(resids)  # normality
+#Test de normalidad
+tseries::jarque.bera.test(resids)
 
 ### Pronostico
 
@@ -195,7 +163,7 @@ abline(v = 225, col = "blue", lwd = 1, lty = 3)
 legend("topleft", legend = c("Observed Deflator", "Stochastic level"), 
        lwd = c(1.5, 1), col = c("red", "darkgrey"), bty = "n")
 
-### Intervalos de confianza
+### Intervalos de confianza---------
 
 conf.tmp <- unlist(dlmSvd2var(smoothed$U.S, smoothed$D.S))
 conf <- ts(as.numeric(conf.tmp)[-1], start = c(2000, 1), 
@@ -224,7 +192,7 @@ legend("topright", legend = c("Observed Deflator", "Stochastic level",
                               "Confidence Interval"), lwd = c(1.5, 1, 1), col = c("darkgrey", 
                                                                                   "black", "red"), bty = "n")
 
-### Pronostico
+### Pronostico-----------
 
 comb.state <- cbind(mu, conf.pos, conf.neg)
 
@@ -310,7 +278,7 @@ Box.test(resids, lag = 12, type = "Ljung", fitdf = 2)  # joint autocorrelation
 
 shapiro.test(resids)  # normality
 
-### Pronostico
+### Pronostico-------------
 
 alpha <- mu+upsilon
 
@@ -577,80 +545,6 @@ lines(result, col = "red", lwd = 0.8)
 abline(v = c(2018,10), col = "blue", lwd = 1, lty = 3)
 legend("topleft", legend = c("Observed Deflator", "Stochastic level"), 
        lwd = c(1.5, 1), col = c("red", "darkgrey"), bty = "n")
-
-
-
-### INTENTON Intervalos de confianza ####
-
-conf.tmp <- unlist(dlmSvd2var(smoothed$U.S, smoothed$D.S))
-conf <- ts(as.numeric(conf.tmp)[-1], start = c(2000, 1), 
-           frequency = 12)
-
-wid <- qnorm(0.05, lower = FALSE) * sqrt(conf)
-
-conf.pos <- mu + wid
-conf.neg <- mu - wid
-
-mu.f <- dropFirst(filtered$a)
-cov.tmp <- unlist(dlmSvd2var(filtered$U.R, filtered$D.R))
-
-if (sum(dim(mod$FF)) == 2) {
-  variance <- cov.tmp + as.numeric(V(mod))
-} else {
-  variance <- (sapply(cov.tmp, function(x) mod$FF %*% 
-                        x %*% t(mod$FF))) + V(mod)
-}
-
-par(mfrow = c(1, 1), mar = c(2.2, 2.2, 1, 1), cex = 0.8)
-plot.ts(train, col = "darkgrey", xlab = "", ylab = "", lwd = 1.5)
-lines(mu, col = "black")
-lines(conf.pos, col = "red")
-lines(conf.neg, col = "red")
-legend("topright", legend = c("Observed Deflator", "Stochastic level", 
-                              "Confidence Interval"), lwd = c(1.5, 1, 1), col = c("darkgrey", 
-                                                                                  "black", "red"), bty = "n")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-### INTENTON Pronostico con INT de CONF
-
-comb.state <- cbind(mu, conf.pos, conf.neg)
-
-forecast <- dlmForecast(filtered, nAhead = 12)
-var.2 <- unlist(forecast$Q)
-wid.2 <- qnorm(0.05, lower = FALSE) * sqrt(var.2)
-comb.fore <- cbind(forecast$f, forecast$f + wid.2, forecast$f - 
-                     wid.2)
-
-result <- ts(rbind(comb.state, comb.fore), start = c(2000,1), frequency = 12)
-
-
-par(mfrow = c(1, 1), mar = c(2.2, 2.2, 1, 1), cex = 0.8)
-plot.ts(result, col = c("black", "red", "red"), plot.type = "single", 
-        xlab = "", ylab = "", lty = c(1, 2, 2))
-lines(train, col = "darkgrey", lwd = 1.5)
-legend("topleft", legend = c("Observed Deflator", "Stochastic level"), 
-       lwd = c(1.5, 1), col = c("darkgrey", "black"), bty = "n")
-
-
-
-
-
 
 
 
