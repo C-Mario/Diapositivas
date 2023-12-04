@@ -254,7 +254,7 @@ El tratamiento estadístico de las componentes no observables del modelo puede s
 
 Sea $Y_t = \left\{y_1, \cdots , y_t\right\}$. El Filtro de Kalman es una forma recursiva para calcular: $$a_{t|t} = E\left(\alpha_t|Y_t\right) \hspace{2cm} P_{t|t} = Var\left(\alpha_{t}|Y_t\right)$$ $$a_{t+1}  = E\left(\alpha_{t+1}|Y_t\right) \hspace{2cm} P_{t+1} = Var\left(\alpha_{t+1}|Y_t\right).$$ Como se asume normalidad en todo el modelo,
 
-$$\alpha_t \sim N\left(a_{t|t}, P_{t|t}\right)$$ $$\alpha_{t+1} \sim N\left(a_{t+1}, P_{t+1}\right)$$ La idea es calcular $a_{t|t}$, $P_{t|t}$, $a_{t+1}$ y $P_{t+1}$ partir de $a_t$ y $P_t$ donde
+$$\alpha_t | Y_t \sim N\left(a_{t|t}, P_{t|t}\right)$$ $$\alpha_{t+1} | Y_t \sim N\left(a_{t+1}, P_{t+1}\right)$$ La idea es calcular $a_{t|t}$, $P_{t|t}$, $a_{t+1}$ y $P_{t+1}$ partir de $a_t$ y $P_t$ donde
 
 $$\alpha_t|Y_{t-1} \sim N\left(a_t, P_t\right)$$
 
@@ -292,7 +292,7 @@ Una vez calculados $a_{t|t}$ y $P_{t|t}$, las predicciones del filtro se calcula
 
 Sea $Y_n = \left\{y_1, \cdots, y_n\right\}.$ El suavizado se refiere al cálculo de $\hat{\alpha}_t = E\left(\alpha_t|Y_n\right)$ y de $V_t = Var\left(\alpha_t|Y_n\right)$.
 
-$\hat{\alpha}_t$ y $V_t$ se calculan de forma recursiva a partir del estado inicial $\alpha_1 \sim N\left(a_1, P_1\right)$ como sigue: $$\begin{array}{ll}\quad r_{t-1}=Z_t^\prime F_t^{-1}v_t + L_t^\prime r_t & \hspace{3cm}N_{t-1} = Z_t^\prime F_t^{-1}Z_t + L_t^\prime N_tL_t \\ \hspace{2cm}\hat{\alpha}_t = a_t + P_tr_{t-1} & \hspace{4.5cm}V_t = P_t- P_tN_{t-1}P_t \\\end{array}$$ $$t=n,\cdots,1.$$ El algoritmo se inicializa con $r_n=0$ y $N_n=0.$
+$\hat{\alpha}_t$ y $V_t$ se calculan de forma recursiva como sigue: $$\begin{array}{ll}\quad r_{t-1}=Z_t^\prime F_t^{-1}v_t + L_t^\prime r_t & \hspace{3cm}N_{t-1} = Z_t^\prime F_t^{-1}Z_t + L_t^\prime N_tL_t \\ \hspace{2cm}\hat{\alpha}_t = a_t + P_tr_{t-1} & \hspace{4.5cm}V_t = P_t- P_tN_{t-1}P_t \\\end{array}$$ $$t=n,\cdots,1.$$ El algoritmo se inicializa con $r_n=0$ y $N_n=0.$
 
 ## Pronósticos
 
