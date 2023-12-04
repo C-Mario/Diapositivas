@@ -8,7 +8,7 @@
 <link href="site_libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.353">
+  <meta name="generator" content="quarto-1.3.450">
 
   <meta name="author" content="Kevin Rubiano - José Valdés - Mario Castañeda">
   <title>Modelos estructurales de series de tiempo</title>
@@ -441,22 +441,43 @@ Kevin Rubiano - José Valdés - Mario Castañeda
 <p>Los estados no observables del modelo se modelan mediante un modelo estocástico, su dinámica sigue un proceso de Markov de primer orden.</p>
 <p>Nos enfocaremos en los modelos de Espacio - Estado lineales y gaussianos.</p>
 </section>
+<section id="forma-general-de-un-modelo-de-espacio---estado-lineal-gaussiano" class="slide level2">
+<h2>Forma general de un modelo de Espacio - Estado lineal Gaussiano</h2>
+<ul>
+<li><span class="math inline">\(y_t:\)</span> vector de observaciones</li>
+<li><span class="math inline">\(\alpha_t:\)</span> vector de estados no observable</li>
+</ul>
+<span class="math display">\[\begin{aligned} y_t &amp; =Z_t\alpha_t+\varepsilon_t &amp; &amp; \varepsilon_t \sim N\left(0, H_t\right) \hspace{1cm} \textrm{Ecuación de observación}\\ \alpha_{t+1} &amp; = T_t\alpha_t+R_t\eta_t &amp; &amp; \eta_t \sim N\left(0,Q_t\right) \hspace{1cm} \textrm{Ecuación de estados} \end{aligned}\]</span>
+<p><span class="math display">\[t=1,\cdots,n\]</span></p>
+<p>Distribución del estado inicial <span class="math inline">\(\alpha_1 \sim N\left(a_1,P_1\right).\)</span></p>
+<ul>
+<li><p><span class="math inline">\(\varepsilon_t\)</span> y <span class="math inline">\(\eta_t\)</span> son independientes para todo <span class="math inline">\(t, s\)</span> e independientes de <span class="math inline">\(\alpha_1\)</span>.</p></li>
+<li><p>Las matrices <span class="math inline">\(Z_t\)</span>, <span class="math inline">\(T_t\)</span>, <span class="math inline">\(R_t\)</span>, <span class="math inline">\(H_t\)</span> y <span class="math inline">\(Q_t\)</span> determinan la estructura del modelo. Estas matrices pueden contener parámetros desconocidos.</p></li>
+</ul>
+<p>Los parámetros del modelo son <span class="math inline">\(H_t\)</span> y <span class="math inline">\(Q_t\)</span>.</p>
+</section>
 <section id="filtro-de-kalman" class="slide level2">
 <h2>Filtro de Kalman</h2>
 <ul>
+<li><p>El filtro de Kalman es un algoritmo recursivo; la mejor estimación actual se actualiza cada vez que se obtiene una nueva observación.</p></li>
 <li><p>El filtro de Kalman calcula la media y la varianza del estado no observado, dado las observaciones.</p></li>
 <li><p>El estado es gaussiano, su distribución está caracterizada por la media y la varianza.</p></li>
-<li><p>El filtro de Kalman es un algoritmo recursivo; la mejor estimación actual se actualiza cada vez que se obtiene una nueva observación.</p></li>
 <li><p>Para iniciar la recursión, se requieren <span class="math inline">\(a_1\)</span> y <span class="math inline">\(P_1\)</span>, lo cuáles se asumen conocidos.</p></li>
-<li><p>Existen varias maneras de inicializar el algoritmo cuando <span class="math inline">\(a_1\)</span> y <span class="math inline">\(P_1\)</span> son desconocidos.</p></li>
+<li><p>Existen varias maneras de inicializar el algoritmo cuando <span class="math inline">\(a_1\)</span> y <span class="math inline">\(P_1\)</span> son desconocidos.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/KalmanFilter.JPG" class="img-fluid"></p>
+<figcaption>Filtro de Kalman</figcaption>
+</figure>
+</div></li>
 </ul>
 </section>
 <section id="modelos-estructurales-de-series-de-tiempo" class="slide level2">
 <h2>Modelos estructurales de series de tiempo</h2>
-<p>Un modelo estructural es aquel en el que una serie de tiempo es descompuesta en componentes no observables tales como tendencia, estacionalidad, ciclos, términos de error y otras componentes relevantes como efectos de impacto o la inclusión de otras variables explicativas.</p>
-<p>Las componentes se modelan explícitamente y pueden ser interpretadas directamente.</p>
-<p>Los modelos estructurales de series de tiempo se llevarán a la forma de un modelo de Espacio - Estado a través del cuál se aplicará el algoritmo del Filtro de Kalman y el suavizador asociado. Además permitirá calcular la función de verosimilitud.</p>
-</section>
+<p>Un modelo estructural toma una serie de tiempo y la descompone en componentes no observables tales como tendencia, estacionalidad, ciclos, términos de error y otras componentes relevantes como efectos de impacto o la inclusión de otras variables explicativas. Las componentes se modelan explícitamente y pueden ser interpretadas directamente.</p>
+<p>Estos modelos se transforman en un modelo de Espacio-Estado, utilizando el algoritmo del Filtro de Kalman y su suavizador correspondiente, lo que facilita el cálculo de la función de verosimilitud.</p>
+
+<img data-src="images/Modelo Estructural.png" class="img-fluid r-stretch quarto-figure-center"><p class="caption">Modelo estructural de series de tiempo</p></section>
 <section id="modelo-de-nivel-local" class="slide level2">
 <h2>Modelo de nivel local</h2>
 <ul>
@@ -467,25 +488,21 @@ Kevin Rubiano - José Valdés - Mario Castañeda
 y_t &amp; =\mu_t+\varepsilon_t &amp; &amp; \varepsilon_t \sim N\left(0, \sigma_{\varepsilon}^2\right) \\
 \mu_{t+1} &amp; =\mu_t+\xi_t &amp; &amp; \xi_t \sim N\left(0, \sigma_{\xi}^2\right)
 \end{aligned}\]</span>
-<p><span class="math inline">\(\mu_t\)</span> es el nivel (Tendencia estocastica) de la serie en el tiempo <span class="math inline">\(t\)</span>.</p>
+<p><span class="math inline">\(\mu_t\)</span> es el nivel (Tendencia estocástica) de la serie en el tiempo <span class="math inline">\(t\)</span>.</p>
 <p>Los parámetros del modelo son <span class="math inline">\(\sigma^2_\varepsilon\)</span> y <span class="math inline">\(\sigma^2_\xi\)</span>.</p>
+<span class="math display">\[\begin{aligned}
+\alpha_t = \mu_t \hspace{2 cm} T_t = R_t = Z_t = 1 \\
+Q_t = \sigma^2_{\eta} \hspace{2 cm} H_t = \sigma^2_{\epsilon}
+\end{aligned}\]</span>
 </section>
-<section id="example" class="slide level2">
-<h2>Example</h2>
+<section id="ejemplo" class="slide level2">
+<h2>Ejemplo</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>Nilo <span class="ot">&lt;-</span> datasets<span class="sc">::</span>Nile</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="co"># ajustar modelo </span></span>
-<span id="cb1-3"><a href="#cb1-3"></a>modelNilo <span class="ot">&lt;-</span> rucm<span class="sc">::</span><span class="fu">ucm</span>(<span class="at">formula =</span> Nile<span class="sc">~</span><span class="dv">0</span>, <span class="at">data =</span> Nile, <span class="at">level =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="co">#</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="fu">plot</span>(Nilo)</span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="fu">lines</span>(modelNilo<span class="sc">$</span>s.level, <span class="at">col =</span> <span class="st">"cyan"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># ajustar modelo </span></span>
+<span id="cb1-2"><a href="#cb1-2"></a>modelNilo <span class="ot">&lt;-</span> <span class="fu">StructTS</span>(Nilo, <span class="at">type=</span><span class="st">"level"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell fragment">
-<div class="cell-output-display">
-<p><img data-src="index_files/figure-revealjs/unnamed-chunk-1-1.png" class="img-fluid" width="480"></p>
-</div>
-</div>
-</section>
+
+<img data-src="index_files/figure-revealjs/unnamed-chunk-3-1.png" class="img-fluid r-stretch" width="960"></section>
 <section id="modelo-de-tendencia-local-lineal" class="slide level2">
 <h2>Modelo de tendencia local lineal</h2>
 <ul>
@@ -497,9 +514,20 @@ y_t &amp; =\mu_t+\varepsilon_t &amp; &amp; \varepsilon_t \sim N\left(0, \sigma_{
 \mu_{t+1} &amp; =\mu_t+\nu_t+\xi_t &amp; &amp; \xi_t \sim N\left(0, \sigma_{\xi}^2\right) \\
 \nu_{t+1} &amp; =\nu_t+\zeta_t &amp; &amp; \zeta_t \sim N\left(0, \sigma_\zeta^2\right)
 \end{aligned}\]</span>
-<p><span class="math inline">\(\mu_t\)</span> es el nivel de la serie en el tiempo <span class="math inline">\(t\)</span>. <br> <span class="math inline">\(\nu_t\)</span> es la pendiente de la serie en el tiempo <span class="math inline">\(t\)</span>.</p>
-<p>Los parámetros del modelo son <span class="math inline">\(\sigma^2_\varepsilon\)</span>, <span class="math inline">\(\sigma^2_\xi\)</span> y <span class="math inline">\(\sigma^2_\zeta\)</span>.</p>
+<p><span class="math inline">\(\mu_t\)</span> es el nivel y <span class="math inline">\(\nu_t\)</span> es la pendiente de la serie en el tiempo <span class="math inline">\(t\)</span>.</p>
+<span class="math display">\[\begin{aligned}
+\alpha_t = [\mu_t, \ \nu_t] \hspace{1 cm} T_t = \begin{bmatrix} 1 &amp; 1 \\ 0 &amp; 1 \end{bmatrix} \hspace{1 cm} R_t = \begin{bmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{bmatrix} \\
+Z_t = [1, \ 0] \hspace{1 cm} Q_t = \begin{bmatrix} \sigma^2_{\xi} &amp; 0 \\ 0 &amp; \sigma^2_{\zeta}  \end{bmatrix}  \hspace{1 cm} H_t = \sigma^2_{\epsilon}
+\end{aligned}\]</span>
 </section>
+<section id="ejemplo-1" class="slide level2">
+<h2>Ejemplo</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># ajustar modelo </span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>modelASair <span class="ot">&lt;-</span> <span class="fu">StructTS</span>(AUSAIR, <span class="at">type=</span><span class="st">"trend"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+<img data-src="index_files/figure-revealjs/unnamed-chunk-6-1.png" class="img-fluid r-stretch" width="960"></section>
 <section id="modelo-de-tendencia-local-con-estacionalidad" class="slide level2">
 <h2>Modelo de tendencia local con estacionalidad</h2>
 <ul>
@@ -515,33 +543,31 @@ y_t &amp; =\mu_t+\gamma_t+\varepsilon_t &amp; &amp; \varepsilon_t \sim N\left(0,
 <p><span class="math inline">\(\mu_t\)</span> es el nivel de la serie en el tiempo <span class="math inline">\(t\)</span>, <span class="math inline">\(\nu_t\)</span> es la pendiente de la serie en el tiempo <span class="math inline">\(t\)</span> y <span class="math inline">\(\gamma_t\)</span> es la componente estacional en el tiempo <span class="math inline">\(t\)</span>.</p>
 <p>Los parámetros del modelo son <span class="math inline">\(\sigma^2_\varepsilon\)</span>, <span class="math inline">\(\sigma^2_\xi\)</span> y <span class="math inline">\(\sigma^2_\zeta\)</span>.</p>
 </section>
-<section id="modelo-de-tendencia-local-con-estacionalidad-y-regresión" class="slide level2">
-<h2>Modelo de tendencia local con estacionalidad y regresión</h2>
+<section id="ejemplo-2" class="slide level2">
+<h2>Ejemplo</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># ajustar modelo </span></span>
+<span id="cb3-2"><a href="#cb3-2"></a>modelASTour <span class="ot">&lt;-</span> <span class="fu">StructTS</span>(AUsTourist, <span class="at">type=</span><span class="st">"BSM"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+<img data-src="index_files/figure-revealjs/unnamed-chunk-9-1.png" class="img-fluid r-stretch" width="960"></section>
+<section id="variables-explicativas-e-intervenciones" class="slide level2">
+<h2>Variables explicativas e intervenciones</h2>
 <ul>
 <li><span class="math inline">\(y_t:\)</span> datos observables</li>
-<li><span class="math inline">\(\mu_t, \nu_t, \gamma_t, \beta_t^Tx_t:\)</span> estados no observables</li>
+<li><span class="math inline">\(\mu_t, \nu_t, \gamma_t, x_t, w_t:\)</span> estados no observables</li>
 </ul>
 <span class="math display">\[\begin{aligned}
-y_t &amp; =\mu_t+\gamma_t+\beta_t^Tx_t+\varepsilon_t &amp; &amp; \varepsilon_t \sim N\left(0, \sigma_{\varepsilon}^2\right)
+y_t &amp; =\mu_t+\gamma_t+ \displaystyle\sum_{j=1}^{k}\beta_{jt}x_{jt}+ \delta w_t + \varepsilon_t &amp; &amp; \varepsilon_t \sim N\left(0, \sigma_{\varepsilon}^2\right)
 \end{aligned}\]</span>
-</section>
-<section id="forma-general-de-un-modelo-de-espacio---estado-lineal-gaussiano" class="slide level2">
-<h2>Forma general de un modelo de Espacio - Estado lineal Gaussiano</h2>
-<ul>
-<li><span class="math inline">\(y_t:\)</span> vector de observaciones</li>
-<li><span class="math inline">\(\alpha_t:\)</span> vector de estados no observable</li>
-</ul>
+<p><strong>Modelo de nivel local</strong></p>
 <span class="math display">\[\begin{aligned}
-y_t &amp; =Z_t\alpha_t+\varepsilon_t &amp; &amp; \varepsilon_t \sim N\left(0, H_t\right) \hspace{1cm} \textrm{Ecuación de observación}\\
-\alpha_{t+1} &amp; = T_t\alpha_t+R_t\eta_t &amp; &amp; \eta_t \sim N\left(0,Q_t\right) \hspace{1cm} \textrm{Ecuación de estados}
+\begin{array}{ccc}
+y_t = \mu_t + \varepsilon_t,  &amp; \hspace{1 cm} &amp; y_t = \mu_t + \beta_t x_t \varepsilon_t \\
+\mu_{t+1} = \mu_t + \lambda_t w_t + \xi_t &amp; \hspace{1 cm} &amp;  \mu_{t+1} = \mu_t + \xi_t \\
+\lambda_t+1 = \lambda_t &amp; \hspace{1 cm} &amp; \beta_{t+1} = \beta_t + \tau_t
+\end{array}
 \end{aligned}\]</span>
-<p><span class="math display">\[t=1,\cdots,n\]</span></p>
-<p>Distribución del estado inicial <span class="math inline">\(\alpha_1 \sim N\left(a_1,P_1\right).\)</span></p>
-<ul>
-<li><p><span class="math inline">\(\varepsilon_t\)</span> y <span class="math inline">\(\eta_t\)</span> son independientes para todo <span class="math inline">\(t, s\)</span> e independientes de <span class="math inline">\(\alpha_1\)</span>.</p></li>
-<li><p>Las matrices <span class="math inline">\(Z_t\)</span>, <span class="math inline">\(T_t\)</span>, <span class="math inline">\(R_t\)</span>, <span class="math inline">\(H_t\)</span> y <span class="math inline">\(Q_t\)</span> determinan la estructura del modelo. Estas matrices pueden contener parámetros desconocidos.</p></li>
-</ul>
-<p>Los parámetros del modelo son <span class="math inline">\(H_t\)</span> y <span class="math inline">\(Q_t\)</span>.</p>
 </section>
 <section id="predicción-de-las-componentes-del-modelo" class="slide level2">
 <h2>Predicción de las componentes del modelo</h2>
@@ -565,12 +591,12 @@ a_{t+1} &amp;= T_t\left(a_t + P_tZ_t^\prime F_t^{-1}v_t\right)\\
 &amp;= T_ta_t + T_tP_tZ_t^\prime F_t^{-1}v_t\\
 &amp;= \color{RoyalBlue}{T_ta_t + K_tv_t}
 \end{align*}\]</span></p>
-<p><span class="math display">\[\begin{align*}
+<span class="math display">\[\begin{align*}
 P_{t+1} &amp;= T_t\left(P_t-P_tZ_t^\prime F_t^{-1}Z_tP_t\right)T_t^\prime + R_tQ_tR_t^\prime\\
 &amp;= T_tP_tT_t^\prime - T_tP_tZ_t^\prime F_t^{-1}Z_tP_tT_t^\prime + R_tQ_tR_t^\prime\\
 &amp;= T_tP_tT_t^\prime - K_tZ_tP_tT_t^\prime + R_tQ_tR_t^\prime\\
 &amp;= \color{RoyalBlue}{T_tP_t\left(T_t-K_tZ_t\right)^\prime + R_tQ_tR_t^\prime}
-\end{align*}\]</span></p>
+\end{align*}\]</span>
 </section>
 <section id="section-2" class="slide level2">
 <h2></h2>
