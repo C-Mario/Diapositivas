@@ -95,7 +95,7 @@
     "href": "index.html#predicción-de-las-componentes-del-modelo",
     "title": "Modelos estructurales de series de tiempo",
     "section": "Predicción de las componentes del modelo",
-    "text": "Predicción de las componentes del modelo\nEl tratamiento estadístico de las componentes no observables del modelo puede ser llevado a cabo usando la forma general del modelo de Espacio - Estado y los algoritmos asociados del Filtro de Kalman y de Suavizado."
+    "text": "Predicción de las componentes del modelo\nEl tratamiento estadístico de las componentes no observables del modelo puede ser llevado a cabo usando la forma general del modelo de Espacio - Estado y los algoritmos asociados del Filtro de Kalman y de Suavizado.\n\\[\\begin{aligned} y_t & =Z_t\\alpha_t+\\varepsilon_t & & \\varepsilon_t \\sim N\\left(0, H_t\\right) \\hspace{1cm} \\textrm{Ecuación de observación}\\\\ \\alpha_{t+1} & = T_t\\alpha_t+R_t\\eta_t & & \\eta_t \\sim N\\left(0,Q_t\\right) \\hspace{1cm} \\textrm{Ecuación de estados} \\end{aligned}\\]\n\\[t=1,\\cdots,n \\hspace{2 cm} \\alpha_1 \\sim N \\left(a_1,P_1\\right)  \\]"
   },
   {
     "objectID": "index.html#filtrado",
@@ -109,7 +109,7 @@
     "href": "index.html#section",
     "title": "Modelos estructurales de series de tiempo",
     "section": "",
-    "text": "El error de predicción \\(1\\) paso adelante de \\(y_t\\) se denota como \\(v_t\\) y se define como: \\[v_t = E\\left(y_t|Y_{t-1}\\right) = y_t - E\\left(Z_t\\alpha_t + \\varepsilon_t|Y_{t-1}\\right) = \\color{RoyalBlue}{y_t - Z_ta_t}\\] La varianza del error de predicción \\(1\\) paso adelante de \\(v_t\\) se denota como \\(F_t\\) y está dado por: \\[F_t = Var\\left(v_t|Y_{t-1}\\right) = Var\\left(y_t - Z_ta_t|Y_{t-1}\\right) =  Var\\left(Z_t\\alpha_t + \\varepsilon_t - Z_ta_t|Y_{t-1}\\right) = \\color{RoyalBlue}{Z_tP_tZ_t^\\prime + H_t}\\] Con esto, se actualiza el estimador filtrado de \\(\\alpha_t\\) y su respectiva varianza:\n\\[a_{t|t} = \\color{RoyalBlue}{a_t + P_tZ_t^\\prime F_t^{-1}v_t}\\] \\[P_{t|t} = \\color{RoyalBlue}{P_t-P_tZ_t^\\prime F_t^{-1}Z_tP_t}\\]"
+    "text": "El error de predicción \\(1\\) paso adelante de \\(y_t\\) se denota como \\(v_t\\) y se define como: \\[v_t = y_t - E\\left(y_t|Y_{t-1}\\right) = y_t - E\\left(Z_t\\alpha_t + \\varepsilon_t|Y_{t-1}\\right) = \\color{RoyalBlue}{y_t - Z_ta_t}\\] La varianza del error de predicción \\(1\\) paso adelante de \\(v_t\\) se denota como \\(F_t\\) y está dado por: \\[F_t = Var\\left(v_t|Y_{t-1}\\right) = Var\\left(y_t - Z_ta_t|Y_{t-1}\\right) =  Var\\left(Z_t\\alpha_t + \\varepsilon_t - Z_ta_t|Y_{t-1}\\right) = \\color{RoyalBlue}{Z_tP_tZ_t^\\prime + H_t}\\] Con esto, se actualiza el estimador filtrado de \\(\\alpha_t\\) y su respectiva varianza:\n\\[a_{t|t} = \\color{RoyalBlue}{a_t + P_tZ_t^\\prime F_t^{-1}v_t}\\] \\[P_{t|t} = \\color{RoyalBlue}{P_t-P_tZ_t^\\prime F_t^{-1}Z_tP_t}\\]"
   },
   {
     "objectID": "index.html#section-1",
@@ -130,7 +130,7 @@
     "href": "index.html#suavizado",
     "title": "Modelos estructurales de series de tiempo",
     "section": "Suavizado",
-    "text": "Suavizado\nSea \\(Y_n = \\left\\{y_1, \\cdots, y_n\\right\\}.\\) El suavizado se refiere al cálculo de \\(\\hat{\\alpha}_t = E\\left(\\alpha_t|Y_n\\right)\\) y de \\(V_t = Var\\left(\\alpha_t|Y_n\\right)\\).\n\\(\\hat{\\alpha}_t\\) y \\(V_t\\) se calculan de forma recursiva como sigue: \\[\\begin{array}{ll}\\quad r_{t-1}=Z_t^\\prime F_t^{-1}v_t + L_t^\\prime r_t & \\hspace{3cm}N_{t-1} = Z_t^\\prime F_t^{-1}Z_t + L_t^\\prime N_tL_t \\\\ \\hspace{2cm}\\hat{\\alpha}_t = a_t + P_tr_{t-1} & \\hspace{4.5cm}V_t = P_t- P_tN_{t-1}P_t \\\\\\end{array}\\] \\[t=n,\\cdots,1.\\] El algoritmo se inicializa con \\(r_n=0\\) y \\(N_n=0.\\)"
+    "text": "Suavizado\nSea \\(Y_n = \\left\\{y_1, \\cdots, y_n\\right\\}.\\) El suavizado se refiere al cálculo de \\(\\hat{\\alpha}_t = E\\left(\\alpha_t|Y_n\\right)\\) y de \\(V_t = Var\\left(\\alpha_t|Y_n\\right)\\).\n\\(\\hat{\\alpha}_t\\) y \\(V_t\\) se calculan de forma recursiva como sigue: \\[\\begin{array}{ll}\\quad r_{t-1}=Z_t^\\prime F_t^{-1}v_t + L_t^\\prime r_t & \\hspace{3cm}N_{t-1} = Z_t^\\prime F_t^{-1}Z_t + L_t^\\prime N_tL_t \\\\ \\hspace{2cm}\\hat{\\alpha}_t = a_t + P_tr_{t-1} & \\hspace{4.5cm}V_t = P_t- P_tN_{t-1}P_t \\\\\n\\end{array}\\] \\[t=n,\\cdots,1. \\text{ donde } L_t = T_t - K_tZ_t\\] El algoritmo se inicializa con \\(r_n=0\\) y \\(N_n=0.\\)"
   },
   {
     "objectID": "index.html#pronósticos",
@@ -151,7 +151,7 @@
     "href": "index.html#section-4",
     "title": "Modelos estructurales de series de tiempo",
     "section": "",
-    "text": "Sean \\(\\bar{a}_{n+j} = E\\left(\\alpha_{n+j}|Y_n\\right)\\) y \\(\\bar{P}_{n+j} = E\\left[\\left(\\bar{a}_{n+j} - \\alpha_{n+j}\\right)\\left(\\bar{a}_{n+j} - \\alpha_{n+j}\\right)^\\prime|Y_n\\right]\\).\nDe la ecuación de observación se tiene que \\(y_{n+j} = Z_{n+j}\\alpha_{n+j} + \\varepsilon_{n+j}\\), luego: \\[\\bar{y}_{n+j} = Z_{n+j}E\\left(\\alpha_{n+j}|Y_n\\right) = Z_{n+j}\\bar{a}_{n+j}\\] \\[\\bar{F} = Z_{n+j}\\bar{P}_{n+j}Z^\\prime_{n+j}+H_{n+j}.\\]\nLas recursiones para calcular \\(\\bar{a}_{n+j}\\) y \\(\\bar{P}_{n+j}\\) se obtienen mediante la ecuación de estados \\(\\alpha_{n+j+1} = T_{n+j} \\alpha_{n+j} + R_{n+j}\\eta_{n+j}\\), luego:\n\\[\\bar{a}_{n+j+1} = T_{n+j}E\\left(\\alpha_{n+j}|Y_n\\right) = T_{n+j}\\bar{a}_{n+j}\\] \\[\\textrm{donde} \\hspace{1cm} \\bar{a}_{n+1} = a_{n+1}\\] \\[\\bar{P}_{n+j+1} = T_{n+j}\\bar{P}_{n+j}T_{n+j}^\\prime + R_{n+j}Q_{n+j}R^\\prime_{n+j}\\] \\[j = 1, \\cdots, J-1.\\]"
+    "text": "Sean \\(\\bar{a}_{n+j} = E\\left(\\alpha_{n+j}|Y_n\\right)\\) y \\(\\bar{P}_{n+j} = E\\left[\\left(\\bar{a}_{n+j} - \\alpha_{n+j}\\right)\\left(\\bar{a}_{n+j} - \\alpha_{n+j}\\right)^\\prime|Y_n\\right]\\).\nDe la ecuación de observación se tiene que \\(y_{n+j} = Z_{n+j}\\alpha_{n+j} + \\varepsilon_{n+j}\\), luego: \\[\\bar{y}_{n+j} = Z_{n+j}E\\left(\\alpha_{n+j}|Y_n\\right) = Z_{n+j}\\bar{a}_{n+j}\\] \\[\\bar{F} = Z_{n+j}\\bar{P}_{n+j}Z^\\prime_{n+j}+H_{n+j}.\\]\nLas recursiones para calcular \\(\\bar{a}_{n+j}\\) y \\(\\bar{P}_{n+j}\\) se obtienen mediante la ecuación de estados \\(\\alpha_{n+j+1} = T_{n+j} \\alpha_{n+j} + R_{n+j}\\eta_{n+j}\\), luego:\n\\[\\bar{a}_{n+j+1} = T_{n+j}E\\left(\\alpha_{n+j}|Y_n\\right) = T_{n+j}\\bar{a}_{n+j}\\] \\[\\bar{P}_{n+j+1} = T_{n+j}\\bar{P}_{n+j}T_{n+j}^\\prime + R_{n+j}Q_{n+j}R^\\prime_{n+j}\\] \\[j = 1, \\cdots, J-1.\\]"
   },
   {
     "objectID": "index.html#estimación-de-parámetros",
@@ -165,7 +165,7 @@
     "href": "index.html#diagnóstico",
     "title": "Modelos estructurales de series de tiempo",
     "section": "Diagnóstico",
-    "text": "Diagnóstico\nPara este se realiza comprobación de supuestos sobre los residuales \\(e_t\\),que se obtienen de la siguiente manera:\n\\[e_t=\\frac{v_t}{\\sqrt{F_t}}\\]\nSe prueba si cumplen los supuestos de:\n\nNormalidad (Jarque - Bera Test, Shapiro - Wilk Test)\nHocedasticidad\nNo autocorrelación (Box - Pierce Test, Box - Ljung Test))"
+    "text": "Diagnóstico\nPara este se realiza comprobación de supuestos sobre los residuales \\(e_t\\),que se obtienen de la siguiente manera:\n\\[e_t=\\frac{v_t}{\\sqrt{F_t}}\\]\nSe prueba si cumplen los supuestos de:\n\nNormalidad (Jarque - Bera Test, Shapiro - Wilk Test)\nNo autocorrelación (Box - Pierce Test, Box - Ljung Test))"
   },
   {
     "objectID": "index.html#ejemplo-aplicado",
@@ -189,11 +189,18 @@
     "text": "Ajuste de las componentes combinadas"
   },
   {
-    "objectID": "index.html#residuales-y-acf",
-    "href": "index.html#residuales-y-acf",
+    "objectID": "index.html#residuales",
+    "href": "index.html#residuales",
     "title": "Modelos estructurales de series de tiempo",
-    "section": "Residuales y ACF",
-    "text": "Residuales y ACF"
+    "section": "Residuales",
+    "text": "Residuales"
+  },
+  {
+    "objectID": "index.html#acf-residuales",
+    "href": "index.html#acf-residuales",
+    "title": "Modelos estructurales de series de tiempo",
+    "section": "ACF residuales",
+    "text": "ACF residuales\n\nac(resids,main = \"ACF y PACF Residuales\")  # acf"
   },
   {
     "objectID": "index.html#pruebas-de-normalidad-y-autocorrelación",
@@ -215,20 +222,6 @@
     "title": "Modelos estructurales de series de tiempo",
     "section": "Capacidad predictiva un paso adelante",
     "text": "Capacidad predictiva un paso adelante\nCon el fin de comparar con los modelos ajustados anteriormente a esta serie, evaluamos mediante el Rolling la capacidad predictiva del modelo estructural ajustado anteriormente.\n\n# ROLLING\nh &lt;- 1\nn &lt;- ntest - h + 1\n\nfc &lt;- ts(numeric(n), start=c(2018,10), freq=12)\n\nfor(i in 1:n){  \n  x &lt;- window(lexportaciones_ts, end=c(2018, 9+(i-1)))\n  filtered &lt;- dlmFilter(x, mod = mod)\n  fc[i] &lt;-dlmForecast(filtered, nAhead = h)$f\n}"
-  },
-  {
-    "objectID": "index.html#residuales",
-    "href": "index.html#residuales",
-    "title": "Modelos estructurales de series de tiempo",
-    "section": "Residuales",
-    "text": "Residuales"
-  },
-  {
-    "objectID": "index.html#acf-residuales",
-    "href": "index.html#acf-residuales",
-    "title": "Modelos estructurales de series de tiempo",
-    "section": "ACF residuales",
-    "text": "ACF residuales\n\nac(resids,main = \"ACF y PACF Residuales\")  # acf"
   },
   {
     "objectID": "index.html#predicciones-un-paso-adelantes-rolling",
