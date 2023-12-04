@@ -250,6 +250,11 @@ y_t = \mu_t + \varepsilon_t,  & \hspace{1 cm} & y_t = \mu_t + \beta_t x_t \varep
 
 El tratamiento estadístico de las componentes no observables del modelo puede ser llevado a cabo usando la forma general del modelo de Espacio - Estado y los algoritmos asociados del Filtro de Kalman y de Suavizado.
 
+```{=tex}
+\begin{aligned} y_t & =Z_t\alpha_t+\varepsilon_t & & \varepsilon_t \sim N\left(0, H_t\right) \hspace{1cm} \textrm{Ecuación de observación}\\ \alpha_{t+1} & = T_t\alpha_t+R_t\eta_t & & \eta_t \sim N\left(0,Q_t\right) \hspace{1cm} \textrm{Ecuación de estados} \end{aligned}
+```
+$$t=1,\cdots,n \hspace{2 cm} \alpha_1 \sim N \left(a_1,P_1\right)  $$
+
 ## Filtrado
 
 Sea $Y_t = \left\{y_1, \cdots , y_t\right\}$. El Filtro de Kalman es una forma recursiva para calcular: $$a_{t|t} = E\left(\alpha_t|Y_t\right) \hspace{2cm} P_{t|t} = Var\left(\alpha_{t}|Y_t\right)$$ $$a_{t+1}  = E\left(\alpha_{t+1}|Y_t\right) \hspace{2cm} P_{t+1} = Var\left(\alpha_{t+1}|Y_t\right).$$ Como se asume normalidad en todo el modelo,
@@ -260,7 +265,7 @@ $$\alpha_t|Y_{t-1} \sim N\left(a_t, P_t\right)$$
 
 ## 
 
-El error de predicción $1$ paso adelante de $y_t$ se denota como $v_t$ y se define como: $$v_t = E\left(y_t|Y_{t-1}\right) = y_t - E\left(Z_t\alpha_t + \varepsilon_t|Y_{t-1}\right) = \color{RoyalBlue}{y_t - Z_ta_t}$$ La varianza del error de predicción $1$ paso adelante de $v_t$ se denota como $F_t$ y está dado por: $$F_t = Var\left(v_t|Y_{t-1}\right) = Var\left(y_t - Z_ta_t|Y_{t-1}\right) =  Var\left(Z_t\alpha_t + \varepsilon_t - Z_ta_t|Y_{t-1}\right) = \color{RoyalBlue}{Z_tP_tZ_t^\prime + H_t}$$ Con esto, se actualiza el estimador filtrado de $\alpha_t$ y su respectiva varianza:
+El error de predicción $1$ paso adelante de $y_t$ se denota como $v_t$ y se define como: $$v_t = y_t - E\left(y_t|Y_{t-1}\right) = y_t - E\left(Z_t\alpha_t + \varepsilon_t|Y_{t-1}\right) = \color{RoyalBlue}{y_t - Z_ta_t}$$ La varianza del error de predicción $1$ paso adelante de $v_t$ se denota como $F_t$ y está dado por: $$F_t = Var\left(v_t|Y_{t-1}\right) = Var\left(y_t - Z_ta_t|Y_{t-1}\right) =  Var\left(Z_t\alpha_t + \varepsilon_t - Z_ta_t|Y_{t-1}\right) = \color{RoyalBlue}{Z_tP_tZ_t^\prime + H_t}$$ Con esto, se actualiza el estimador filtrado de $\alpha_t$ y su respectiva varianza:
 
 $$a_{t|t} = \color{RoyalBlue}{a_t + P_tZ_t^\prime F_t^{-1}v_t}$$ $$P_{t|t} = \color{RoyalBlue}{P_t-P_tZ_t^\prime F_t^{-1}Z_tP_t}$$
 
@@ -292,7 +297,8 @@ Una vez calculados $a_{t|t}$ y $P_{t|t}$, las predicciones del filtro se calcula
 
 Sea $Y_n = \left\{y_1, \cdots, y_n\right\}.$ El suavizado se refiere al cálculo de $\hat{\alpha}_t = E\left(\alpha_t|Y_n\right)$ y de $V_t = Var\left(\alpha_t|Y_n\right)$.
 
-$\hat{\alpha}_t$ y $V_t$ se calculan de forma recursiva como sigue: $$\begin{array}{ll}\quad r_{t-1}=Z_t^\prime F_t^{-1}v_t + L_t^\prime r_t & \hspace{3cm}N_{t-1} = Z_t^\prime F_t^{-1}Z_t + L_t^\prime N_tL_t \\ \hspace{2cm}\hat{\alpha}_t = a_t + P_tr_{t-1} & \hspace{4.5cm}V_t = P_t- P_tN_{t-1}P_t \\\end{array}$$ $$t=n,\cdots,1.$$ El algoritmo se inicializa con $r_n=0$ y $N_n=0.$
+$\hat{\alpha}_t$ y $V_t$ se calculan de forma recursiva como sigue: $$\begin{array}{ll}\quad r_{t-1}=Z_t^\prime F_t^{-1}v_t + L_t^\prime r_t & \hspace{3cm}N_{t-1} = Z_t^\prime F_t^{-1}Z_t + L_t^\prime N_tL_t \\ \hspace{2cm}\hat{\alpha}_t = a_t + P_tr_{t-1} & \hspace{4.5cm}V_t = P_t- P_tN_{t-1}P_t \\
+\end{array}$$ $$t=n,\cdots,1. \text{ donde } L_t = T_t - K_tZ_t$$ El algoritmo se inicializa con $r_n=0$ y $N_n=0.$
 
 ## Pronósticos
 
@@ -328,7 +334,7 @@ De la ecuación de observación se tiene que $y_{n+j} = Z_{n+j}\alpha_{n+j} + \v
 
 Las recursiones para calcular $\bar{a}_{n+j}$ y $\bar{P}_{n+j}$ se obtienen mediante la ecuación de estados $\alpha_{n+j+1} = T_{n+j} \alpha_{n+j} + R_{n+j}\eta_{n+j}$, luego:
 
-$$\bar{a}_{n+j+1} = T_{n+j}E\left(\alpha_{n+j}|Y_n\right) = T_{n+j}\bar{a}_{n+j}$$ $$\textrm{donde} \hspace{1cm} \bar{a}_{n+1} = a_{n+1}$$ $$\bar{P}_{n+j+1} = T_{n+j}\bar{P}_{n+j}T_{n+j}^\prime + R_{n+j}Q_{n+j}R^\prime_{n+j}$$ $$j = 1, \cdots, J-1.$$
+$$\bar{a}_{n+j+1} = T_{n+j}E\left(\alpha_{n+j}|Y_n\right) = T_{n+j}\bar{a}_{n+j}$$ $$\bar{P}_{n+j+1} = T_{n+j}\bar{P}_{n+j}T_{n+j}^\prime + R_{n+j}Q_{n+j}R^\prime_{n+j}$$ $$j = 1, \cdots, J-1.$$
 
 ## Estimación de parámetros
 
@@ -336,7 +342,7 @@ Las matrices del sistema dependen típicamente de un vector de parámetros $\psi
 
 $$L = \prod_{t=1}^n p\left(y_t|Y_{t-1}\right)$$ $$\log L = \sum_{t=1}^n \log p\left(y_t|Y_{t-1}\right)$$ Teniendo en cuenta que $y_t|Y_{t-1} \sim N\left(Z_ta_t, F_t\right)$ entonces: $$\log L = -\frac{n}{2}\log 2\pi - \frac{1}{2}\sum_{t=1}^n\left(\log F_t + F_t^{-1}v_t^2\right)$$ donde $v_t = y_t - Z_ta_t.$
 
-## Diagnóstico 
+## Diagnóstico
 
 Para este se realiza comprobación de supuestos sobre los residuales $e_t$,que se obtienen de la siguiente manera:
 
@@ -344,11 +350,10 @@ $$e_t=\frac{v_t}{\sqrt{F_t}}$$
 
 Se prueba si cumplen los supuestos de:
 
-- Normalidad (Jarque - Bera Test, Shapiro - Wilk Test)
-- Hocedasticidad 
-- No autocorrelación (Box - Pierce Test, Box - Ljung Test))
+-   Normalidad (Jarque - Bera Test, Shapiro - Wilk Test)
+-   No autocorrelación (Box - Pierce Test, Box - Ljung Test))
 
-## Ejemplo Aplicado 
+## Ejemplo Aplicado
 
 Se modela a continuación la Serie de Exportaciones mensuales en colombia usando el *Modelo de Tendencia Lineal Local con Estacionalidad* expuesto anteriormente. El modelamiento se realiza usando el paquete *stm* de R.\\
 
@@ -405,7 +410,7 @@ paste("Número de datos en el conjunto de entrenamiento:", ntest)
 
 ## Predicción de las componentes
 
-Se realiza la transformación de Box-Cox con $\lambda = 0.45$ sobre los datos y se entrena el modelo sobre el primer $80\%$ de la serie para luego evaluar la capacidad predictiva del modelo un paso adelante. Las predicciones de las componentes del modelo son: 
+Se realiza la transformación de Box-Cox con $\lambda = 0.45$ sobre los datos y se entrena el modelo sobre el primer $80\%$ de la serie para luego evaluar la capacidad predictiva del modelo un paso adelante. Las predicciones de las componentes del modelo son:
 
 ```{r}
 #| echo: false
@@ -447,7 +452,6 @@ gammas.1 <- gammas[1]
 gammas.end <- gammas[length(mu)]
 ```
 
-
 ```{r}
 #| echo: false
 par(mfrow = c(4, 1), mar = c(2.2, 2.2, 1, 1), cex = 0.8)
@@ -473,7 +477,6 @@ legend("topright", legend = "Residuales", lwd = 2, col = "darkgrey",
        bty = "n")
 ```
 
-
 ## Ajuste de las componentes combinadas
 
 ```{r}
@@ -489,7 +492,6 @@ legend("topright", legend = c("Datos Observados", "Componentes de estado"),
        lwd = c(2, 1), col = c("lightblue", "black"), bty = "n")
 ```
 
-
 ```{r}
 #| echo: false
 #cat("AIC", r.aic)
@@ -502,7 +504,6 @@ legend("topright", legend = c("Datos Observados", "Componentes de estado"),
 
 ```{r}
 #| echo: false
-par(mfrow = c(1, 2), mar = c(2.2, 2.2, 1, 1), cex = 0.8)
 hist(resids, prob = TRUE, col = "grey", main = "", breaks = seq(-4,4, length.out = 50)
 )
 ```
@@ -516,6 +517,7 @@ ac(resids,main = "ACF y PACF Residuales")  # acf
 ## Pruebas de normalidad y autocorrelación
 
 Se rechaza la prueba de normalidad, por lo que los residuales no cumplen este supuesto.
+
 ```{r}
 tseries::jarque.bera.test(resids)
 ```
@@ -528,7 +530,7 @@ Box.test(resids, lag = 12, type = "Box-Pierce", fitdf = 2)  # joint autocorrelat
 
 ## Pronóstico
 
-Se presenta el pronóstico del modelo para los siguientes 12 meses junto con los datos reales observados en esos 12 meses. 
+Se presenta el pronóstico del modelo para los siguientes 12 meses junto con los datos reales observados en esos 12 meses.
 
 ```{r}
 #| echo: false
@@ -610,14 +612,14 @@ cat("RECM_UN_PASO", recm1pasoModelo1)
 
 Se ajustaron para la misma serie los siguientes modelos y se obtuvo el error de predicción un paso adelante para cada uno de ellos con el fin de compararlos.
 
-- Modelo de Nivel Local: No normalidad y no cumple No Autocorrelación. ($RECM = 428858.3$)
+-   Modelo de Nivel Local: No normalidad y no cumple No Autocorrelación. ($RECM = 428858.3$)
 
-- Modelo de Tendencia Lineal Local: No normalidad y no cumple No Autocorrelación. ($RECM = 430407.9$)
+-   Modelo de Tendencia Lineal Local: No normalidad y no cumple No Autocorrelación. ($RECM = 430407.9$)
 
-- Modelo de Nivel Local con Estacionalidad: No normalidad y sí cumple No Autocorrelación. ($RECM = 425911.6$)
+-   Modelo de Nivel Local con Estacionalidad: No normalidad y sí cumple No Autocorrelación. ($RECM = 425911.6$)
 
-- Modelo de Tendencia Lineal Local con Estacionalidad ($RECM = 423125.1$).
+-   Modelo de Tendencia Lineal Local con Estacionalidad ($RECM = 423125.1$).
 
-##
+## 
 
 *MUCHAS GRACIAS*
