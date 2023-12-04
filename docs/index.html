@@ -576,7 +576,7 @@ y_t = \mu_t + \varepsilon_t,  &amp; \hspace{1 cm} &amp; y_t = \mu_t + \beta_t x_
 <section id="filtrado" class="slide level2">
 <h2>Filtrado</h2>
 <p>Sea <span class="math inline">\(Y_t = \left\{y_1, \cdots , y_t\right\}\)</span>. El Filtro de Kalman es una forma recursiva para calcular: <span class="math display">\[a_{t|t} = E\left(\alpha_t|Y_t\right) \hspace{2cm} P_{t|t} = Var\left(\alpha_{t}|Y_t\right)\]</span> <span class="math display">\[a_{t+1}  = E\left(\alpha_{t+1}|Y_t\right) \hspace{2cm} P_{t+1} = Var\left(\alpha_{t+1}|Y_t\right).\]</span> Como se asume normalidad en todo el modelo,</p>
-<p><span class="math display">\[\alpha_t \sim N\left(a_{t|t}, P_{t|t}\right)\]</span> <span class="math display">\[\alpha_{t+1} \sim N\left(a_{t+1}, P_{t+1}\right)\]</span> La idea es calcular <span class="math inline">\(a_{t|t}\)</span>, <span class="math inline">\(P_{t|t}\)</span>, <span class="math inline">\(a_{t+1}\)</span> y <span class="math inline">\(P_{t+1}\)</span> partir de <span class="math inline">\(a_t\)</span> y <span class="math inline">\(P_t\)</span> donde</p>
+<p><span class="math display">\[\alpha_t | Y_t \sim N\left(a_{t|t}, P_{t|t}\right)\]</span> <span class="math display">\[\alpha_{t+1} | Y_t \sim N\left(a_{t+1}, P_{t+1}\right)\]</span> La idea es calcular <span class="math inline">\(a_{t|t}\)</span>, <span class="math inline">\(P_{t|t}\)</span>, <span class="math inline">\(a_{t+1}\)</span> y <span class="math inline">\(P_{t+1}\)</span> partir de <span class="math inline">\(a_t\)</span> y <span class="math inline">\(P_t\)</span> donde</p>
 <p><span class="math display">\[\alpha_t|Y_{t-1} \sim N\left(a_t, P_t\right)\]</span></p>
 </section>
 <section id="section" class="slide level2">
@@ -607,7 +607,7 @@ P_{t+1} &amp;= T_t\left(P_t-P_tZ_t^\prime F_t^{-1}Z_tP_t\right)T_t^\prime + R_tQ
 <section id="suavizado" class="slide level2">
 <h2>Suavizado</h2>
 <p>Sea <span class="math inline">\(Y_n = \left\{y_1, \cdots, y_n\right\}.\)</span> El suavizado se refiere al cálculo de <span class="math inline">\(\hat{\alpha}_t = E\left(\alpha_t|Y_n\right)\)</span> y de <span class="math inline">\(V_t = Var\left(\alpha_t|Y_n\right)\)</span>.</p>
-<p><span class="math inline">\(\hat{\alpha}_t\)</span> y <span class="math inline">\(V_t\)</span> se calculan de forma recursiva a partir del estado inicial <span class="math inline">\(\alpha_1 \sim N\left(a_1, P_1\right)\)</span> como sigue: <span class="math display">\[\begin{array}{ll}\quad r_{t-1}=Z_t^\prime F_t^{-1}v_t + L_t^\prime r_t &amp; \hspace{3cm}N_{t-1} = Z_t^\prime F_t^{-1}Z_t + L_t^\prime N_tL_t \\ \hspace{2cm}\hat{\alpha}_t = a_t + P_tr_{t-1} &amp; \hspace{4.5cm}V_t = P_t- P_tN_{t-1}P_t \\\end{array}\]</span> <span class="math display">\[t=n,\cdots,1.\]</span> El algoritmo se inicializa con <span class="math inline">\(r_n=0\)</span> y <span class="math inline">\(N_n=0.\)</span></p>
+<p><span class="math inline">\(\hat{\alpha}_t\)</span> y <span class="math inline">\(V_t\)</span> se calculan de forma recursiva como sigue: <span class="math display">\[\begin{array}{ll}\quad r_{t-1}=Z_t^\prime F_t^{-1}v_t + L_t^\prime r_t &amp; \hspace{3cm}N_{t-1} = Z_t^\prime F_t^{-1}Z_t + L_t^\prime N_tL_t \\ \hspace{2cm}\hat{\alpha}_t = a_t + P_tr_{t-1} &amp; \hspace{4.5cm}V_t = P_t- P_tN_{t-1}P_t \\\end{array}\]</span> <span class="math display">\[t=n,\cdots,1.\]</span> El algoritmo se inicializa con <span class="math inline">\(r_n=0\)</span> y <span class="math inline">\(N_n=0.\)</span></p>
 </section>
 <section id="pronósticos" class="slide level2">
 <h2>Pronósticos</h2>
