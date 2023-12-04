@@ -8,7 +8,7 @@ contributes:
       slide-number: c
       highlight-style: github-dark
       theme: coeos.scss
-      footer: Universidad Nacional de Colombia
+      footer: 
       logo: logo2.png
       include-in-header:
         - text: |
